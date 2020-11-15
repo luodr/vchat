@@ -14,7 +14,7 @@
     >
 
     </VChat-index> -->
-    
+    <VChat-login></VChat-login>
    
   </div>
 </template>
