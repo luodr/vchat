@@ -11,7 +11,7 @@
 	<groupId>net.sinlo.vchat</groupId>
 	<artifactId>vchat</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>vchat</name>
+	<name>service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -73,7 +73,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.4.0</version>
+		</dependency>
 
 	</dependencies>
 

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 
 @ApiModel(value="User对象", description="")
-public class UserDto implements Serializable {
+public class UserRegisterDto implements Serializable {
     @NotBlank(message = "phone is notNull")
     @ApiModelProperty(value = "手机号")
     private String phone;

@@ -1,14 +1,17 @@
 package net.sinlo.vchat.service.impl;
 
-import net.sinlo.vchat.entity.User;
-import net.sinlo.vchat.mapper.UserMapper;
-import net.sinlo.vchat.service.IUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+        import com.baomidou.mybatisplus.core.conditions.Wrapper;
+        import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+        import net.sinlo.vchat.entity.User;
+        import net.sinlo.vchat.mapper.UserMapper;
+        import net.sinlo.vchat.service.IUserService;
+        import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+        import net.sinlo.vchat.util.TokenUtil;
+        import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author ldr
@@ -16,9 +19,37 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
-
+    /**
+     * 注册账号
+     * @param user
+     * @return
+     */
     @Override
     public boolean register(User user) {
+        QueryWrapper qw = new QueryWrapper();
+        qw.ge("phone", user.getPhone());
+        User u = super.getOne(qw);
+        // 账号已被注册
+        if(u!=null){
+            return  false;
+        }
         return super.save(user);
+    }
+
+    /**
+     * 登录
+     * @param user
+     * @return token
+     */
+    @Override
+    public String login(User user) {
+        QueryWrapper qw = new QueryWrapper();
+        qw.ge("phone", user.getPhone());
+        qw.ge("password", user.getPassword());
+        User u = super.getOne(qw);
+          if(u!=null){
+             return TokenUtil.getToken(user);
+          }
+        return "";
     }
 }
