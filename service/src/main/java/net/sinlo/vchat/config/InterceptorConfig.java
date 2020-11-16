@@ -1,6 +1,7 @@
-package net.sinlo.vchat.interceptor;
+package net.sinlo.vchat.config;
 
 
+import net.sinlo.vchat.interceptor.AuthenticationInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

@@ -1,14 +1,13 @@
 package net.sinlo.vchat.service.impl;
-
-        import com.baomidou.mybatisplus.core.conditions.Wrapper;
         import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
         import net.sinlo.vchat.entity.User;
         import net.sinlo.vchat.mapper.UserMapper;
         import net.sinlo.vchat.service.IUserService;
         import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+        import net.sinlo.vchat.util.SMSUtil;
         import net.sinlo.vchat.util.TokenUtil;
+        import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Service;
-
 /**
  * <p>
  * 服务实现类
@@ -19,6 +18,8 @@ package net.sinlo.vchat.service.impl;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+      @Autowired
+     SMSUtil smsUtil;
     /**
      * 注册账号
      * @param user
@@ -51,5 +52,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
              return TokenUtil.getToken(user);
           }
         return "";
+    }
+
+    /**
+     * 发送验证码
+     * @param phone
+     * @return
+     */
+    public  boolean sendCode(String phone){
+        String code=smsUtil.sendSms(phone);
+
+        return true;
     }
 }
