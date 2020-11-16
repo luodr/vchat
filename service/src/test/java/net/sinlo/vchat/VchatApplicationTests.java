@@ -12,12 +12,12 @@ import org.springframework.context.annotation.PropertySource;
 class VchatApplicationTests {
 	@Autowired
 	SMSUtil smsUtil;
-	@Autowired
-	RedisUtil redisUtil;
+//	@Autowired
+//	RedisUtil redisUtil;
 	@Test
 	void contextLoads() {
-		redisUtil.set("test","test");
-		System.err.println(redisUtil.get("test"));
+//		redisUtil.set("test","test");
+//		System.err.println(redisUtil.get("test"));
 	}
 
 }

@@ -4,6 +4,7 @@ package net.sinlo.vchat.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.sinlo.vchat.authorization.PassToken;
+import net.sinlo.vchat.dto.user.GetCodeDto;
 import net.sinlo.vchat.dto.user.LoginDto;
 import net.sinlo.vchat.dto.user.UserRegisterDto;
 import net.sinlo.vchat.entity.User;
@@ -28,18 +29,24 @@ public class UserController {
     IUserService userService;
 
     @ApiOperation("登录")
-    @GetMapping("getUser")
+    @GetMapping("login")
     @PassToken
     public String login(LoginDto dto) {
-        User user = MyBeanUtils.copyProperties(dto, User.class);
-        return this.userService.login(user);
+        return this.userService.login(dto);
     }
 
     @ApiOperation("注册")
     @PostMapping("register")
     public boolean register(@Validated UserRegisterDto dto) {
-        User user = MyBeanUtils.copyProperties(dto, User.class);
-        return this.userService.register(user);
+        return this.userService.register(dto);
     }
-}
+
+    @ApiOperation("获取验证码")
+    @GetMapping("getCode")
+    public boolean getCode(@Validated GetCodeDto dto) {
+        return this.userService.sendCode(dto);
+    }
+
+
+    }
 

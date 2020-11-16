@@ -33,9 +33,17 @@ public class UserRegisterDto implements Serializable {
     @ApiModelProperty(value = "昵称")
     private String name;
 
+    @ApiModelProperty(value = "验证码")
+    private String code;
 
 
+    public String getCode() {
+        return code;
+    }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getPhone() {
         return phone;
