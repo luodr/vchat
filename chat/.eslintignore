@@ -1,7 +1,0 @@
-*.sh
-node_modules
-lib
-*.md
-*.scss
-*.woff
-*.ttf

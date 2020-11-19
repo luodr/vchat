@@ -29,7 +29,7 @@ public class UserController {
     IUserService userService;
 
     @ApiOperation("登录")
-    @GetMapping("login")
+    @PostMapping("login")
     @PassToken
     public String login(LoginDto dto) {
         return this.userService.login(dto);
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @ApiOperation("获取验证码")
-    @GetMapping("getCode")
+    @GetMapping("code")
     public boolean getCode(@Validated GetCodeDto dto) {
         return this.userService.sendCode(dto);
     }
