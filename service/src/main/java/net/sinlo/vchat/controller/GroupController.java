@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
  * @since 2020-11-14
  */
 @Controller
-@RequestMapping("/vchat/group")
+@RequestMapping("")
 public class GroupController {
 
 }

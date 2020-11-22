@@ -1,9 +1,7 @@
 package net.sinlo.vchat.exception;
+
 import org.springframework.validation.BindException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
  * 统一异常处理（404在ErrorController中处理）
  */
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler     {
 
     @ExceptionHandler(value = Exception.class)
     public String handleError(HttpServletRequest request, Exception e) {
@@ -22,5 +20,6 @@ public class GlobalExceptionHandler {
         }
         return e.getMessage();
     }
+
 
 }

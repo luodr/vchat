@@ -15,7 +15,7 @@ import org.springframework.stereotype.Controller;
  * @since 2020-11-14
  */
 @Controller
-@RequestMapping("/vchat/chat")
+@RequestMapping("")
 @Api("聊天信息控制器")
 public class ChatController {
 

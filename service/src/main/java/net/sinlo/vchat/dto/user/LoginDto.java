@@ -2,6 +2,7 @@ package net.sinlo.vchat.dto.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
@@ -35,8 +36,7 @@ public class LoginDto implements Serializable {
     @Override
     public String toString() {
         return "UserDto{" +
-
-        ", phone=" + phone +
+        " phone=" + phone +
         ", password=" + password +
         "}";
     }

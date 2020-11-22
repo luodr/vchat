@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @author ldr
  * @since 2020-11-14
  */
-@RestController("/vchat/user")
+@RestController
 @Api("用户")
 public class UserController {
     @Autowired
@@ -30,8 +30,11 @@ public class UserController {
 
     @ApiOperation("登录")
     @PostMapping("login")
+
     @PassToken
-    public String login(LoginDto dto) {
+    public Object login(   @RequestBody @Validated LoginDto dto) {
+        System.err.println(dto);
+        System.err.println("???????????????");
         return this.userService.login(dto);
     }
 

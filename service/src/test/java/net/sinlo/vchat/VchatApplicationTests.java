@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.PropertySource;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @PropertySource(value = {"classpath:sms.properties",}, encoding = "utf-8")
 class VchatApplicationTests {
-	@Autowired
-	SMSUtil smsUtil;
+//	@Autowired
+//	SMSUtil smsUtil;
 //	@Autowired
 //	RedisUtil redisUtil;
 	@Test
