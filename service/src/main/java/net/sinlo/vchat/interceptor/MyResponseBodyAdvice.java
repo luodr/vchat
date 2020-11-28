@@ -15,13 +15,13 @@ public class MyResponseBodyAdvice implements ResponseBodyAdvice {
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
 
-//        //获取当前处理请求的controller的方法
-//        String methodName=methodParameter.getMethod().getName();
-//        System.err.println("java---"+methodName);
-//        if(methodName.equals("login"))
-//        return true;
+        //获取当前处理请求的controller的方法
+        String methodName=methodParameter.getMethod().getName();
+        System.err.println("java---"+methodName);
+        if(methodName.indexOf("api/")>0)
+        return true;
 
-        return  true;
+        return  false;
     }
 
     @Override

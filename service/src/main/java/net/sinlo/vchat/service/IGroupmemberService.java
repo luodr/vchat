@@ -1,7 +1,6 @@
 package net.sinlo.vchat.service;
 
 import net.sinlo.vchat.entity.Groupmember;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -11,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author ldr
  * @since 2020-11-14
  */
-public interface IGroupmemberService extends IService<Groupmember> {
+
+public interface IGroupmemberService  {
 
 }

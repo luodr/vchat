@@ -2,11 +2,16 @@ package net.sinlo.vchat.config;
 
 
 import net.sinlo.vchat.interceptor.AuthenticationInterceptor;
+import net.sinlo.vchat.util.ParamUserHandlerMethodArgReslover;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
+
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
@@ -27,6 +32,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 // 跨域允许时间
                 .maxAge(3600);
     }
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers){
+        //注册@ParamUser注解的实现类
+        argumentResolvers.add(new ParamUserHandlerMethodArgReslover());
+    }
+
     @Bean
     public AuthenticationInterceptor authenticationInterceptor() {
         return new AuthenticationInterceptor();

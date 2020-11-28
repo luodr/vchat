@@ -2,8 +2,11 @@ package net.sinlo.vchat.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
 
 /**
  * <p>
@@ -28,6 +31,20 @@ public class Friend implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+    // 我的朋友
+
+    User myFriend;
+
+    public User getMyFriend() {
+        return myFriend;
+    }
+
+    public void setMyFriend(User myFriend) {
+        this.myFriend = myFriend;
+    }
 
     private LocalDateTime createdAt;
 

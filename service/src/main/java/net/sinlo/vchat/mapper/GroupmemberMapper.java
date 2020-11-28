@@ -1,7 +1,9 @@
 package net.sinlo.vchat.mapper;
 
 import net.sinlo.vchat.entity.Groupmember;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -11,6 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author ldr
  * @since 2020-11-14
  */
-public interface GroupmemberMapper extends BaseMapper<Groupmember> {
+@Mapper
+public interface GroupmemberMapper  {
 
 }

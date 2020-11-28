@@ -1,8 +1,8 @@
 package net.sinlo.vchat.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+
 import java.time.LocalDate;
-import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -21,7 +21,7 @@ public class Chat implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
+
     private Integer id;
 
     @ApiModelProperty(value = "发送方")

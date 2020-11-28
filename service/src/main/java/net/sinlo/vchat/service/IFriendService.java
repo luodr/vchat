@@ -1,7 +1,10 @@
 package net.sinlo.vchat.service;
 
 import net.sinlo.vchat.entity.Friend;
-import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>
@@ -11,6 +14,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author ldr
  * @since 2020-11-14
  */
-public interface IFriendService extends IService<Friend> {
+@Mapper
+public interface IFriendService  {
 
+    List<Friend>  getFriends(int userId) ;
+    boolean deleteFriend(int userId,int friendId);
 }

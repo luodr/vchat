@@ -1,7 +1,7 @@
 package net.sinlo.vchat.service;
 
 import net.sinlo.vchat.entity.Chat;
-import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author ldr
  * @since 2020-11-14
  */
-public interface IChatService extends IService<Chat> {
+@Mapper
+public interface IChatService  {
 
 }

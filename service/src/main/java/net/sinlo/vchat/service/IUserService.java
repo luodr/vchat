@@ -4,7 +4,7 @@ import net.sinlo.vchat.dto.user.GetCodeDto;
 import net.sinlo.vchat.dto.user.LoginDto;
 import net.sinlo.vchat.dto.user.UserRegisterDto;
 import net.sinlo.vchat.entity.User;
-import com.baomidou.mybatisplus.extension.service.IService;
+
 
 /**
  * <p>
@@ -14,8 +14,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author ldr
  * @since 2020-11-14
  */
-public interface IUserService extends IService<User> {
+public interface IUserService  {
       boolean register(UserRegisterDto dto);
       String login(LoginDto dto);
       boolean sendCode(GetCodeDto dto);
+      User findByPhone(String phone);
+
 }

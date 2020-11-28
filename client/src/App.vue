@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="imui-center">
-      <register></register>
+      <login></login>
       <!-- <lemon-imui
         :user="user"
         ref="IMUI"
@@ -85,9 +85,9 @@ const generateMessage = (toContactId = "", fromUser) => {
     fromUser
   };
 };
-import register from './components/pages/register'
+import login from './components/pages/login'
 export default {
-  components:{register},
+  components:{login},
   name: "app",
   data() {
     return {

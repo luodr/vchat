@@ -24,24 +24,21 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @Api("用户")
+@RequestMapping("api")
 public class UserController {
     @Autowired
     IUserService userService;
 
     @ApiOperation("登录")
     @PostMapping("login")
-
     @PassToken
-    public Object login(   @RequestBody @Validated LoginDto dto) {
-        System.err.println(dto);
-        System.err.println("???????????????");
+    public Object login(@RequestBody @Validated LoginDto dto) {
         return this.userService.login(dto);
     }
-
     @ApiOperation("注册")
     @PostMapping("register")
-    public boolean register(@Validated UserRegisterDto dto) {
-        return this.userService.register(dto);
+    public boolean register(@RequestBody @Validated UserRegisterDto dto) {
+         return this.userService.register(dto);
     }
 
     @ApiOperation("获取验证码")

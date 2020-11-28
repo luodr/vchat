@@ -1,28 +1,25 @@
 package net.sinlo.vchat.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author ldr
  * @since 2020-11-14
  */
-@ApiModel(value="User对象", description="")
+@ApiModel(value = "User对象", description = "")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @ApiModelProperty(value = "手机号")
@@ -48,7 +45,15 @@ public class User implements Serializable {
     private LocalDateTime updateAt;
 
     private LocalDateTime deleteAt;
+    private User user;
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Integer getId() {
         return id;
@@ -133,16 +138,16 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-        "id=" + id +
-        ", phone=" + phone +
-        ", password=" + password +
-        ", img=" + img +
-        ", city=" + city +
-        ", signature=" + signature +
-        ", name=" + name +
-        ", createdAt=" + createdAt +
-        ", updateAt=" + updateAt +
-        ", deleteAt=" + deleteAt +
-        "}";
+                "id=" + id +
+                ", phone=" + phone +
+                ", password=" + password +
+                ", img=" + img +
+                ", city=" + city +
+                ", signature=" + signature +
+                ", name=" + name +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updateAt +
+                ", deleteAt=" + deleteAt +
+                "}";
     }
 }
