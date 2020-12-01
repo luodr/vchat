@@ -10,8 +10,8 @@ module.exports = {
       filename: "index.html"
     }
   },
-  publicPath:'',
-  productionSourceMap:false,
+  publicPath: "",
+  productionSourceMap: false,
   configureWebpack: {
     resolve: {
       alias: {
@@ -24,15 +24,14 @@ module.exports = {
   },
   devServer: {
     proxy: {
-      '^/api': {
-        target: 'http://localhost:8888/',
+      "^/api": {
+        target: "http://localhost:8888/",
         // ws: true,
         // changeOrigin: true
-        pathRewrite:{
-          'api':''
+        pathRewrite: {
+          api: "api"
         }
-      },
-    
+      }
     }
   }
 };

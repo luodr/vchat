@@ -22,10 +22,13 @@ export default {
   },
   data() {
     return {
+      // eslint-disable-next-line vue/no-reserved-keys
       _loading: false,
+      // eslint-disable-next-line vue/no-reserved-keys
       _loadend: false
     };
   },
+  // 聊天框
   render() {
     return (
       <div class="lemon-messages" ref="wrap" on-scroll={this._handleScroll}>

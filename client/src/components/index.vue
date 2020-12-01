@@ -1,4 +1,4 @@
- d<script>
+d<script>
 import { useScopedSlot, fastDone, generateUUID } from "utils";
 import { isFunction, isString, isEmpty } from "utils/validate";
 import {

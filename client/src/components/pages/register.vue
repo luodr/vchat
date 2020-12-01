@@ -9,14 +9,19 @@
     </div>
     <div style="margin-top: 15px">
       <el-input placeholder="" v-model="password" type="password">
-        <template slot="prepend"><div style="width: 40px">密码</div></template>
+        <template slot="prepend"
+          ><div style="width: 40px">密码</div></template
+        >
       </el-input>
     </div>
-        <div style="margin-top: 15px">
-     <el-input placeholder="请输入验证码" v-model="code">
-    <template slot="append"> <el-button type="primary"  id="reg_codeSend" round @click="sendCode"
-        >{{codoBtn}}</el-button></template>
-  </el-input>
+    <div style="margin-top: 15px">
+      <el-input placeholder="请输入验证码" v-model="code">
+        <template slot="append">
+          <el-button type="primary" id="reg_codeSend" round @click="sendCode">{{
+            codoBtn
+          }}</el-button></template
+        >
+      </el-input>
     </div>
     <div id="register_but_div">
       <el-button type="primary" round id="register_but" @click="toRegister"
@@ -26,68 +31,64 @@
   </div>
 </template>
 <script>
-import {register,code} from "../../api/user"
+import { register, code } from "../../api/user";
 export default {
   name: "register",
   components: {},
   props: {},
   data() {
     return {
-    phone:'',
-    password:'',   
-     nowTime:new Date().getTime(),
-     jg:1000*60,
-    sondF:true,
-    codoBtn:'发送验证码',
-    code:''
+      phone: "",
+      password: "",
+      nowTime: new Date().getTime(),
+      jg: 1000 * 60,
+      sondF: true,
+      codoBtn: "发送验证码",
+      code: ""
     };
   },
   created() {},
-  mounted() {
-
-    
-    
-  },
+  mounted() {},
   computed: {},
   watch: {},
 
   methods: {
-
     // 发送验证码
-   async sendCode(){
-   if(!this.sondF){return};
-   const res=await code(this.phone);
-   if(res.data){
-    const interval=setInterval(()=>{
-    let v=this.nowTime+this.jg-Date.now();
-   if(!this.sondF){
-    clearInterval(interval)
-   } ;
-   if(v<=0){
-  //  $('#phoneNum').text("获取验证码");
-    this.codoBtn='发送验证码'
-    this.sondF=false;
-  }else{
-  //  $('#phoneNum').text(Math.ceil(v/1000)+ "秒后再试");
-    this.codoBtn=Math.ceil(v/1000)+ "秒后再试"
-  }
-}, 1000);
-}
-
+    async sendCode() {
+      if (!this.sondF) {
+        return;
+      }
+      const res = await code(this.phone);
+      if (res.data) {
+        const interval = setInterval(() => {
+          let v = this.nowTime + this.jg - Date.now();
+          if (!this.sondF) {
+            clearInterval(interval);
+          }
+          if (v <= 0) {
+            //  $('#phoneNum').text("获取验证码");
+            this.codoBtn = "发送验证码";
+            this.sondF = false;
+          } else {
+            //  $('#phoneNum').text(Math.ceil(v/1000)+ "秒后再试");
+            this.codoBtn = Math.ceil(v / 1000) + "秒后再试";
+          }
+        }, 1000);
+      }
     },
     //去注册
-   async toRegister(){
-  const res=    await register({
-        phone :this.phone,
-        password :this.password,
-        code:this.code
-      })
-    console.log('注册',res);
+    async toRegister() {
+      const res = await register({
+        phone: this.phone,
+        password: this.password,
+        code: this.code
+      });
+      console.log("注册", res);
     }
   }
 };
 </script>
-<style >
+<style>
 .el-select .el-input {
   width: 130px;
 }
@@ -104,7 +105,7 @@ export default {
 #register_but {
   width: 200px;
 }
-#reg_codeSend{
+#reg_codeSend {
   color: rgb(9, 114, 189);
 }
 </style>

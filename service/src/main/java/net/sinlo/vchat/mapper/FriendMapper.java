@@ -20,7 +20,7 @@ public interface FriendMapper  {
 
 
     @ResultMap("FriendUserResultMap")
-    @Select("select *  from friend ,user where friend.friend_id=user.id and friend.user_id=#{userId} and friend.created_at is null")
+    @Select("select *  from friend ,user where friend.friend_id=user.id and friend.user_id=#{userId} ")
      List<Friend> getFriends(int userId);
     @Update("update friend set deleteAt =now() where user_id=#{userId} and friend_id=#{friendId}")
     boolean softDeleteFriend(int userId,int friendId);

@@ -48,6 +48,7 @@ export default {
   mounted() {
     triggerEvents[this.trigger].call(this, this.$slots.default[0].elm);
   },
+  // 提醒有消息
   render() {
     return (
       <span style="position:relative">

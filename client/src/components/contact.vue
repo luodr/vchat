@@ -17,8 +17,11 @@ export default {
       }
     }
   },
+  // 列表用户
   render() {
     const { contact } = this;
+
+    console.log(contact);
     return (
       <div
         class={["lemon-contact", { "lemon-contact--name-center": this.simple }]}

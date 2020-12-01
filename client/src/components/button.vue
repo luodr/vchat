@@ -4,6 +4,7 @@ export default {
   props: {
     disabled: Boolean
   },
+  // 发送按钮
   render() {
     return (
       <button

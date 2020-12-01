@@ -31,14 +31,14 @@ import java.util.Map;
 public class FriendController {
     @Autowired
     private FriendServiceImpl friendService;
-    @ApiOperation("获取朋友列表")
+    @ApiOperation("获取好友列表")
     @GetMapping("list")
     @UserLoginToken
     public List myFriends(@ParamUser User user) {
         return this.friendService.getFriends(user.getId());
     }
-    @ApiOperation("删除朋友")
-    @PostMapping("deleteFriend")
+    @ApiOperation("删除好友")
+    @DeleteMapping ("")
     @UserLoginToken
     public boolean deleteFriend(@ParamUser User user,@RequestBody() int FriendId) {
         return this.friendService.deleteFriend(user.getId(),FriendId);
