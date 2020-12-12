@@ -1,0 +1,33 @@
+<!--
+ * @Description: 上传图片
+ * @Version: 1.0
+ * @Autor: 
+ * @Date: 2020-07-08 13:19:06
+ * @LastEditors: 
+ * @LastEditTime: 2020-07-21 09:42:14
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>上传文件</title>
+</head>
+
+<body>
+  <form action="/users/doUpload" method="post" enctype="multipart/form-data">
+    <div style="margin: 30px auto;">
+      <div>
+        <span>上传图片1</span>
+        <input type="file" name="pic1" id="pic1" />
+      </div>
+      <div>
+        <span>上传图片2</span>
+        <input type="file" name="pic2" id="pic2" />
+      </div>
+      <!-- <button>发送验证码</button> -->
+      <button type="submit">上传</button>
+    </div>
+  </form>
+</body>
+
+</html>

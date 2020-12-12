@@ -1,0 +1,30 @@
+<!--
+ * @Description: 发送email
+ * @Version: 1.0
+ * @Autor: 
+ * @Date: 2020-07-08 13:19:06
+ * @LastEditors: 
+ * @LastEditTime: 2020-07-21 09:42:14
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>发送邮箱</title>
+</head>
+
+<body>
+  <form action="/sendemail" method="post" style="width:300px;margin:100px auto">
+    <div style="margin-bottom:20px;">
+      <span>用户邮箱：</span>
+      <input type="email" name="email" placeholder="请输入邮箱" />
+    </div>
+    <div style="margin-bottom:20px;">
+      <span>验证码：</span>
+      <input type="text" name="code" placeholder="请输入验证码" />
+    </div>
+    <button type="submit">发送验证码</button>
+  </form>
+</body>
+
+</html>
