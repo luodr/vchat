@@ -1,5 +1,6 @@
 package net.sinlo.vchat.exception;
 
+import net.sinlo.vchat.dto.ResponseDate;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler     {
 
     @ExceptionHandler(value = Exception.class)
-    public String handleError(HttpServletRequest request, Exception e) {
-
+    public Object handleError(HttpServletRequest request, Exception e) {
+        System.out.println("?出错了???"+e.getMessage());
         if (e instanceof BindException) {
+            System.out.println("?BindException???");
             // 属性 检验 异常
-            return ((BindException) e).getFieldError().getDefaultMessage();
+            return   new ResponseDate(((BindException) e).getFieldError().getDefaultMessage(),0) ;
         }
-        return e.getMessage();
+        return new ResponseDate(e.getMessage(),0) ;
     }
-
-
 }

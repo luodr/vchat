@@ -1,12 +1,12 @@
 package net.sinlo.vchat.entity;
 
 
-import java.time.LocalDate;
-
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -14,34 +14,29 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author ldr
- * @since 2020-11-14
+ * @since 2020-12-18
  */
-@ApiModel(value="Chat对象", description="")
-public class Chat implements Serializable {
-
+@ApiModel(value="friendAdd", description="")
+public class FriendAdd implements Serializable {
     private static final long serialVersionUID = 1L;
-
-
     private Integer id;
-
     @ApiModelProperty(value = "发送方")
     private Integer send_user_id;
-
     @ApiModelProperty(value = "接收方")
     private Integer to_user_id;
 
-    @ApiModelProperty(value = "类型")
-    private String type;
-
-    @ApiModelProperty(value = "内容")
-    private String context;
+    @ApiModelProperty(value = "状态")
+    private String state;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updateAt;
 
-    private LocalDate deleteAt;
+    private LocalDateTime deleteAt;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Integer getId() {
         return id;
@@ -67,20 +62,12 @@ public class Chat implements Serializable {
         this.to_user_id = to_user_id;
     }
 
-    public String getType() {
-        return type;
+    public String getState() {
+        return state;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getContext() {
-        return context;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -99,25 +86,16 @@ public class Chat implements Serializable {
         this.updateAt = updateAt;
     }
 
-    public LocalDate getDeleteAt() {
+    public LocalDateTime getDeleteAt() {
         return deleteAt;
     }
 
-    public void setDeleteAt(LocalDate deleteAt) {
+    public void setDeleteAt(LocalDateTime deleteAt) {
         this.deleteAt = deleteAt;
     }
 
     @Override
     public String toString() {
-        return "Chat{" +
-        "id=" + id +
-        ", send_user_id=" + send_user_id +
-        ", to_user_id=" + to_user_id +
-        ", type=" + type +
-        ", context=" + context +
-        ", createdAt=" + createdAt +
-        ", updateAt=" + updateAt +
-        ", deleteAt=" + deleteAt +
-        "}";
+        return super.toString();
     }
 }

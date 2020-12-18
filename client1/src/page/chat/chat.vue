@@ -25,6 +25,7 @@ import search from "../../components/search/search";
 import chatlist from "../../components/chatlist/chatlist";
 import message from "../../components/message/message";
 import vText from "../../components/text/text";
+import {getFriends} from "@/api/friend";
 
 import {mapState} from 'vuex'
 
@@ -35,8 +36,13 @@ export default {
     message,
     vText
   },
+  mounted(){
+
+  },
   computed: {
    ...mapState(['backImg'])
+   
+
   }
 };
 </script>

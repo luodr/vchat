@@ -36,7 +36,17 @@ public class Friend implements Serializable {
     }
     // 我的朋友
 
-    User myFriend;
+    private   User myFriend;
+
+    private  List<Message> messages;
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
 
     public User getMyFriend() {
         return myFriend;

@@ -2,7 +2,7 @@
 <template>
   <div class="message">
     <header class="header u-f u-f-sbc">
-      <div class="friendname">{{selectedChat.user.name}}</div>
+      <div class="friendname">{{selectedChat.message.name}}</div>
       <img src="@/assets/icon-imgs/c-gb.png" alt="" style="margin-left:auto;"/>
       <img src="@/assets/icon-imgs/inform.png" alt="" />
       <img src="@/assets/icon-imgs/c-more.png" alt="" />
@@ -11,14 +11,14 @@
       <ul v-if="selectedChat">
         <li v-for="item in selectedChat.messages" class="message-item" :key="item.id">
           <div class="time">
-            <span>{{item.date | time}}</span>
+            <span>{{item.updateAt | time}}</span>
           </div>
           <div class="main" :class="{ self: item.self }">
             <img
               class="avatar"
               width="36"
               height="36"
-              :src="item.self ? user.img : selectedChat.user.img"
+              :src="item.self ? message.img : selectedChat.message.img"
             />
             <div class="content">
               <div class="text" v-html="replaceFace(item.content)"></div>

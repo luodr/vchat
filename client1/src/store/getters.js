@@ -1,7 +1,9 @@
 const getters = {
     // 筛选出含有搜索值的聊天列表
     searchedChatlist(state) {
-        let sessions = state.chatlist.filter(sessions => sessions.user.name.includes(state.searchText));
+    
+        let sessions = state.friendlist.filter(friend => friend.messages.length>0);
+        console.log( sessions,'sessions');
         return sessions
     },
     // 筛选出含有搜索值的好友列表

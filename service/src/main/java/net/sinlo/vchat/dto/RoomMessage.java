@@ -1,14 +1,16 @@
 package net.sinlo.vchat.dto;
 
-public class RequestMessage {
+import java.io.Serializable;
+
+public class RoomMessage implements Serializable  {
     private String sender;//消息发送者
     private String room;//房间号
     private String type;//消息类型
     private String content;//消息内容
 
-    public RequestMessage() {
+    public RoomMessage() {
     }
-    public RequestMessage(String sender,String room, String type, String content) {
+    public RoomMessage(String sender, String room, String type, String content) {
         this.sender = sender;
         this.room = room;
         this.type = type;

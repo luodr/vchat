@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @since 2020-11-14
  */
 @ApiModel(value = "User对象", description = "")
+
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,15 +46,9 @@ public class User implements Serializable {
     private LocalDateTime updateAt;
 
     private LocalDateTime deleteAt;
-    private User user;
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+
 
     public Integer getId() {
         return id;

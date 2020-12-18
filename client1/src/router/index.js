@@ -77,26 +77,26 @@ const router = new Router({
 
 
 //路由守卫
-router.beforeEach((to, from, next) => {
-  let flag = store.state.user.name || false
-  if (to.matched.some(record => record.meta.requiresAuth)) { // 判断该路由是否需要登录权限
-      if (flag) { //也可以用vuex来判断
-          next()
-      } else {
-          next('/login')
-      }
-  } else {
-      if (flag) { //也可以用vuex来判断
-          if (to.path === '/login') {
-              next('/chat')
-          } else {
-              next()
-          }
-      } else {
-          next()
-      }
-  }
+// router.beforeEach((to, from, next) => {
+//   let flag = store.state.user.name || false
+//   if (to.matched.some(record => record.meta.requiresAuth)) { // 判断该路由是否需要登录权限
+//       if (flag) { //也可以用vuex来判断
+//           next()
+//       } else {
+//           next('/login')
+//       }
+//   } else {
+//       if (flag) { //也可以用vuex来判断
+//           if (to.path === '/login') {
+//               next('/chat')
+//           } else {
+//               next()
+//           }
+//       } else {
+//           next()
+//       }
+//   }
 
-})
+// })
 
 export default router

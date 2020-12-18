@@ -3,7 +3,7 @@ const axios = require("axios");
 axios.interceptors.request.use(
   config => {
     let token = window.localStorage.getItem("token");
-
+console.log(token)
     if (token) {
       config.headers.token = token;
     }
@@ -20,7 +20,7 @@ export const post =  (url, data) => {
      axios
       .post("api/" + url, data)
       .then(function(response) {
-        resolve(response);
+        resolve(response.data);
       })
       .catch(function(error) {
         console.log(error, "请求失败！");
@@ -35,7 +35,8 @@ export const get =  (url, params) => {
         params
       })
       .then(function(response) {
-        resolve(response);
+   
+        resolve(response.data);
       })
       .catch(function(error) {
         console.log(error, "请求失败！");

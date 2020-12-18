@@ -5,7 +5,7 @@
         <li v-for="item in searchedFriendlist" class="frienditem"  :class="{ noborder: !item.initial}" :key="item.id">
             <div class="list_title" v-if="item.initial">{{item.initial}}</div>
             <div class="friend-info" :class="{ active: item.id === selectFriendId }" @click="selectFriend(item.id)">
-                <img class="avatar"  width="36" height="36" :src="item.img">
+                <img class="avatar"  width="36" height="36" :src="item. myFriend.img">
                 <div class="remark">{{item.remark}}</div>
             </div>
         </li>
@@ -16,6 +16,9 @@
 <script>
 import { mapState, mapActions ,mapGetters } from 'vuex'
 export default {
+    mounted(){
+      
+    },
     computed: {
         ...mapState([
             'selectFriendId',

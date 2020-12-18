@@ -2,19 +2,19 @@
 <template>
   <div class="Info-wrapper">
     <div class="newfriend" v-show="selectedFriend.id === 0">
-      <div class="nickname">{{selectedFriend.nickname}}</div>
+      <div class="nickname">{{selectedFriend.name}}</div>
     </div>
     <div class="friendInfo" v-if="selectedFriend.id > 0">
       <div class="esInfo">
         <div class="left">
           <div class="people">
-            <div class="nickname">{{selectedFriend.nickname}}</div>
+            <div class="nickname">{{selectedFriend.myFriend.name}}</div>
             <div :class="[selectedFriend.sex===1?'gender-male':'gender-female']"></div>
           </div>
           <div class="signature">{{selectedFriend.signature}}</div>
         </div>
         <div class="right">
-          <img class="avatar" width="60" height="60" :src="selectedFriend.img" />
+          <img class="avatar" width="60" height="60" :src="selectedFriend.myFriend.img" />
         </div>
       </div>
       <div class="detInfo">
@@ -24,11 +24,11 @@
         </div>
         <div class="area">
           <span>地&nbsp;&nbsp;&nbsp;区</span>
-          {{selectedFriend.area}}
+          {{selectedFriend.myFriend.city}}
         </div>
         <div class="wxid">
           <span>微信号</span>
-          {{selectedFriend.wxid}}
+          {{selectedFriend.myFriend.id}}
         </div>
       </div>
       <div class="send" @click="send">

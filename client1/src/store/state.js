@@ -152,93 +152,9 @@ const state = {
     sex: 0, //性别 1为男，0为女
     remark: "新的朋友", //备注
     area: "", //地区
+    messages:[]
   },
-  {
-    id: 1,
-    wxid: "AmorAres-1", //微信号
-    initial: 'A', //姓名首字母
-    img: require('@/static/images/小姨妈.jpg'), //头像
-    signature: "每天我就萌萌哒", //个性签名
-    nickname: "Amor", //昵称
-    sex: 0, //性别 1为男，0为女
-    remark: "Amor", //备注
-    area: "浙江 宁波", //地区
-  },
-  {
-    id: 2,
-    wxid: "Big-fly",
-    initial: 'B',
-    img: require('@/static/images/大飞哥.jpg'),
-    signature: "你不知道的js",
-    nickname: "fly",
-    sex: 1,
-    remark: "海绵宝宝",
-    area: "奥地利 布尔根兰",
-  },
-  {
-    id: 3,
-    wxid: "microzz",
-    initial: 'D',
-    img: require('@/static/images/microzz.jpg'),
-    signature: "学习让我快乐让我成长",
-    nickname: "microzz",
-    sex: 1,
-    remark: "李一桐",
-    area: "江西 赣州",
-  },
-  {
-    id: 4,
-    wxid: "hwn0366",
-    initial: 'F',
-    img: require('@/static/images/father.jpg'),
-    signature: "学习让我快乐让我成长",
-    nickname: "丢",
-    sex: 1,
-    remark: "彭于晏",
-    area: "江西 抚州",
-  },
-  {
-    id: 5,
-    wxid: "orange66",
-    initial: 'J',
-    img: require('@/static/images/orange.jpg'),
-    signature: "你可以笑的很阳光！",
-    nickname: "橘子君",
-    sex: 1,
-    remark: "橘子君",
-    area: "江西 赣州",
-  },
-  {
-    id: 6,
-    wxid: "Seto_L",
-    img: require('@/static/images/加菲猫.jpg'),
-    signature: "自强不息",
-    nickname: "21",
-    sex: 1,
-    remark: "加菲猫",
-    area: "北京 海淀",
-  },
-  {
-    id: 7,
-    wxid: "wxid_itjz73t1ajt722",
-    initial: 'M',
-    img: require('@/static/images/mother.jpg'),
-    signature: "开开心心就好",
-    nickname: "娄娄",
-    sex: 0,
-    remark: "小可爱~",
-    area: "江西 抚州",
-  },
-  {
-    id: 8,
-    wxid: "hj960503",
-    img: require('@/static/images/萌萌俊.jpg'),
-    signature: "原谅我有点蠢。。",
-    nickname: "。。。。。",
-    sex: 1,
-    remark: "萌萌咪",
-    area: "江西 萍乡",
-  }
+  
 
   ],
   //emoji表情

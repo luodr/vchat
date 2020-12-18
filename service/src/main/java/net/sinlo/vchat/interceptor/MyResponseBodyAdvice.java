@@ -14,22 +14,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 public class MyResponseBodyAdvice implements ResponseBodyAdvice {
     @Override
     public boolean supports(MethodParameter methodParameter, Class aClass) {
-
-        //获取当前处理请求的controller的方法
-        String methodName=methodParameter.getMethod().getName();
-        System.err.println("java---"+methodName);
-        if(methodName.indexOf("api/")>0)
-        return true;
-
-        return  false;
+        return  true;
     }
 
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
+        String requestPath = serverHttpRequest.getURI().getPath();
+        if(requestPath.indexOf("api/")<=-1)
+            return  o;
 
         if (o instanceof String) {
             ObjectMapper om = new ObjectMapper();
             try {
+                System.out.println("类型转换");
                 return om.writeValueAsString(new ResponseDate(o,1));
             } catch (JsonProcessingException e) {
                 System.err.println("返回类型转换错误");
@@ -40,7 +37,6 @@ public class MyResponseBodyAdvice implements ResponseBodyAdvice {
             return o;
         }
         ResponseDate data=new ResponseDate(o,1);
-
         return data;
     }
 }

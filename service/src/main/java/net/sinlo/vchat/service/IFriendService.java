@@ -14,7 +14,7 @@ import java.util.List;
  * @author ldr
  * @since 2020-11-14
  */
-@Mapper
+
 public interface IFriendService  {
 
     List<Friend>  getFriends(int userId) ;

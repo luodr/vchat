@@ -33,6 +33,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
+        // 如何是 开放的api直接放行
+        if (request.getServletPath().indexOf("open")>-1) {
+            return true;
+        }
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
@@ -44,8 +48,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             }
         }
         //检查有没有需要用户权限的注解
-        if (method.isAnnotationPresent(UserLoginToken.class)) {
-            UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
+        if (method.getDeclaringClass().isAnnotationPresent(UserLoginToken.class)||method.getClass().isAnnotationPresent(UserLoginToken.class)) {
+            UserLoginToken userLoginToken =  method.getDeclaringClass().getAnnotation(UserLoginToken.class);
+            if(userLoginToken==null) userLoginToken= method.getAnnotation(UserLoginToken.class);
             if (userLoginToken.required()) {
                 // 执行认证
                 if (token == null) {

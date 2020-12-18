@@ -22,6 +22,7 @@
 import search from '../../components/search/search'
 import friendlist from '../../components/friendlist/friendlist'
 import info from '../../components/info/info'
+import {getFriends} from "@/api/friend";
 export default{
     components: {
         search,

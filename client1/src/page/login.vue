@@ -23,6 +23,8 @@
 </template>
 <script>
 import { login } from "@/api/user";
+import {getFriends} from "@/api/friend";
+import {getMessage} from "@/api/message";
 export default {
   name: "login",
   components: {},
@@ -34,17 +36,28 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+  
+  },
   computed: {},
   watch: {},
 
   methods: {
-    async toLogin() {
-      await login({
+     toLogin() {
+       login({
         password: this.password,
         phone: this.phone
+      }).then(res=>{
+      if(res.code){
+        getFriends().then(res=>{
+     
+        this.$store.state.friendlist=res
+
+       });
+        this.$router.push("/chat")
+      }
       });
-      console.log(localStorage.token);
+     
     }
   }
 };

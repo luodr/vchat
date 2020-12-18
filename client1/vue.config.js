@@ -22,14 +22,13 @@ module.exports = {
         https: false, // https:{type:Boolean}
         open: true, //配置自动启动浏览器
         proxy: {
-            "/api": {
-                target: Config.domain,
-                changeOrigin: true,
-                ws: false, //websocket支持
-                secure: false,
-                pathRewrite: {
-                    "^/api": "/"
-                }
+                "^/api": {
+                  target: "http://localhost:8888/",
+                  // ws: true,
+                  // changeOrigin: true
+                  pathRewrite: {
+                    api: "api"
+                  }
             },
             "/upload": {
                 target: Config.domain+'users/doUpload',

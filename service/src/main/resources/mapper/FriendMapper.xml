@@ -16,6 +16,18 @@
             <result column="signature" property="signature"/>
             <result column="name" property="name"/>
         </association>
+        <collection property="messages"  ofType="net.sinlo.vchat.entity.Message">
+            <id column="m_type" property="type"/>
+            <id column="m_context" property="context"/>
+            <id column="m_id" property="id"/>
+            <id column="m_context" property="context"/>
+            <id column="m_send_user_id" property="send_user_id"/>
+            <id column="m_to_user_id" property="to_user_id"/>
+            <id column="m_isRead" property="isRead"/>
+
+            <id column="m_updateAt" property="updateAt"/>
+
+        </collection>
     </resultMap>
 
 </mapper>

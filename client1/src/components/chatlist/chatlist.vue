@@ -2,6 +2,7 @@
 <template>
   <div style="position:relative;">
     <div class="msglist">
+
       <ul>
         <li
           v-for="(item,index) in searchedChatlist"
@@ -13,16 +14,16 @@
           :key="item.id"
         >
           <div class="list-left">
-            <img class="avatar" width="42" height="42" :alt="item.user.name" :src="item.user.img" />
+            <img class="avatar" width="42" height="42" :alt="item.c.name" :src="item.myFriend.img" />
           </div>
           <div class="list-right">
-            <p class="name">{{item.user.name}}</p>
-            <span class="time">{{item.messages[item.messages.length-1].date | time}}</span>
-            <p class="lastmsg">{{item.messages[item.messages.length-1].content}}</p>
+            <p class="name">{{item.myFriend.name}}</p>
+            <span class="time">{{item.messages[item.messages.length-1].updateAt | time}}</span>
+            <p class="lastmsg">{{item.messages[item.messages.length-1].context}}</p>
           </div>
-          <template v-if="user.msgCount>0">
+          <!-- <template v-if="user.msgCount>0">
             <span class="msg-count" v-if="index===2">{{user.msgCount}}</span>
-          </template>
+          </template> -->
         </li>
       </ul>
     </div>

@@ -1,61 +1,7 @@
 <template>
-  <div class="resume">
-    <div class="about">
-      <h1 class="name"></h1>
-      <div class="intention">
-        求职意向：
-        <span>web前端工程师</span>
-      </div>
-      <div class="info">
-        <div class="info-title">个人信息：</div>
-        <div class="info-item">
-          <i class="icon school"></i>
-          <span>苏州托普技术学院</span>
-        </div>
-        <div class="info-item">
-          <i class="icon major"></i>
-          <span>软件工程</span>
-        </div>
-        <div class="info-item">
-          <i class="icon phone"></i>
-          <span>18112646774</span>
-        </div>
-        <div class="info-item">
-          <i class="icon email"></i>
-          <span>2845189781@qq.com</span>
-        </div>
-        <div style="margin-top:30px">
-          <p style="margin-bottom:10px;">github地址</p>
-          <span style="word-break: break-word;line-height:1.6;">https://github.com/wangchenyi1996</span>
-        </div>
-      </div>
-    </div>
-    <div class="power">
-      <div class="power-item">
-        <div class="title">
-          <i class="icon technology"></i>
-          <span class="name">技术栈</span>
-        </div>
-        <div class="technology-item">
-          熟悉掌握 JavaScript、Vue全家桶、React、webpack、微信小程序开发、HTML5、SCSS、CSS3。
-          掌握Flutter框架，对页面布局熟悉，独立做过小项目，React、Redux
-          熟悉运用Uni-APP制作H5、APP、微信小程序。
-          能够运用Node.js、MongoDB、PHP、MySQL、ThinkPHP等技术。
-          熟悉运用VS Code、IDEA、Sublime Tset、Hbuilder等开发工具。
-        </div>
-      </div>
-      <div class="power-item">
-        <div class="title">
-          <i class="icon evaluation"></i>
-          <span class="name">个人评价</span>
-        </div>
-        <div class="myevaluation">
-          为人比较真诚，做事细心，有时性格也比较急躁为了赶进度，执行力强，在工作中敢于面对困难与挑战，有团队合作精神、专业知识较为扎实，
-          熟悉并能掌握使用JavaScript、Vue 技术栈、React、jQuery、PHP等编程语言及常用框架，熟悉并能使用各种编程语言的开发工具。
-          对uni-app开发APP、H5、微信小程序较有心得，能够利用Uni-App独立制作APP、H5应用，喜欢自学新知识并做些小的练习项目。
-        </div>
-      </div>
-    </div>
+  <div >
+    
+ 
   </div>
 </template>
 

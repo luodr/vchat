@@ -14,11 +14,11 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @EnableWebSocketMessageBroker
 //使用此注解来标识使能WebSocket的broker.即使用broker来处理消息.
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-//    @Bean
-//    public ServerEndpointExporter serverEndpointExporter() {
-//        System.err.println("开启websocket支持");
-//        return new ServerEndpointExporter();
-//    }
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        System.err.println("开启websocket支持");
+        return new ServerEndpointExporter();
+    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {

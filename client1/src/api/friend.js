@@ -1,7 +1,17 @@
 import { post, get } from "./request";
-export const getFriends =  data => {
-  return get("friend/list", data);
+export const getFriends =  () => {
+  return new Promise( (resolve,reject)=>{
+     get("friend/list", {}).then(res=>{
+  
+        resolve(res.data)
+     })
+    })
+   
 };
 export const deleteFriends =  data => {
-  return  post("friend/deleteFriend", data);
+  return new Promise( (resolve,reject)=>{
+     get("friend/deleteFriend", {}).then(res=>{
+        resolve(res.data)
+     })
+    })
 };

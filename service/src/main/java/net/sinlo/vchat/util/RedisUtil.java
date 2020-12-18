@@ -417,6 +417,8 @@ public class RedisUtil {
      */
     public Object lGetIndex(String key,long index){
         try {
+
+
             return redisTemplate.opsForList().index(key, index);
         } catch (Exception e) {
             e.printStackTrace();
@@ -522,6 +524,7 @@ public class RedisUtil {
      */
     public long lRemove(String key,long count,Object value) {
         try {
+
             Long remove = redisTemplate.opsForList().remove(key, count, value);
             return remove;
         } catch (Exception e) {
@@ -529,5 +532,15 @@ public class RedisUtil {
             return 0;
         }
     }
+    /**
+     * redis发布消息，就是往指定频道发消息
+     *
+     * @param channel 订阅的频道
+     * @param message 发布 的内容
+     */
+    public void sendMessage(String channel, String message) {
 
+        redisTemplate.convertAndSend(channel, message);
+        System.out.println("您已经向频道：" + channel + "发布了一条消息，内容是： " + message);
+    }
 }

@@ -1,4 +1,4 @@
-package net.sinlo.vchat;
+package net.sinlo.vchat.config;
 
 import com.google.common.collect.Lists;
 
