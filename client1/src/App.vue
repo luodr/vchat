@@ -31,10 +31,7 @@ export default {
     this.$store.dispatch("initData");
   },
   mounted() {
-    this.socket.on('getUserSocketID',(socketid)=>{
-      console.log('%c https://github.com/wangchenyi1996' , 'font-size: 18px;color: red;text-shadow: 1px 1px 0 orange');
-      this.$store.commit('getSocketID',socketid)
-    })
+
   }
 };
 </script>

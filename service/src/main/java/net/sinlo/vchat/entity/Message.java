@@ -52,6 +52,15 @@ public class Message implements Serializable {
 
     private LocalDate deleteAt;
 
+    private boolean self;
+
+    public boolean isSelf() {
+        return self;
+    }
+
+    public void setSelf(boolean self) {
+        this.self = self;
+    }
 
     public Integer getId() {
         return id;

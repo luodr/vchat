@@ -21,16 +21,24 @@ public interface FriendMapper  {
 
     @ResultMap("FriendUserResultMap")
     @Select("select " +
-            "\tuser.*,\n" +
-            "\tfriend.*,\n" +
-            "\tm.type AS m_type,\n" +
-            "\tm.updateAt AS m_updateAt,\n" +
-            "\tm.to_user_id as m_to_user_id,\n" +
-            "\tm.send_user_id AS m_send_user_id,\n" +
-            "\tm.isRead AS m_isRead ,\n" +
-            "\tm.id as m_id,\n" +
-            "\tm.context as m_context" +
-            "  from friend left JOIN user on user.id=friend.friend_id left JOIN message as m on m.to_user_id=friend.id or m.send_user_id=friend.id  where friend.user_id=#{userId} ")
+            "\t user.*,\n" +
+            "\t friend.*,\n" +
+            "\t m.type AS m_type,\n" +
+            "\t m.updateAt AS m_updateAt,\n" +
+            "\t m.to_user_id as m_to_user_id,\n" +
+            "\t m.send_user_id AS m_send_user_id,\n" +
+            "\t m.isRead AS m_isRead ,\n" +
+            "\t m.id as m_id,\n" +
+            "\t m.context as m_context," +
+            "\t  m.send_user_id= 2 as m_self "+
+            " from friend left JOIN user on user.id=friend.friend_id   " +
+            " left JOIN message as m on" +
+            " (m.to_user_id=#{userId} or m.send_user_id=#{userId}) " +
+            "and " +
+            "(m.to_user_id=user.id or m.send_user_id=user.id) " +
+            " where" +
+            " friend.user_id=#{userId}" +
+            " ")
      List<Friend> getFriends(int userId);
     @Update("update friend set deleteAt =now() where user_id=#{userId} and friend_id=#{friendId}")
     boolean softDeleteFriend(int userId,int friendId);

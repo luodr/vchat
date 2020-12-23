@@ -15,6 +15,16 @@ export   function login(data) {
   }
  
  
+export  function getInfo(data) {
+  return new Promise( (resolve,reject)=>{
+    get("myInfo", data).then(res=>{
+   if (res.data) {
+    resolve(res.data)  
+   }
+   resolve(res)
+   })
+  })
+   }
 
 // export  function register(data) {
 //   const res =  post("register", data);

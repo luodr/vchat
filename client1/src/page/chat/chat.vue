@@ -26,7 +26,8 @@ import chatlist from "../../components/chatlist/chatlist";
 import message from "../../components/message/message";
 import vText from "../../components/text/text";
 import {getFriends} from "@/api/friend";
-
+import {getInfo} from "@/api/user";
+import longSock from "@/socket/socket";
 import {mapState} from 'vuex'
 
 export default {
@@ -37,7 +38,21 @@ export default {
     vText
   },
   mounted(){
-
+if(localStorage.token){
+  if(!this.$store.state.user.phone){
+    getInfo().then(res=>{
+         this.$store.state.user=res
+    })
+  }
+     getFriends().then(res=>{
+        this.$store.state.friendlist=res
+        if(res&&res.length>0)
+          this.$store.state. selectId=res[0].id
+      });
+  longSock("ws://127.0.0.1:8888/webSocket/"+localStorage.token,(evt, ws)=>{
+    console.log(evt.data,'evt.data');
+});
+}
   },
   computed: {
    ...mapState(['backImg'])

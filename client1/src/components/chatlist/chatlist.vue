@@ -14,10 +14,10 @@
           :key="item.id"
         >
           <div class="list-left">
-            <img class="avatar" width="42" height="42" :alt="item.c.name" :src="item.myFriend.img" />
+            <img class="avatar" width="42" height="42" :alt="item.myFriend.name" :src="item.myFriend.img" />
           </div>
           <div class="list-right">
-            <p class="name">{{item.myFriend.name}}</p>
+            <p class="name">{{item.remark||item.myFriend.name}}</p>
             <span class="time">{{item.messages[item.messages.length-1].updateAt | time}}</span>
             <p class="lastmsg">{{item.messages[item.messages.length-1].context}}</p>
           </div>
@@ -66,11 +66,9 @@ export default {
     },
     // 删除聊天
     deleteChat(){
-        // console.log(this.id)
         let deleteIndex = this.searchedChatlist.findIndex(item=>{
             return item.id === this.id
         })
-        // console.log('删除索引',deleteIndex)
         this.showList = false;
         this.$store.commit('deleteChatItem',deleteIndex)
     },
@@ -88,7 +86,7 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.searchedChatlist);
+
   },
   filters: {
     // 将日期过滤为 hour:minutes

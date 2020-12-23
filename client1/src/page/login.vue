@@ -49,11 +49,7 @@ export default {
         phone: this.phone
       }).then(res=>{
       if(res.code){
-        getFriends().then(res=>{
      
-        this.$store.state.friendlist=res
-
-       });
         this.$router.push("/chat")
       }
       });

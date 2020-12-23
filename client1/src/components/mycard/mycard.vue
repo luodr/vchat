@@ -27,8 +27,8 @@
                 style="height:16px;width:16px;margin-left:10px;"
               />
             </div>
-            <p style="font-size:13px;color:#666;margin-top:8px;">手机号： +86 1325272888</p>
-            <p style="font-size:13px;color:#666;margin-top:8px;">昵称：微笑天使女孩</p>
+            <p style="font-size:13px;color:#666;margin-top:8px;">手机号： +86 {{user.phone}}</p>
+            <p style="font-size:13px;color:#666;margin-top:8px;">昵称：{{user.name}}</p>
           </div>
           <img :src="user.img" class="u-right" />
         </div>
@@ -36,7 +36,7 @@
         <el-divider></el-divider>
         <div class="u-area u-f">
           <span style="color:#333;margin-right:15px;">地区</span>
-          <span>山东 济南市</span>
+          <span>{{user.address}}</span>
         </div>
         <el-divider></el-divider>
         <div class="u-footer u-f u-f-end">

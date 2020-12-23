@@ -2,7 +2,7 @@
 <template>
   <div class="message">
     <header class="header u-f u-f-sbc">
-      <div class="friendname">{{selectedChat.message.name}}</div>
+      <div class="friendname">{{(selectedChat.remark)}}</div>
       <img src="@/assets/icon-imgs/c-gb.png" alt="" style="margin-left:auto;"/>
       <img src="@/assets/icon-imgs/inform.png" alt="" />
       <img src="@/assets/icon-imgs/c-more.png" alt="" />
@@ -18,10 +18,11 @@
               class="avatar"
               width="36"
               height="36"
-              :src="item.self ? message.img : selectedChat.message.img"
+              
+              :src="item.self ?  selectedChat.myFriend.img: selectedChat.myFriend.img"
             />
             <div class="content">
-              <div class="text" v-html="replaceFace(item.content)"></div>
+              <div class="text" v-html="replaceFace(item.context)"></div>
             </div>
           </div>
         </li>
@@ -36,8 +37,10 @@ export default {
   computed: {
     ...mapGetters(["selectedChat", "messages"]),
     ...mapState(["user", "emojis"])
+
   },
   mounted() {
+ 
     //  在页面加载时让信息滚动到最下面
     setTimeout(
       () => (this.$refs.list.scrollTop = this.$refs.list.scrollHeight),
@@ -54,6 +57,7 @@ export default {
     }
   },
   methods: {
+   
     //  在发送信息之后，将输入的内容中属于表情的部分替换成emoji图片标签
     //  再经过v-html 渲染成真正的图片
     replaceFace(con) {
@@ -96,10 +100,11 @@ export default {
     padding: 0 10px;
     box-sizing: border-box;
     border-bottom: 1px solid #e7e7e7;
+ 
 
     .friendname {
       font-size: 18px;
-      color:#f5f5f5;
+     
     }
     img{
       width: 24px;

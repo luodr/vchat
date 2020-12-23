@@ -3,7 +3,7 @@ const getters = {
     searchedChatlist(state) {
     
         let sessions = state.friendlist.filter(friend => friend.messages.length>0);
-        console.log( sessions,'sessions');
+   
         return sessions
     },
     // 筛选出含有搜索值的好友列表
@@ -13,7 +13,7 @@ const getters = {
     },
     // 通过当前选择是哪个对话匹配相应的对话
     selectedChat(state) {
-        let session = state.chatlist.find(session => session.id === state.selectId);
+        let session = state.friendlist.find(session => session.id === state.selectId);
         return session
     },
     // 通过当前选择是哪个好友匹配相应的好友
@@ -23,6 +23,7 @@ const getters = {
     },
     messages(state) {
         let session = state.chatlist.find(session => session.id === state.selectId);
+        if(session)
         return session.messages
     }
 }

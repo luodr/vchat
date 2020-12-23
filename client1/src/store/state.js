@@ -10,7 +10,7 @@ const state = {
     { id: 1, name: '在线' }, { id: 2, name: '离开' }, { id: 3, name: '忙碌' }, { id: 4, name: '隐身' }
   ],
   // 聊天背景图
-  backImg: require('@/static/images/bg/bg.png'),
+  // backImg: require('@/static/images/bg/bg.png'),
   backImg2: require('@/static/images/bg/bg3.jpg'),
   // 当前登录用户
   user: {
@@ -101,42 +101,46 @@ const state = {
   // 对话好友列表
   chatlist: [{
     id: 1,
+    remark:'',
+
     user: {
       name: '小可爱',
       img: require('@/static/images/mother.jpg')
     },
     messages: [{
       content: '么么哒，妈咪爱你', //聊天内容
-      date: now //时间
+      updateAt: now //时间
     },
     {
       content: '按回车可以发送信息，还可以给我发送表情哟',
-      date: now
+      updateAt: now
     }
     ],
     index: 1 // 当前在聊天列表中的位置,从1开始
   },
   {
     id: 2,
+    remark:'',
     user: {
       name: '彭于晏',
       img: require('@/static/images/father.jpg')
     },
     messages: [{
       content: 'Are you kidding me?',
-      date: now
+      updateAt: now
     }],
     index: 2
   },
   {
     id: 3,
+    remark:'',
     user: {
       name: '机器人',
       img: require('@/static/images/vue.jpg')
     },
     messages: [{
       content: '我会跟你聊聊天的哟',
-      date: now
+      updateAt: now
     }],
     index: 3
   }

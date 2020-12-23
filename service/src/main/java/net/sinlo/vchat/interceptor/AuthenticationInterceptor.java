@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sinlo.vchat.util.TokenUtil;
+
 import java.lang.reflect.Method;
 
 public class AuthenticationInterceptor implements HandlerInterceptor {
@@ -34,7 +36,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return true;
         }
         // 如何是 开放的api直接放行
-        if (request.getServletPath().indexOf("open")>-1) {
+        if (request.getServletPath().indexOf("open") > -1) {
             return true;
         }
 
@@ -48,31 +50,27 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             }
         }
         //检查有没有需要用户权限的注解
-        if (method.getDeclaringClass().isAnnotationPresent(UserLoginToken.class)||method.getClass().isAnnotationPresent(UserLoginToken.class)) {
-            UserLoginToken userLoginToken =  method.getDeclaringClass().getAnnotation(UserLoginToken.class);
-            if(userLoginToken==null) userLoginToken= method.getAnnotation(UserLoginToken.class);
+        if (method.getDeclaringClass().isAnnotationPresent(UserLoginToken.class) || method.isAnnotationPresent(UserLoginToken.class)) {
+            UserLoginToken userLoginToken = method.getDeclaringClass().getAnnotation(UserLoginToken.class);
+            if (userLoginToken == null) userLoginToken = method.getAnnotation(UserLoginToken.class);
             if (userLoginToken.required()) {
                 // 执行认证
                 if (token == null) {
                     throw new RuntimeException("无token，请重新登录");
                 }
                 // 获取 token 中的 user id
-                String phone;
-                try {
-                    phone = JWT.decode(token).getAudience().get(0);
-                } catch (JWTDecodeException j) {
-                    throw new RuntimeException("401");
-                }
-                User user = userService.findByPhone(phone);
+                User user = TokenUtil.getUser(token);
+
                 if (user == null) {
                     throw new RuntimeException("用户不存在，请重新登录");
                 }
+                System.out.println("验证？？？？？？？？？");
                 // 验证 token
                 JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
                 try {
                     jwtVerifier.verify(token);
                     // 将用户存到request
-                    request.setAttribute("user",user);
+                    request.setAttribute("user", user);
                 } catch (JWTVerificationException e) {
                     throw new RuntimeException("401");
                 }

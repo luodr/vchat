@@ -3,7 +3,9 @@ package net.sinlo.vchat.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.sinlo.vchat.authorization.ParamUser;
 import net.sinlo.vchat.authorization.PassToken;
+import net.sinlo.vchat.authorization.UserLoginToken;
 import net.sinlo.vchat.dto.user.GetCodeDto;
 import net.sinlo.vchat.dto.user.LoginDto;
 import net.sinlo.vchat.dto.user.UserRegisterDto;
@@ -13,6 +15,8 @@ import net.sinlo.vchat.util.MyBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -47,6 +51,12 @@ public class UserController {
         return this.userService.sendCode(dto);
     }
 
-
+    @ApiOperation("获取本人的信息")
+    @UserLoginToken
+    @GetMapping("myInfo")
+    public User myFriends(@ParamUser User user) {
+        user.setPassword(null);
+        return user;
+    }
     }
 

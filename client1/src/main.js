@@ -4,19 +4,14 @@ import router from './router'
 import store from './store'
 
 Vue.config.productionTip = false
-
 // 全局样式
 import '@/common/global.css'
-
 // 重置样式
 import './static/css/reset.css'
-
 // 引入 font.css
 import './assets/fonts/iconfont.css';
-
 // 引入 element-ui
 import '@/elementui/index.js'
-
 // 图片预览
 import Viewer from 'v-viewer'
 import 'viewerjs/dist/viewer.css'
@@ -33,26 +28,7 @@ VueAMap.initAMapApiLoader({
   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor', 'AMap.Geolocation'],
   v: '1.4.4'
 });
-let socket = new WebSocket("ws://127.0.0.1:8888/webSocket/"+parseInt(Math.random()*5))
- //打开事件
- socket.onopen = function() {
-  console.log("websocket已打开");
-  //socket.send("这是来自客户端的消息" + location.href + new Date());
-};
-//获得消息事件
-socket.onmessage = function(msg) {
-  var serverMsg = "收到服务端信息：" + msg.data;
-  console.log(serverMsg);
-  //发现消息进入    开始处理前端触发逻辑
-};
-//关闭事件
-socket.onclose = function() {
-  console.log("websocket已关闭");
-};
-//发生了错误事件
-socket.onerror = function() {
-  console.log("websocket发生了错误");
-}
+
 
 // socket
 // import io from '@/assets/socket/socket.io.js'

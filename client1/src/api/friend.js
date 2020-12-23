@@ -2,7 +2,7 @@ import { post, get } from "./request";
 export const getFriends =  () => {
   return new Promise( (resolve,reject)=>{
      get("friend/list", {}).then(res=>{
-  
+  console.log(res.data);
         resolve(res.data)
      })
     })
