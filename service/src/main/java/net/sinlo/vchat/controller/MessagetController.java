@@ -30,13 +30,13 @@ public class MessagetController {
     IMessagetService service;
 
     @GetMapping("/list")
-    public List getMeesages(@ParamUser User user) {
+    public List getMeesages(@ParamUser  @ApiIgnore User user) {
 
         return this.service.geMeesages(user.getId());
     }
 
     @PutMapping("{sendUserID}")
-    public boolean readMessage(@ParamUser User user,@PathVariable() int sendUserID) {
+    public boolean readMessage(@ParamUser  @ApiIgnore User user,@PathVariable() int sendUserID) {
         System.out.println(sendUserID+"sendUserID"+this.service.readMessage(user.getId(), sendUserID));
         return this.service.readMessage(user.getId(), sendUserID);
 

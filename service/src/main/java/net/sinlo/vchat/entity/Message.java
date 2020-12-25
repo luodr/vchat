@@ -28,15 +28,25 @@ public class Message implements Serializable {
     private Integer send_user_id;
     @ApiModelProperty(value = "接收方")
     private Integer to_user_id;
-
     @ApiModelProperty(value = "类型")
     private String type;
-
     @ApiModelProperty(value = "内容")
     private String context;
-
     @ApiModelProperty(value = "是否已读")
     private boolean isRead;
+
+    public Message( Integer send_user_id, Integer to_user_id, String type, String context) {
+        this.send_user_id = send_user_id;
+        this.to_user_id = to_user_id;
+        this.type = type;
+        this.context = context;
+
+    }
+
+    public void updateAt( ) {
+        this.createdAt=LocalDateTime.now();
+        this.updateAt=LocalDateTime.now();
+    }
 
     public boolean isRead() {
         return isRead;

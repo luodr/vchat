@@ -19,7 +19,7 @@
               width="36"
               height="36"
               
-              :src="item.self ?  selectedChat.myFriend.img: selectedChat.myFriend.img"
+              :src="item.self ? userImg: selectedChat.myFriend.img"
             />
             <div class="content">
               <div class="text" v-html="replaceFace(item.context)"></div>
@@ -34,6 +34,11 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 export default {
+   data() {
+    return {
+      userImg:this.$store.state.user.img
+    };
+  },
   computed: {
     ...mapGetters(["selectedChat", "messages"]),
     ...mapState(["user", "emojis"])
@@ -77,14 +82,15 @@ export default {
   filters: {
     // 将日期过滤为 hour:minutes
     time(date) {
+      let now=new Date();
       if (typeof date === "string") {
         date = new Date(date);
       }
-      if (date.getMinutes() < 10) {
-        return date.getHours() + ":0" + date.getMinutes();
-      } else {
-        return date.getHours() + ":" + date.getMinutes();
-      }
+       if(now.getFullYear()!=date.getFullYear()||now.getMonth()!=date.getMonth()||now.getDate()!=date.getDate())
+       {
+          return date.getFullYear()+"年"+(date.getMonth()+1)+"月"+date.getDate()+"日  "+date.getHours() + ":" + date.getMinutes();
+       }
+       return date.getHours() + ":" + date.getMinutes();
     }
   }
 };

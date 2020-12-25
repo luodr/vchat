@@ -48,7 +48,7 @@
 
     <div class="navbar" @click="clearSearch">
       <router-link to="/chat" class="icon iconfont icon-msg">
-        <span class="msg-count" v-if="user.msgCount>0">{{user.msgCount}}</span>
+        <span class="msg-count" v-if="this.count>0">{{this.count}}</span>
       </router-link>
       <router-link to="/friend" class="icon iconfont icon-friend"></router-link>
       <router-link to="/my" class="icon iconfont icon-collection"></router-link>
@@ -126,18 +126,31 @@ export default {
       imageUrl: "",
       ishow: false,
       showUser: false,
-      showSet: false
+      showSet: false,
+      count:0
     };
   },
+  mounted(){
+    this.countNotRead();
+  },
   computed: {
-    ...mapState(["user", "onlineStatusList", "setList"])
+    ...mapState(["user", "onlineStatusList", "setList","messagesUnReadCount"])
   },
   methods: {
     // 查看用户资料
     lookUserinfo() {
       this.showUser = !this.showUser;
     },
-
+     countNotRead(){
+      this.count=0;
+        
+            this.$store.state.friendlist.forEach(items=>{
+            items.messages.forEach(item=>{
+              
+             if(!item.read)this.count++
+            })
+        })
+     },
     // 关闭蒙版
     handleShow() {
       this.ishow = false;

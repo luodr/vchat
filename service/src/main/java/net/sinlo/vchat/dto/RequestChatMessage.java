@@ -2,8 +2,7 @@ package net.sinlo.vchat.dto;
 
 import java.io.Serializable;
 
-public class Message implements Serializable {
-    private int send_user_id;
+public class RequestChatMessage implements Serializable {
     private int to_user_id;
     private String contentType;
     private String content;
@@ -11,21 +10,12 @@ public class Message implements Serializable {
     private String messageType;
 
 
-    public Message(int send_user_id, int to_user_id, String contentType, String content, String messageType) {
-        this.send_user_id = send_user_id;
+    public RequestChatMessage(int to_user_id, String contentType, String content, String messageType) {
         this.to_user_id = to_user_id;
         this.contentType = contentType;
         this.content = content;
         this.messageType = messageType;
 
-    }
-
-    public int getSend_user_id() {
-        return send_user_id;
-    }
-
-    public void setSend_user_id(int send_user_id) {
-        this.send_user_id = send_user_id;
     }
 
     public int getTo_user_id() {

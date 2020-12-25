@@ -8,3 +8,11 @@ export const getMessages =  () => {
    
 };
 
+export const sendPrivateChat =  (data) => {
+   return new Promise( (resolve,reject)=>{
+      post("chat/sendPrivateChat",data).then(res=>{
+         resolve(res.data)
+      })
+     })
+    
+ };

@@ -49,8 +49,15 @@ if(localStorage.token){
         if(res&&res.length>0)
           this.$store.state. selectId=res[0].id
       });
-  longSock("ws://127.0.0.1:8888/webSocket/"+localStorage.token,(evt, ws)=>{
-    console.log(evt.data,'evt.data');
+      if(!this.$store.state.ws)
+     this.$store.state.ws=longSock("ws://127.0.0.1:8888/webSocket/"+localStorage.token,(evt, ws)=>{    
+       if(evt.data){
+         let obj=JSON.parse(evt.data)
+         console.log(obj,"接收到的！");
+          let session = this.$store.state.friendlist.find(session => session.id === obj.send_user_id)
+          console.log(session,'session');
+          session.messages.push(obj)
+       }
 });
 }
   },

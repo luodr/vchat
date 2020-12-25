@@ -2,6 +2,15 @@
 <template>
  <div class="friendlist">
  	<ul>
+  
+<li class="frienditem" >
+         
+            <div class="friend-info"  @click="selectFriend(0)">
+              
+                <img class="avatar"  width="36" height="36" src="/img/q.8c8825fe.png">
+                <div class="remark">新的好友</div>
+            </div>
+        </li>
         <li v-for="item in searchedFriendlist" class="frienditem"  :class="{ noborder: !item.initial}" :key="item.id">
             <div class="list_title" v-if="item.initial">{{item.initial}}</div>
             <div class="friend-info" :class="{ active: item.id === selectFriendId }" @click="selectFriend(item.id)">

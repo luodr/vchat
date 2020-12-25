@@ -38,6 +38,7 @@
 
 <script>
 import { robotChat } from "../../utils/network/user";
+import {sendPrivateChat} from "@/api/message";
 import { mapGetters, mapState } from "vuex";
 export default {
   data() {
@@ -61,54 +62,68 @@ export default {
       }
     },
     // 点击发送按钮发送信息
-    async send() {
-      this.showEmoji = false
-      if (this.content.length <= 1) {
-        this.warn = true;
-        this.content = "";
-        setTimeout(() => {
-          this.warn = false;
-        }, 1000);
-      } else {
-        if (this.selectedChat.user.name === "机器人") {
-          let datas = {
-            content: this.content
-          };
-          let results = await robotChat(datas);
-          // console.log(results);
-          if (results.result === 0) {
-            this.$message({
-              message: "机器人回复成功",
-              type: "success",
-              duration: 500
-            });
-            this.reply = results.content;
-            if (this.content.includes("/:")) {
-              this.reply = "嘻嘻";
-            }
-            var msg = {
-              content: this.content,
-              reply: this.reply
-            };
-            this.$store.dispatch("sendMessage", msg);
-            this.content = "";
-          } else {
-            this.$message({
-              message: "机器人出错了",
-              type: "error",
-              duration: 800
-            });
-          }
-        } else {
-          var msg = {
-            content: this.content
-          };
-          this.$store.dispatch("sendMessage", msg);
-          this.content = "";
-        }
+     send() {
+      if(this.content)
+      sendPrivateChat({
+        to_user_id:this.$store.state.selectId,
+        contentType:'PrivateChat',
+        content:this.content,
+        messageType:'text'
+      }).then(data=>{
+      if(data.id){
+         let session = this.$store.state.friendlist.find(session => session.id === this.$store.state.selectId)
+         session.messages.push(data)
+         this.content="";
+      }
+      })
+     
+      // this.showEmoji = false
+      // if (this.content.length <= 1) {
+      //   this.warn = true;
+      //   this.content = "";
+      //   setTimeout(() => {
+      //     this.warn = false;
+      //   }, 1000);
+      // } else {
+      //   if (this.selectedChat.user.name === "机器人") {
+      //     let datas = {
+      //       content: this.content
+      //     };
+      //     let results = await robotChat(datas);
+      //     // console.log(results);
+      //     if (results.result === 0) {
+      //       this.$message({
+      //         message: "机器人回复成功",
+      //         type: "success",
+      //         duration: 500
+      //       });
+      //       this.reply = results.content;
+      //       if (this.content.includes("/:")) {
+      //         this.reply = "嘻嘻";
+      //       }
+      //       var msg = {
+      //         content: this.content,
+      //         reply: this.reply
+      //       };
+      //       this.$store.dispatch("sendMessage", msg);
+      //       this.content = "";
+      //     } else {
+      //       this.$message({
+      //         message: "机器人出错了",
+      //         type: "error",
+      //         duration: 800
+      //       });
+      //     }
+      //   } else {
+      //     var msg = {
+      //       content: this.content
+      //     };
+      //     this.$store.dispatch("sendMessage", msg);
+      //     this.content = "";
+      //   }
 
         
-      }
+      // }
     }
   },
   // 在进入的时候 聚焦输入框

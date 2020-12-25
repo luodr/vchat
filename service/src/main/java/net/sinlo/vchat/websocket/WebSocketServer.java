@@ -1,12 +1,15 @@
 package net.sinlo.vchat.websocket;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sinlo.vchat.dto.ResponseChatMessage;
 import net.sinlo.vchat.entity.GroupMember;
+import net.sinlo.vchat.entity.Message;
 import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.service.IGroupMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-import net.sinlo.vchat.dto.Message;
+import net.sinlo.vchat.dto.RequestChatMessage;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -38,6 +41,7 @@ public class WebSocketServer {
     //接收token
     private String token = "";
     private int id;
+    private User user;
     //群聊
     private static Map<Integer, Set> rooms = new ConcurrentHashMap<Integer, Set>();
 
@@ -48,7 +52,7 @@ public class WebSocketServer {
     @OnOpen
     public void onOpen(Session session, @PathParam("token") String token) {
 
-        User user = TokenUtil.getUser(token);
+        this. user = TokenUtil.getUser(token);
         if (user != null) {
             this.session = session;
             this.id = user.getId();
@@ -78,18 +82,34 @@ public class WebSocketServer {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("接收到的：" + message);
-//        //群发消息
-//        for (WebSocketServer item : webSocketMap.values()) {
+        if(message.equals("HeartBeat")){
+            System.out.println("心跳：" + message);
+            try {
+                this.sendMessage("HeartBeat");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+//            System.out.println("接收到的：" + message);
 //            try {
-//             ;
+//                RequestChatMessage chatMessage =  objectMapper.readValue(message, RequestChatMessage.class);
+//                WebSocketServer.sendTo(chatMessage,this.user);
 //
-//                item.sendMessage(message);
-//            } catch (IOException | EncodeException e) {
+//            } catch (JsonProcessingException e) {
 //                e.printStackTrace();
 //            }
-//        }
+
+        }
     }
+//    public static void sendTo(RequestChatMessage chatMessage,User user){
+//      switch (chatMessage.getContentType()){
+//          case "PrivateChat":
+//              sendPrivate(chatMessage,  user);
+//              break;
+//          case "GroupChat":
+//              break;
+//      }
+//    }
 
     /**
      * @param session
@@ -104,7 +124,7 @@ public class WebSocketServer {
     /**
      * 实现服务器主动推送
      */
-    public void sendMessage(String message) throws IOException, EncodeException {
+    public void sendMessage(String message) throws IOException {
 
         this.session.getBasicRemote().sendText(message);
 
@@ -113,7 +133,7 @@ public class WebSocketServer {
     /**
      * 群发自定义消息
      */
-    public static void sendInfo(String message, @PathParam("token") String token) throws IOException {
+    public  void sendInfo(String message, @PathParam("token") String token) throws IOException {
         for (WebSocketServer item : webSocketMap.values()) {
             try {
                 //这里可以设定只推送给这个token的，为null则全部推送
@@ -122,7 +142,7 @@ public class WebSocketServer {
                 } else if (item.token.equals(token)) {
                     item.sendMessage(message);
                 }
-            } catch (IOException | EncodeException e) {
+            } catch (IOException  e) {
                 continue;
             }
         }
@@ -131,18 +151,37 @@ public class WebSocketServer {
     /**
      * 发送到群聊
      */
-    public static void sendRoom(String message, @PathParam("token") String token) throws IOException {
+    public void sendRoom(String message, @PathParam("token") String token) throws IOException {
         Set room = rooms.get(token);
         room.forEach(item -> {
             WebSocketServer ws = webSocketMap.get(item);
             try {
                 ws.sendMessage(message);
-            } catch (IOException | EncodeException e) {
+            } catch (IOException  e) {
                 e.printStackTrace();
             }
         });
     }
 
+    /**
+     *  私聊发送
+     * @param message
+     * @throws IOException
+     */
+    public static  void sendPrivate(Message message){
+        System.out.println("准备发送");
+       WebSocketServer socketServer=webSocketMap.get(message.getTo_user_id());
+       if(socketServer!=null){
+           System.out.println("发送给"+message.getTo_user_id());
+           try {
+               message.setSelf(false);
+               socketServer.sendMessage(objectMapper.writeValueAsString(message));
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
+       }
+
+    }
     private void joinRooms(int id) {
         ArrayList<GroupMember> list = this.groupMemberService.getGroupMemberList(id);
         System.out.println("加入房间" + id + "---" + list);
@@ -172,7 +211,7 @@ public class WebSocketServer {
      *
      * @param id
      */
-    private void leaveRoomById(int id, int Rooms) {
+    public void leaveRoomById(int id, int Rooms) {
         if (!rooms.containsKey(Rooms)) {
             rooms.put(Rooms, new HashSet());
         }

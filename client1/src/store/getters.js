@@ -18,12 +18,14 @@ const getters = {
     },
     // 通过当前选择是哪个好友匹配相应的好友
     selectedFriend(state) {
+
         let friend = state.friendlist.find(friend => friend.id === state.selectFriendId);
+        if(!friend)return {id:0}
         return friend
     },
     messages(state) {
-        let session = state.chatlist.find(session => session.id === state.selectId);
-        if(session)
+        let session = state.friendlist.find(session => session.id === state.selectId);
+
         return session.messages
     }
 }

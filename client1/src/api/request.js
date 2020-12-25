@@ -3,7 +3,7 @@ const axios = require("axios");
 axios.interceptors.request.use(
   config => {
     let token = window.localStorage.getItem("token");
-console.log(token)
+
     if (token) {
       config.headers.token = token;
     }
@@ -15,7 +15,6 @@ console.log(token)
 );
 
 export const post =  (url, data) => {
-  //localStorage.token
   return new Promise( (resolve, reject) => {
      axios
       .post("api/" + url, data)
@@ -28,7 +27,7 @@ export const post =  (url, data) => {
   });
 };
 
-export const get =  (url, params) => {
+export const get = (url, params) => {
   return new Promise( (resolve, reject) => {
      axios
       .get("api/" + url, {

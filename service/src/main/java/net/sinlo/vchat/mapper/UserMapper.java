@@ -5,6 +5,7 @@ import net.sinlo.vchat.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -15,6 +16,7 @@ import org.apache.ibatis.annotations.Select;
  * @since 2020-11-14
  */
 @Mapper
+@Repository
 public interface UserMapper  {
     @Select("select * from user where phone like #{phone} and password like #{password}")
       User login(String phone,String password);

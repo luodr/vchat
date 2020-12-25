@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +36,12 @@ public class FriendController {
     private FriendServiceImpl friendService;
     @ApiOperation("获取好友列表")
     @GetMapping("list")
-    public List myFriends(@ParamUser User user) {
+    public List myFriends(@ParamUser  @ApiIgnore User user) {
         return this.friendService.getFriends(user.getId());
     }
     @ApiOperation("删除好友")
     @DeleteMapping ("")
-    public boolean deleteFriend(@ParamUser User user,@RequestBody() int FriendId) {
+    public boolean deleteFriend(@ParamUser  @ApiIgnore User user,@RequestBody() int FriendId) {
         return this.friendService.deleteFriend(user.getId(),FriendId);
     }
 }

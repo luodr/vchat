@@ -1,5 +1,6 @@
 package net.sinlo.vchat.service.impl;
 
+import net.sinlo.vchat.dto.RequestChatMessage;
 import net.sinlo.vchat.entity.Message;
 import net.sinlo.vchat.mapper.MessageMapper;
 import net.sinlo.vchat.service.IMessagetService;
@@ -31,4 +32,15 @@ public class MessageServiceImpl implements IMessagetService {
     public boolean readMessage(int userId, int send_userId) {
         return this.messageMapper.readMessage(userId,send_userId);
     }
+
+    @Override
+    public Message sendMessage(int userId,RequestChatMessage chatMessage) {
+        Message message=new Message(userId,chatMessage.getTo_user_id(),chatMessage.getMessageType(),chatMessage.getContent());
+        message.updateAt();
+        this.messageMapper.sendMessage(message);
+        message.setSelf(true);
+        return message;
+    }
+
+
 }

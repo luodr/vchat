@@ -91,10 +91,11 @@ function longSock(url, fn, intro = '') {
         reconectNum = 0
         timeoutFlag = false
         clearTimeout(timeoutSet)
+        console.log("连接websocket");
         heartCheck.reset().start()
       }
       ws.onmessage = evt => {
-        heartCheck.reset().start()
+        // heartCheck.reset().start()
         // console.info(evt);
         if(evt.data === 'HeartBeat') return
         fn(evt, ws)

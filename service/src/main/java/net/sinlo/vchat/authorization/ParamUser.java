@@ -1,6 +1,6 @@
 package net.sinlo.vchat.authorization;
 
-import io.swagger.annotations.ApiModelProperty;
+
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.lang.annotation.*;
