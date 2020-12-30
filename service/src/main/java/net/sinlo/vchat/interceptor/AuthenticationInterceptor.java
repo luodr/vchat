@@ -33,10 +33,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         System.err.println(request.getServletPath());
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
+            System.out.println("不是映射到方法直接通过");
             return true;
         }
         // 如何是 开放的api直接放行
         if (request.getServletPath().indexOf("open") > -1) {
+            System.out.println("开放的api直接放行");
             return true;
         }
 

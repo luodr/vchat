@@ -10,14 +10,19 @@
 </template>
 
 <script>
+import {search} from "@/api/friend"
 export default {
 	 methods: {
         change () {
-        	this.$store.dispatch('search', this.search)
+        	// this.$store.dispatch('search', this.search)
         },
         del () {
-            this.search= ''
-            this.change()
+          search({phone:this.search}).then((data)=>{
+			        console.log(data,'搜索到的数据');
+			        this.$store.state.searchList=[];
+			        this.$store.state. searchList.push(data);
+                    this.$router.push("/search")
+		  });
         }
      },
      data () {

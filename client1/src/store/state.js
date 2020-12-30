@@ -3,6 +3,7 @@ const now = new Date();
 const state = {
   // 设置选项列表
   setList: [{ id: 1, name: '意见反馈' }, { id: 2, name: '恢复和备份' }, { id: 3, name: '设置' }],
+  searchList:[],
   // 输入的搜索值
   searchText: '',
   // 用户状态
@@ -25,79 +26,20 @@ const state = {
   },
   // 新的朋友
   newFriendList: [
-    {
-      id: 100,
-      wxid: "刘德华", //微信号
-      initial: 'L', //姓名首字母
-      img: require('@/static/images/UserAvatar.jpg'), //头像
-      signature: "你好呀，我是刘德华！", //介绍文字
-      nickname: "liudehua", //昵称
-      sex: 1, //性别 1为男，0为女
-      remark: "LDH", //备注
-      area: "香港 九龙", //地区
-      status: 1,   // 1：显示 同意  拒绝 2 已添加 3 已拒绝
-    },
-    {
-      id: 101,
-      wxid: "周星驰", //微信号
-      initial: 'Z', //姓名首字母
-      img: require('@/static/images/p.png'), //头像
-      signature: "你好呀，我是喜剧之王！", //介绍文字
-      nickname: "zxc-9527", //昵称
-      sex: 1, //性别 1为男，0为女
-      remark: "喜剧之王-周星驰", //备注
-      area: "香港 九龙", //地区
-      status: 2,   // 1：显示 同意  拒绝 2 已添加 3 已拒绝
-    },
-    {
-      id: 102,
-      wxid: "王祖贤", //微信号
-      initial: 'W', //姓名首字母
-      img: require('@/static/images/l.png'), //头像
-      signature: "你好呀，我是王祖贤", //介绍文字
-      nickname: "wzx", //昵称
-      sex: 0, //性别 1为男，0为女
-      remark: "倩女幽魂", //备注
-      area: "香港 旺角", //地区
-      status: 1,   // 1：显示 同意  拒绝 2 已添加 3 已拒绝
-    },
-    {
-      id: 103,
-      wxid: "梁朝伟", //微信号
-      initial: 'L', //姓名首字母
-      img: require('@/static/images/m.png'), //头像
-      signature: "你好呀，我是梁朝伟", //介绍文字
-      nickname: "lcw", //昵称
-      sex: 1, //性别 1为男，0为女
-      remark: "忧郁男神", //备注
-      area: "香港 旺角", //地区
-      status: 1,   // 1：显示 同意  拒绝 2 已添加 3 已拒绝
-    },
-    {
-      id: 104,
-      wxid: "张学友", //微信号
-      initial: 'Z', //姓名首字母
-      img: require('@/static/images/h.png'), //头像
-      signature: "你好呀，我是张学友", //介绍文字
-      nickname: "zxy", //昵称
-      sex: 1, //性别 1为男，0为女
-      remark: "四大天王", //备注
-      area: "香港 旺角", //地区
-      status: 1,   // 1：显示 同意  拒绝 2 已添加 3 已拒绝
-    },
-    {
-      id: 105,
-      wxid: "周慧敏", //微信号
-      initial: 'Z', //姓名首字母
-      img: require('@/static/images/q.png'), //头像
-      signature: "你好呀，我是周慧敏", //介绍文字
-      nickname: "zhm", //昵称
-      sex: 1, //性别 1为男，0为女
-      remark: "玉女掌门人", //备注
-      area: "香港 旺角", //地区
-      status: 1,   // 1：显示 同意  拒绝 2 已添加 3 已拒绝
-    },
+    // {
+    //   id: 100,
+    //   wxid: "刘德华", //微信号
+    //   initial: 'L', //姓名首字母
+    //   img: require('@/static/images/UserAvatar.jpg'), //头像
+    //   signature: "你好呀，我是刘德华！", //介绍文字
+    //   nickname: "liudehua", //昵称
+    //   sex: 1, //性别 1为男，0为女
+    //   remark: "LDH", //备注
+    //   area: "香港 九龙", //地区
+    //   status: 1,   // 1：显示 同意  拒绝 2 已添加 3 已拒绝
+    // }
   ],
+  dataInit:false,
   // 对话好友列表
   chatlist: [{
     id: 1,

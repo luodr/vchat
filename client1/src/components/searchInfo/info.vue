@@ -1,95 +1,80 @@
 <!-- 好友信息 -->
 <template>
-  <div class="Info-wrapper">
-    <div class="newfriend" v-show="selectedFriend.id === 0">
-      <div class="nickname">{{selectedFriend.name}}</div>
+  <div class="Info-wrapper" v-if="selectedSearch">
+    <div class="newfriend" v-show="selectedSearch.id === 0">
+      <div class="nickname">{{selectedSearch.name}}</div>
     </div>
-    <div class="friendInfo" v-if="selectedFriend.id > 0">
+    <div class="friendInfo" v-if="selectedSearch.id > 0">
       <div class="esInfo">
         <div class="left">
           <div class="people">
-            <div class="nickname">{{selectedFriend.myFriend.name}}</div>
-            <div :class="[selectedFriend.sex===1?'gender-male':'gender-female']"></div>
+            <div class="nickname">{{selectedSearch.name}}</div>
+            <div :class="[selectedSearch.sex===1?'gender-male':'gender-female']"></div>
           </div>
-          <div class="signature">{{selectedFriend.signature}}</div>
+          <div class="signature">{{selectedSearch.signature}}</div>
         </div>
         <div class="right">
-          <img class="avatar" width="60" height="60" :src="selectedFriend.myFriend.img" />
+          <img class="avatar" width="60" height="60" :src="selectedSearch.img" />
         </div>
       </div>
       <div class="detInfo">
         <div class="remark">
           <span>备&nbsp;&nbsp;&nbsp;注</span>
-          {{selectedFriend.remark||selectedFriend.myFriend.name}}
+          {{selectedSearch.remark}}
         </div>
         <div class="area">
           <span>地&nbsp;&nbsp;&nbsp;区</span>
-          {{selectedFriend.myFriend.city}}
+          {{selectedSearch.city}}
         </div>
         <div class="wxid">
           <span>微信号</span>
-          {{selectedFriend.myFriend.id}}
+          {{selectedSearch.id}}
         </div>
       </div>
       <div class="send" @click="send">
-        <span>发消息</span>
+        <span>添加好友</span>
       </div>
     </div>
-    <div v-else class="my-new-friends" :style="{backgroundImage: 'url(' + backImg2 + ')'}">
-      <div class="friend-list">
-        <div class="friend-item u-f u-f-sbc" v-for="item in newFriendList" :key="item.id">
-          <div class="f-left u-f u-f-ac">
-            <img :src="item.user.img" alt="头像" class="img-face" />
-            <div class="u-f-c">
-              <span class="txt1">{{item.user.name}}</span>
-              <span class="txt2">{{item.user.signature}}</span>
-            </div>
-          </div>
-          <div>
-            <template v-if="item.state=='send'">
-              <span class="staus-txt txt3" @click.stop="receiveFriend(item)">接受</span>
-              <span class="staus-txt txt4" @click.stop="rejectFriend(item)">拒绝</span>
-            </template>
-            <span class="staus-txt text5" v-else-if="item.state=='agree'">已添加好友</span>
-            <span class="staus-txt text5" v-else-if="item.state=='refuse'">已拒绝</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </div>
 </template>
 
 <script>
 import router from "../../router";
 import { mapGetters, mapState, mapMutations } from "vuex";
-import {agreeFriend,refuseFriend} from "@/api/friend";
+import { addFriends} from "@/api/friend";
 export default {
   computed: {
-    ...mapGetters(["selectedFriend"]),
+    ...mapGetters(["selectedSearch"]),
     ...mapState(["backImg2", "newFriendList"])
   },
   methods: {
     ...mapMutations(["addNewFriendToList"]),
     // 发送信息
     send() {
-      this.$store.dispatch("send");
-      this.$store.dispatch("search", "");
+     addFriends({friendId:selectedSearch.id}).then(data=>{
+       console.log("发送请求成功!",data);
+     })
     },
     // 接受
     receiveFriend(target) {
-        console.log(target,'target');
-      agreeFriend({friendId:target.send_user_id}).then(data=>{
-
-        target.state = 'agree';
-      })
-
+      let idx = this.newFriendList.findIndex(item => {
+        return item.id === target.id;
+      });
+      this.newFriendList[idx].status = 2;
+      this.$message({
+        message:'添加好友成功',
+        type: "success",
+        duration: 800
+      });
+      this.addNewFriendToList(target);
     },
     // 拒绝
     rejectFriend(target) {
-      refuseFriend({friendId:target.send_user_id}).then(data=>{
-          target.state = 'refuse';
-      })
- 
+      let idx = this.newFriendList.findIndex(item => {
+        return item.id === target.id;
+      });
+      this.newFriendList[idx].status = 3;
     }
   }
 };

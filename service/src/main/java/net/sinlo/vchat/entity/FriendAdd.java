@@ -33,6 +33,35 @@ public class FriendAdd implements Serializable {
     private LocalDateTime updateAt;
 
     private LocalDateTime deleteAt;
+    private  User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public FriendAdd(Integer send_user_id, Integer to_user_id, String state) {
+        this.send_user_id = send_user_id;
+        this.to_user_id = to_user_id;
+        this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "FriendAdd{" +
+                "id=" + id +
+                ", send_user_id=" + send_user_id +
+                ", to_user_id=" + to_user_id +
+                ", state='" + state + '\'' +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updateAt +
+                ", deleteAt=" + deleteAt +
+                ", user=" + user +
+                '}';
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -94,8 +123,4 @@ public class FriendAdd implements Serializable {
         this.deleteAt = deleteAt;
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

@@ -38,28 +38,7 @@ export default {
     vText
   },
   mounted(){
-if(localStorage.token){
-  if(!this.$store.state.user.phone){
-    getInfo().then(res=>{
-         this.$store.state.user=res
-    })
-  }
-     getFriends().then(res=>{
-        this.$store.state.friendlist=res
-        if(res&&res.length>0)
-          this.$store.state. selectId=res[0].id
-      });
-      if(!this.$store.state.ws)
-     this.$store.state.ws=longSock("ws://127.0.0.1:8888/webSocket/"+localStorage.token,(evt, ws)=>{    
-       if(evt.data){
-         let obj=JSON.parse(evt.data)
-         console.log(obj,"接收到的！");
-          let session = this.$store.state.friendlist.find(session => session.id === obj.send_user_id)
-          console.log(session,'session');
-          session.messages.push(obj)
-       }
-});
-}
+
   },
   computed: {
    ...mapState(['backImg'])

@@ -20,4 +20,6 @@ public interface IUserService  {
       boolean sendCode(GetCodeDto dto);
       User findByPhone(String phone);
 
+      User search(String phone);
+
 }

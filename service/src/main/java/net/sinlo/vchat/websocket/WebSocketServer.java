@@ -3,6 +3,8 @@ package net.sinlo.vchat.websocket;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sinlo.vchat.dto.ResponseChatMessage;
+import net.sinlo.vchat.dto.WebSocketMessageDto;
+import net.sinlo.vchat.entity.FriendAdd;
 import net.sinlo.vchat.entity.GroupMember;
 import net.sinlo.vchat.entity.Message;
 import net.sinlo.vchat.entity.User;
@@ -169,17 +171,34 @@ public class WebSocketServer {
      * @throws IOException
      */
     public static  void sendPrivate(Message message){
-        System.out.println("准备发送");
        WebSocketServer socketServer=webSocketMap.get(message.getTo_user_id());
        if(socketServer!=null){
-           System.out.println("发送给"+message.getTo_user_id());
            try {
                message.setSelf(false);
-               socketServer.sendMessage(objectMapper.writeValueAsString(message));
+               WebSocketMessageDto<Message> data=new WebSocketMessageDto("PrivateChat",message);
+               socketServer.sendMessage(objectMapper.writeValueAsString(data));
            } catch (IOException e) {
                e.printStackTrace();
            }
        }
+
+    }
+
+    /**
+     *  好友申请
+     * @param friendAdd
+     * @throws IOException
+     */
+    public static  void addFriend(FriendAdd friendAdd){
+        WebSocketServer socketServer=webSocketMap.get(friendAdd.getTo_user_id());
+        if(socketServer!=null){
+            try {
+                WebSocketMessageDto<FriendAdd> data=new WebSocketMessageDto("addFriend",friendAdd);
+                socketServer.sendMessage(objectMapper.writeValueAsString(data));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
     private void joinRooms(int id) {

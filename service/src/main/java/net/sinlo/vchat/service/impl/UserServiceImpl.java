@@ -94,6 +94,12 @@ public class UserServiceImpl implements IUserService {
         return this.userMapper.findByPhoneOne(phone);
     }
 
+    @Override
+    public User search(String phone) {
+        User user=this.userMapper.findByPhoneOne(phone);
+        user.setPassword(null);
+        return user;
+    }
 
 
 }

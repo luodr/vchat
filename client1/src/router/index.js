@@ -8,10 +8,11 @@
  */
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import longSock from "@/socket/socket";
 import store from '../store';
 import { createLogger } from 'vuex';
-
+import {getFriends,getAddFriends} from "@/api/friend";
+import {getInfo} from "@/api/user";
 Vue.use(Router)
 
 const router = new Router({
@@ -41,6 +42,17 @@ const router = new Router({
         requiresAuth: true
       }
     },
+    {
+      path: '/search',
+      component: () => import('@/page/search/searchpage.vue'),
+      meta: {
+        keepAlive: true, // true :缓存  false :不缓存
+        isBack: false, //用于判断上一个页面是哪个
+        isShowAside: true,
+        requiresAuth: true
+      }
+    },
+    
     {
       path: '/my',
       component: () => import('@/page/resume/resume.vue'),
@@ -75,27 +87,52 @@ const router = new Router({
   linkActiveClass: 'active'
 })
 
-
-// router.beforeEach((to, from, next) => {
-//   let flag = localStorage.token || false
-//   if (to.matched.some(record => record.meta.requiresAuth)) { // 判断该路由是否需要登录权限
-//       if (flag) { //也可以用vuex来判断
-//           next()
-//       } else {
-//           next('/login')
-//       }
-//   } else {
-//       if (flag) { //也可以用vuex来判断
-//           if (to.path === '/login') {
-//               next('/chat')
-//           } else {
-//               next()
-//           }
-//       } else {
-//           next()
-//       }
-//   }
-
-// })
+function initData(){
+  if(!store.state.user.phone){
+    getInfo().then(res=>{
+         store.state.user=res
+    })
+  }
+     getFriends().then(res=>{
+       console.log('朋友们',res)
+        store.state.friendlist=res
+        if(res&&res.length>0)
+          store.state. selectId=res[0].id
+      });
+      getAddFriends().then(res=>{
+        store.state.newFriendList=res
+       
+      });
+      
+      if(!store.state.ws)
+     store.state.ws=longSock("ws://127.0.0.1:8888/webSocket/"+localStorage.token,(evt, ws)=>{    
+       if(evt.data){
+         let obj=JSON.parse(evt.data)
+         console.log(obj,"接收到的！");
+         switch(obj.type){
+           case 'PrivateChat':
+           let session = store.state.friendlist.find(session => session.id === obj.data.send_user_id)
+         session.messages.push(obj.data)
+         break;
+         case 'addFriend':
+          
+          store.state.newFriendList.push(obj.data)
+           break;
+         }
+        
+       }
+});
+store.state.dataInit=true
+}
+router.beforeEach((to, from, next) => {
+    if(!localStorage.token||to.path==='/login'){
+          next('/login')
+    }else{
+       if(localStorage.token&&!store.state.dataInit){
+          initData()
+       }
+      next()
+    }
+})
 
 export default router

@@ -6,9 +6,13 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import net.sinlo.vchat.authorization.ParamUser;
 import net.sinlo.vchat.authorization.UserLoginToken;
+import net.sinlo.vchat.dto.friend.FriendDto;
+import net.sinlo.vchat.entity.FriendAdd;
 import net.sinlo.vchat.entity.User;
 
+import net.sinlo.vchat.service.IFriendService;
 import net.sinlo.vchat.service.impl.FriendServiceImpl;
+import net.sinlo.vchat.websocket.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,16 +37,48 @@ import java.util.Map;
 @UserLoginToken
 public class FriendController {
     @Autowired
-    private FriendServiceImpl friendService;
+    private IFriendService friendService;
+
     @ApiOperation("获取好友列表")
     @GetMapping("list")
-    public List myFriends(@ParamUser  @ApiIgnore User user) {
+    public List myFriends(@ParamUser @ApiIgnore User user) {
         return this.friendService.getFriends(user.getId());
     }
+
     @ApiOperation("删除好友")
-    @DeleteMapping ("")
-    public boolean deleteFriend(@ParamUser  @ApiIgnore User user,@RequestBody() int FriendId) {
-        return this.friendService.deleteFriend(user.getId(),FriendId);
+    @DeleteMapping("")
+    public boolean deleteFriend(@ParamUser @ApiIgnore User user, @RequestBody() FriendDto friendDto) {
+        return this.friendService.deleteFriend(user.getId(), friendDto.getFriendId());
     }
+
+    @PostMapping("add")
+    @ApiOperation("请求添加好友")
+    public FriendAdd requestAddFriend(@ParamUser @ApiIgnore User user, @RequestBody() FriendDto friendDto) {
+        FriendAdd friendAdd = friendService.requestAddFriend(user.getId(), friendDto.getFriendId());
+        friendAdd = friendService.getFriendById(friendAdd.getId());
+        WebSocketServer.addFriend(friendAdd);
+        return friendAdd;
+    }
+
+    @PostMapping("agree")
+    @ApiOperation("同意添加好友")
+    public boolean agree(@ParamUser @ApiIgnore User user, @RequestBody() FriendDto friendDto) {
+
+        return     this.friendService.addFriend(user.getId(), friendDto.getFriendId());
+    }
+
+    @PostMapping("refuse")
+    @ApiOperation("拒绝添加好友")
+    public boolean refuse(@ParamUser @ApiIgnore User user, @RequestBody() FriendDto friendDto) {
+        return friendService.updateState("refuse", user.getId(), friendDto.getFriendId());
+    }
+
+    @GetMapping("getFriendAdds")
+    @ApiOperation("添加好友列表")
+    public List<FriendAdd> getFriendAdds(@ParamUser @ApiIgnore User user) {
+        return friendService.getFriendAdds(user.getId());
+    }
+
+
 }
 

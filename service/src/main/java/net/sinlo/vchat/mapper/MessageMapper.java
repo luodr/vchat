@@ -26,4 +26,5 @@ public interface MessageMapper {
     @Insert("insert into message(send_user_id,to_user_id,type,context,createdAt,updateAt,isRead)" +
             " values(#{send_user_id},#{to_user_id},#{type},#{context},now(),now(),0)")
     void sendMessage(Message message);
+
 }

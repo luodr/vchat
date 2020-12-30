@@ -91,6 +91,7 @@ export default {
   filters: {
     // 将日期过滤为 hour:minutes
     time(date) {
+      if(!date) return
       if (typeof date === "string") {
         date = new Date(date);
       }

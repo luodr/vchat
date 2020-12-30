@@ -32,9 +32,7 @@ public class WebSocketController {
     public Message sendPrivateChat(@ParamUser @ApiIgnore User user,@RequestBody RequestChatMessage chatMessage) {
         System.out.println(chatMessage);
         Message message = service.sendMessage(user.getId(), chatMessage);
-
         if (message != null) {
-
               WebSocketServer.sendPrivate(message);
         }
         message.setSelf(true);

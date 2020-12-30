@@ -30,11 +30,11 @@ module.exports = {
                     api: "api"
                   }
             },
-            "/upload": {
-                target: Config.domain+'users/doUpload',
-                changeOrigin: true,
+            "^/upload": {
+                target: "http://localhost:8888/",
+                // changeOrigin: true,
                 pathRewrite: {
-                    "^/upload": ""
+                    upload: "upload"
                 }
             }
             // "/jqr": {

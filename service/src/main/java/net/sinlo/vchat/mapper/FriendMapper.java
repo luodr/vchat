@@ -42,4 +42,6 @@ public interface FriendMapper  {
      List<Friend> getFriends(int userId);
     @Update("update friend set deleteAt =now() where user_id=#{userId} and friend_id=#{friendId}")
     boolean softDeleteFriend(int userId,int friendId);
+    @Insert("insert into friend(user_id,friend_id,createdAt,updateAt) values(#{userId},#{friendId},now(),now())")
+    boolean addFriend(int userId,int friendId);
 }

@@ -24,8 +24,7 @@ public class RedisSubscriberConfig {
 
 
     @Bean
-    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
-                                            MessageListenerAdapter listenerAdapter) {
+    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,MessageListenerAdapter listenerAdapter) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         LettuceConnectionFactory lettuceConnectionFactory = (LettuceConnectionFactory) connectionFactory;
         //设置存储的节点
@@ -35,5 +34,4 @@ public class RedisSubscriberConfig {
         container.addMessageListener(listenerAdapter, new PatternTopic("chat"));
         return container;
     }
-
 }

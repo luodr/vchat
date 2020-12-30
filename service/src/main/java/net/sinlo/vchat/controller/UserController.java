@@ -58,5 +58,10 @@ public class UserController {
         user.setPassword(null);
         return user;
     }
+    @GetMapping("search")
+    public User search(@ParamUser User user,@RequestParam(value = "phone") String phone) {
+        return userService.search(phone);
+    }
+
     }
 

@@ -3,17 +3,21 @@ package net.sinlo.vchat.config;
 
 import net.sinlo.vchat.interceptor.AuthenticationInterceptor;
 import net.sinlo.vchat.util.ParamUserHandlerMethodArgReslover;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+    @Value("${upload.file.path}")
+    private  String uploadPath;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authenticationInterceptor())
@@ -36,6 +40,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers){
         //注册@ParamUser注解的实现类
         argumentResolvers.add(new ParamUserHandlerMethodArgReslover());
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/*").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/upload/*").addResourceLocations("file:"+uploadPath+"/");
+
     }
 
     @Bean

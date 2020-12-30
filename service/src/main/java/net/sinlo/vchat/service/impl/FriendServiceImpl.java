@@ -1,6 +1,8 @@
 package net.sinlo.vchat.service.impl;
 
 import net.sinlo.vchat.entity.Friend;
+import net.sinlo.vchat.entity.FriendAdd;
+import net.sinlo.vchat.mapper.FriendAddMapper;
 import net.sinlo.vchat.mapper.FriendMapper;
 import net.sinlo.vchat.service.IFriendService;
 
@@ -22,6 +24,8 @@ import java.util.List;
 public class FriendServiceImpl implements IFriendService {
     @Autowired
     FriendMapper mapper;
+    @Autowired
+    FriendAddMapper friendAddMapper;
 
     @Override
     public List<Friend> getFriends(int userId) {
@@ -30,6 +34,38 @@ public class FriendServiceImpl implements IFriendService {
 
     @Override
     public boolean deleteFriend(int userId, int friendId) {
-        return this.mapper.softDeleteFriend(userId,friendId);
+        return this.mapper.softDeleteFriend(userId, friendId);
     }
+
+    @Override
+    public FriendAdd requestAddFriend(int userId, int friendId) {
+        FriendAdd friendAdd = new FriendAdd(userId, friendId, "send");
+        friendAddMapper.addFriend(friendAdd);
+        return friendAdd;
+    }
+
+    @Override
+    public boolean updateState(String state, int userId, int friendId) {
+        FriendAdd friendAdd = new FriendAdd(friendId, userId, state);
+        return friendAddMapper.updateState(friendAdd);
+    }
+
+    @Override
+    public boolean addFriend(int userId, int friendId) {
+        this.mapper.addFriend(userId, friendId);
+        this.mapper.addFriend(friendId, userId);
+        return this.updateState("agree", userId, friendId);
+    }
+
+    @Override
+    public List<FriendAdd> getFriendAdds(int userId) {
+        return friendAddMapper.getFriendAdds(userId);
+    }
+
+    @Override
+    public FriendAdd getFriendById(int id) {
+        return this.friendAddMapper.getFriendById(id);
+    }
+
+
 }
