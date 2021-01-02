@@ -28,18 +28,18 @@
     -->
     <div class="main-tab">
       <div class="tab1" v-if="currentIndex==1" :key="currentIndex">
-        <p class="pyq">朋友圈</p>
+        <p class="pyq">朋友圈 </p>
         <div class="t-item" v-for="(item,index) in wechatMoments" :key="item.id">
           <div class="u-f">
-            <img :src="item.face" alt="头像" class="face" />
+            <img :src="item.img" alt="头像" class="face" />
             <div class="t-content">
-              <p>{{item.username}}</p>
-              <div class="f-cont">{{item.content}}</div>
+              <p>{{item.remark||item.name}}</p>
+              <div class="f-cont">{{item.context}}</div>
               <!-- 图片列表 -->
               <div class="img-list">
                 <!-- <img :src="img.url" v-for="img in item.imgList" :key="img.id" /> -->
                 <viewer :images="item.imgList">
-                  <img v-for="(src,index) in item.imgList" :src="src.url" :key="index" />
+                  <img v-for="(src,index) in item.imgList" :src="src" :key="index" />
                 </viewer>
               </div>
               <!-- 视频列表 -->
@@ -59,14 +59,14 @@
               <div class="u-f u-f-sbc" style="color:#666;font-size:14px;margin-top:12px;">
                 <span class="times">{{item.time}}</span>
                 <div class="u-f u-f-ajc" style="cursor:pointer;">
-                  <div class="u-f u-f-ac" @click="handleActive(index)">
+                  <div class="u-f u-f-ac" @click="handleActive(item.id)">
                     <img
-                      :src="item.active ? require('@/assets/icon-imgs/p-support-active.png') : require('@/assets/icon-imgs/p-support.png') "
+                      :src="isMyActive(item.id)? require('@/assets/icon-imgs/p-support-active.png') : require('@/assets/icon-imgs/p-support.png') "
                       class="c-img"
                     />
                     <span>点赞</span>
                   </div>
-                  <div class="u-f u-f-ac">
+                  <div class="u-f u-f-ac" @click="openInput(item)">
                     <img src="@/assets/icon-imgs/p-msg.png" alt class="c-img" />
                     <span>评论</span>
                   </div>
@@ -79,44 +79,58 @@
                       class="c-img"
                     />
                   </el-popconfirm>
-                </div>
+               / </div>  
               </div>
             </div>
           </div>
           <div class="comments">
             <div class="u-f u-f-ac ellipsis">
               <i class="el-icon-star-off" style="color:#60729A;"></i>
-              <template v-if="item.persons.length>14">
+              <template>
                 <span
-                  v-for="person in item.persons"
+                  v-for="person in item.goods"
                   :key="person.id"
                   class="person-t"
-                >{{person.name}}</span>
+                >{{findFriendNmae(person.user_id)}}</span>
               </template>
-              <template v-else>
+              <!-- <template >
                 <span
-                  v-for="person in item.persons"
+                  v-for="person in item.goods"
                   :key="person.id"
                   class="person-t"
                 >{{person.name}}</span>
                 <i class="el-icon-more" style="color:#60729A;margin-left:10px;"></i>
-              </template>
+              </template> -->
             </div>
             <div class="com-list">
-              <div class="com-item u-f u-f-ac">
-                <span>张学友：</span>
-                <p>高端大气上档次</p>
+               <div v-for="comment in item.comments" :key="comment.id"  class="com-item u-f u-f-ac"  >
+                <span>{{findFriendNmae(comment.user_id)}}：</span>
+                <p>{{comment.context}}</p>
               </div>
-              <div class="com-item u-f u-f-ac">
-                <span>郭富城：</span>
-                <p>大家好，我是郭富城</p>
-              </div>
-              <div class="com-item u-f u-f-ac">
-                <span>周星驰：</span>
-                <p>大家好，我是周星驰，喜剧之王..., 希望大家多支持支持</p>
-              </div>
+            
             </div>
           </div>
+           <div v-if="item.openInput">
+          <el-input
+              type="textarea"
+              v-model="commentInput"
+              :rows="5"
+              placeholder="这一刻的想法..."
+            ></el-input>
+              <br/>
+             <el-button
+         @click="closeInput(item)"
+          type="info"
+          style="width:100px;margin-right:20px;"
+        >
+          取消
+          <i class="el-icon-close" style="margin-left:4px;font-size:16px;"></i>
+        </el-button>
+        <el-button  type="primary" style="width:100px;" @click="commentSend(item.id)">
+          发布
+          <i class="el-icon-upload el-icon--right" style="margin-left:4px;font-size:16px;"></i>
+        </el-button>
+            </div>
         </div>
       </div>
       <div class="tab2" v-if="currentIndex==2" :key="currentIndex">
@@ -135,15 +149,16 @@
           <!-- :http-request="doUpload" 覆盖默认上传的方式 -->
           <el-upload
             ref="upload"
-            multiple
-            action
-            name="pic"
+            multiple=false
+            action="api/file/upload/one"
+            auto-upload=true
+            name="file"
             :limit="5"
             list-type="picture-card"
-            :on-preview="handlePictureCardPreview"
+           
             :on-remove="handleRemove"
-            :before-upload="beforeAvatarUpload"
-            :http-request="doUpload"
+            :on-success="handleSuccess"
+          
           >
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -152,16 +167,16 @@
           </el-dialog>
         </div>
         <!-- 选择位置 -->
-        <div @click="dialog = true" class="u-f u-f-ac" style="cursor:pointer;margin-bottom:30px;">
+        <!-- <div @click="dialog = true" class="u-f u-f-ac" style="cursor:pointer;margin-bottom:30px;">
           <i class="el-icon-location-information" style="font-size:20px;color:#456;"></i>
           <span style="margin-left:10px;color:#555;font-size:14px;">{{gpsWhere ? gpsWhere : '所在位置'}}</span>
-        </div>
+        </div> -->
         <!-- 选择 -->
         <el-radio-group v-model="radio" style="display:block;margin-bottom:30px;">
           <el-radio :label="1">公开</el-radio>
-          <el-radio :label="2">私密</el-radio>
+          <!-- <el-radio :label="2">私密</el-radio>
           <el-radio :label="3">部分可见</el-radio>
-          <el-radio :label="4">不给谁看</el-radio>
+          <el-radio :label="4">不给谁看</el-radio> -->
         </el-radio-group>
         <!--  -->
         <el-button
@@ -210,13 +225,14 @@ import { mutiUploadFile } from "@/utils/network/user.js";
 import Config from "@/utils/config.js";
 import { mapState } from "vuex";
 import { setStore, getStore } from "@/utils/timeFunc.js";
-
+import {getDynamic,sendDynamic,doodDynamic,commentDynamic} from '@/api/dynamic'
 export default {
   data() {
     return {
       currentIndex: 1,
       isActive: true,
       wechatMoments: [],
+      commentInput:"",
       ruleForm: {
         expressText: "" // 文本框
       },
@@ -226,6 +242,7 @@ export default {
         ]
       },
       dialogImageUrl: "",
+      uploadImges:"",
       dialogVisible: false,
       radio: 1,
       dialog: false,
@@ -303,17 +320,44 @@ export default {
     ...mapState(["user"])
   },
   created() {
-    this.wechatMoments = JSON.parse(getStore("moments"));
+    // this.wechatMoments = JSON.parse(getStore("moments"));
   },
   mounted() {
-    this.wechatMoments.forEach(item => {
-      if (typeof item.time === "number") {
-        item.time = timeFrom(item.time);
-      }
-    });
-    this.getAddress();
+    
+    // this.wechatMoments.forEach(item => {
+    //   if (typeof item.time === "number") {
+    //     item.time = timeFrom(item.time);
+    //   }
+    // });
+    getDynamic().then(data=>{
+data.forEach(item=>{
+  if(item.images)
+  item.imgList=item.images.split(",")
+})
+
+      this.wechatMoments=data;
+    })
+    // this.getAddress();
   },
   methods: {
+    isMyActive(id){
+     let item= this.wechatMoments.find(items=>{
+      return items.id===id;
+     })
+        if(item&&item.goods.find(good=>good.user_id===this.$store.state.user.i)) return true;
+        return false
+    },
+     findFriendNmae(id) {console.log(this.$store)
+     if(this.$store.state.user.id==id) return  this.$store.state.user.name
+        let friend =   this.$store.state.friendlist.find(friend => friend.id === id);
+       if(!friend) return ""
+        return friend.remark|| friend. myFriend.name
+    },
+    handleSuccess(response, file, fileList){
+      if(this.uploadImges)  this.uploadImges+=','
+  this.uploadImges+=response.data
+         
+    },
     // 删除某条评论
     deleteOne(id) {
       this.wechatMoments =this.wechatMoments.filter(item=>{
@@ -322,7 +366,7 @@ export default {
       setStore("moments", this.wechatMoments);
     },
     // 上传文件
-    async doUpload(file) {
+    async doUpload(file) {                                                                                                                                              
       this.mutiImgVideo.push(file.file);
     },
     // 点击按钮手动上传文件
@@ -409,30 +453,76 @@ export default {
     choose(index) {
       this.currentIndex = index;
     },
+    openInput(item){
+      item.openInput=true;
+    },
+    closeInput(item){
+      this.commentInput="",
+       item.openInput=false;
+    },
+    commentSend(id){
+     commentDynamic({
+       id,
+       context:this.commentInput
+     }).then(data=>{
+        if(data.id){
+     let item=  this.wechatMoments.find(item=>item.id===id)
+     item.comments.push(data)
+     this. closeInput(item)
+        }
+     })
+    },
+
     // 点赞
-    handleActive(index) {
-      this.wechatMoments[index].active = !this.wechatMoments[index].active;
-      if (this.wechatMoments[index].active) {
-        this.$message({
+    handleActive(id) {
+     doodDynamic(id).then(data=>{
+     if(data.id){
+     let item=  this.wechatMoments.find(item=>item.id===id)
+     item.goods.push(data)
+  
+  
+         this.$message({
           message: "点赞成功",
           type: "success",
           duration: 600
         });
-      } else {
-        this.$message({
-          message: "取消点赞",
+     }else{
+             this.$message({
+          message: "你可能已经点过赞啦！",
           type: "error",
           duration: 600
         });
-      }
+     }
+})
+      // doodDynamic
+      // this.wechatMoments[index].active = !this.wechatMoments[index].active;
+      // if (this.wechatMoments[index].active) {
+      //   this.$message({
+      //     message: "点赞成功",
+      //     type: "success",
+      //     duration: 600
+      //   });
+      // } else {
+      //   this.$message({
+      //     message: "取消点赞",
+      //     type: "error",
+      //     duration: 600
+      //   });
+      // }
     },
     // 上传照片相关
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      console.log(file.response, fileList);
       let id = file.uid;
+       console.log(file.uid,'file.uid;');
       this.mutiImgVideo = this.mutiImgVideo.filter(item => {
         return item.uid !== id;
       });
+      this.uploadImges='';
+           fileList.forEach((data,index)=>{
+            this.uploadImges+=data.response.data
+            if(fileList.length-1>index){ this.uploadImges+=","}
+           })
       console.log(this.mutiImgVideo, 123);
     },
     handlePictureCardPreview(file) {
@@ -441,21 +531,15 @@ export default {
     },
     // 发布 取消
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          this.handleMtuiFile();
-          this.$message({
-            message: "发布朋友圈成功",
-            type: "success",
-            duration: 600,
-            onClose: () => {
-              this.currentIndex = 1;
-            }
-          });
-        } else {
-          return false;
-        }
-      });
+      console.log(this.uploadImges,this.ruleForm.expressText)
+      sendDynamic({
+        type:'text',
+        context:this.ruleForm.expressText,
+        images:this.uploadImges
+      }).then(data=>{
+        this.ruleForm.expressText=""; 
+        this.$router.go(0)  
+      })
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

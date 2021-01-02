@@ -4,7 +4,6 @@
     <div class="emoji">
       <div class="u-f u-f-ac" style="padding-top:10px;">
         <img src="@/assets/icon-imgs/emoij.png" class="icon-img" @click="showEmoji=!showEmoji" />
-  
     <el-upload
   action="api/file/upload/one"
   :on-success="sendFile"

@@ -44,4 +44,7 @@ public interface FriendMapper  {
     boolean softDeleteFriend(int userId,int friendId);
     @Insert("insert into friend(user_id,friend_id,createdAt,updateAt) values(#{userId},#{friendId},now(),now())")
     boolean addFriend(int userId,int friendId);
+
+    @Select("select friend.friend_id from friend where friend.user_id=#{userId}")
+    List<Integer> getFriendIDs(int userId);
 }

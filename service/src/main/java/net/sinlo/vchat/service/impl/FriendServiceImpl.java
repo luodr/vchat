@@ -67,5 +67,8 @@ public class FriendServiceImpl implements IFriendService {
         return this.friendAddMapper.getFriendById(id);
     }
 
-
+    @Override
+    public List<Integer> getFriendIDs(int userId) {
+        return this.mapper.getFriendIDs(userId);
+    }
 }

@@ -29,8 +29,6 @@ public class User implements Serializable {
     @ApiModelProperty(value = "密码")
     private String password;
 
-    @ApiModelProperty(value = "头像")
-    private String img;
 
     @ApiModelProperty(value = "城市")
     private String city;
@@ -41,6 +39,8 @@ public class User implements Serializable {
     @ApiModelProperty(value = "昵称")
     private String name;
 
+    @ApiModelProperty(value = "头像")
+    private String img;
     private LocalDateTime createdAt;
 
     private LocalDateTime updateAt;

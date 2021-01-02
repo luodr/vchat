@@ -20,7 +20,7 @@ public interface IFriendService  {
 
     List<Friend>  getFriends(int userId) ;
     boolean deleteFriend(int userId,int friendId);
-
+    public List<Integer> getFriendIDs(int userId);
     FriendAdd requestAddFriend(int userId, int friendId);
     boolean updateState(String state,int userId, int friendId);
     boolean addFriend(int userId,int friendId);
