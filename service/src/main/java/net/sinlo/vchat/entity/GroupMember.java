@@ -37,7 +37,7 @@ public class GroupMember implements Serializable {
     private LocalDateTime updateAt;
 
     private LocalDateTime deleteAt;
-    private ArrayList<Group> groups;
+
 
     public Integer getId() {
         return id;
@@ -95,13 +95,7 @@ public class GroupMember implements Serializable {
         this.deleteAt = deleteAt;
     }
 
-    public ArrayList<Group> getGroups() {
-        return groups;
-    }
 
-    public void setGroups(ArrayList<Group> groups) {
-        this.groups = groups;
-    }
 
     @Override
     public String toString() {

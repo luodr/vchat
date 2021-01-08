@@ -45,7 +45,7 @@
 
 <script>
 import { robotChat } from "../../utils/network/user";
-import {sendPrivateChat} from "@/api/message";
+import {sendPrivateChat,sendGroupChat} from "@/api/message";
 import { mapGetters, mapState } from "vuex";
 export default {
   data() {
@@ -62,6 +62,8 @@ export default {
     ...mapGetters(["selectedChat"])
   },
   methods: {
+
+   
     // 按回车发送信息
     onKeyup(e) {
       if (e.keyCode === 13) {
@@ -70,38 +72,51 @@ export default {
     },
     // 点击发送按钮发送信息
      send() {
-      if(this.content)
-      sendPrivateChat({
-        to_user_id:this.$store.state.selectId,
-        contentType:'PrivateChat',
-        content:this.content,
-        messageType:'text'
-      }).then(data=>{
-      if(data.id){
-         let session = this.$store.state.friendlist.find(session => session.id === this.$store.state.selectId)
-         session.messages.push(data)
-         this.content="";
+      if(this.content){
+        this.sendMessage(this.content,'text')
       }
-      })
-    },
+
+     },        
       sendFile(response, file, fileList) {
         console.log(response, file, fileList);
       if(response.data)
-      sendPrivateChat({
-        to_user_id:this.$store.state.selectId,
+       this.sendMessage(response.data,'image')
+       
+    },
+
+    sendMessage(content,type){  
+ if(this.$store.state.selectItem.myFriend)
+       {
+        sendPrivateChat({
+        target_id:this.$store.state.selectId,
         contentType:'PrivateChat',
-        content:response.data,
-        messageType:'image'
+        content:content,
+        messageType:type
       }).then(data=>{
       if(data.id){
-         let session = this.$store.state.friendlist.find(session => session.id === this.$store.state.selectId)
-         session.messages.push(data)
+        this.$store.state. selectItem.messages.push(data)
          this.content="";
+        
+      
+      }
+      })
+    }else{
+         sendGroupChat({
+        target_id:this.$store.state.selectId,
+        contentType:'GroupChat',
+        content:content,
+        messageType:type
+      }).then(data=>{
+      if(data.id){
+           this.$store.state. selectItem.messages.push(data)
+         this.content="";
+      
       }
       })
     }
-  },
     
+  },
+  },
 
   // 在进入的时候 聚焦输入框
   mounted() {

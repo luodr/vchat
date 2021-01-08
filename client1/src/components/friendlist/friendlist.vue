@@ -7,14 +7,26 @@
          
             <div class="friend-info"  @click="selectFriend(0)">
               
-                <img class="avatar"  width="36" height="36" src="/img/q.8c8825fe.png">
+                <img class="avatar"  width="36" height="36" src="/img/UserAvatar.5f827e98.jpg">
                 <div class="remark">新的好友</div>
             </div>
         </li>
+        <li class="spanText">
+        <span>群聊</span>
+        </li>
+         <li v-for="item in getGruops" class="frienditem"  :key="item.id">
+            <!-- <div class="list_title" v-if="item.initial">{{item.initial}}</div> -->
+            <div class="friend-info" :class="{ active: item.id === selectFriendId &&!selectListItem.myFriend}"  @click="selectFriend(item)">
+                <img class="avatar"  width="36" height="36" src="/img/UserAvatar.5f827e98.jpg">
+                <div class="remark">{{item.remark||item.name}}</div>
+            </div>
+        </li>
+           <li  class="spanText">
+        <span >好友</span>
+        </li>
         <li v-for="item in searchedFriendlist" class="frienditem"  :class="{ noborder: !item.initial}" :key="item.id">
             <div class="list_title" v-if="item.initial">{{item.initial}}</div>
-            <div class="friend-info" :class="{ active: item.id === selectFriendId }" @click="selectFriend(item.id)">
-              
+            <div class="friend-info" :class="{ active: item.id === selectFriendId &&selectListItem.myFriend}" @click="selectFriend(item)">
                 <img class="avatar"  width="36" height="36" :src="item.myFriend.img">
                 <div class="remark">{{item.remark||item.myFriend.name}}</div>
             </div>
@@ -31,10 +43,12 @@ export default {
     computed: {
         ...mapState([
             'selectFriendId',
-            'searchText'
+            'searchText',
+            'selectListItem'
         ]),
         ...mapGetters([
-            'searchedFriendlist'
+            'searchedFriendlist',
+            'getGruops'
         ])
     },
     methods: {
@@ -74,6 +88,9 @@ export default {
             .remark
                 font-size: 14px
                 line-height: 36px
+.spanText
+    font-size : 12px
+    padding: 12px
 
 
 

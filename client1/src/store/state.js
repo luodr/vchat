@@ -3,6 +3,7 @@ const now = new Date();
 const state = {
   // 设置选项列表
   setList: [{ id: 1, name: '意见反馈' }, { id: 2, name: '恢复和备份' }, { id: 3, name: '设置' }],
+  groups:[],
   searchList:[],
   // 输入的搜索值
   searchText: '',
@@ -160,6 +161,8 @@ const state = {
   selectId: 1,
   // 得知当前选择的是哪个好友
   selectFriendId: 0,
+  selectItem:{},
+  selectListItem:{},
   // 聊天列表 信息索引
   chatDelIndex: 0,
 }

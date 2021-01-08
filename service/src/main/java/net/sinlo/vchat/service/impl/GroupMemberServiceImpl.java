@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -22,7 +23,12 @@ public class GroupMemberServiceImpl implements IGroupMemberService {
     GroupMemberMapper groupMemberMapper;
 
     @Override
-    public ArrayList<GroupMember> getGroupMemberList(int userId) {
+    public List<GroupMember> getGroupMemberList(int userId) {
         return groupMemberMapper.getGroupMemberList(userId);
+    }
+
+    @Override
+    public boolean leaveGroup(int groupID, int userId) {
+        return groupMemberMapper.leaveGroup(groupID,userId);
     }
 }

@@ -4,10 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sinlo.vchat.dto.ResponseChatMessage;
 import net.sinlo.vchat.dto.WebSocketMessageDto;
-import net.sinlo.vchat.entity.FriendAdd;
-import net.sinlo.vchat.entity.GroupMember;
-import net.sinlo.vchat.entity.Message;
-import net.sinlo.vchat.entity.User;
+import net.sinlo.vchat.entity.*;
 import net.sinlo.vchat.service.IGroupMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,10 +14,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.sinlo.vchat.util.TokenUtil;
@@ -46,8 +40,6 @@ public class WebSocketServer {
     private User user;
     //群聊
     private static Map<Integer, Set> rooms = new ConcurrentHashMap<Integer, Set>();
-
-
     /**
      * 连接建立成功调用的方法
      */
@@ -153,13 +145,18 @@ public class WebSocketServer {
     /**
      * 发送到群聊
      */
-    public void sendRoom(String message, @PathParam("token") String token) throws IOException {
-        Set room = rooms.get(token);
+    public static void sendRoom(GroupChat message, int MyUserID)  {
+        Set room = rooms.get(message.getTo_group_id());
+        if(room==null){return;}
         room.forEach(item -> {
+//            if(MyUserID==((Integer)item)){return;}
             WebSocketServer ws = webSocketMap.get(item);
+            if(MyUserID==((Integer)item)||ws==null){return;}
             try {
-                ws.sendMessage(message);
+                WebSocketMessageDto<Message> data=new WebSocketMessageDto("GroupChat",message);
+                ws.sendMessage(objectMapper.writeValueAsString(data));
             } catch (IOException  e) {
+                System.out.println("发送群聊信息失败！");
                 e.printStackTrace();
             }
         });
@@ -202,7 +199,7 @@ public class WebSocketServer {
 
     }
     private void joinRooms(int id) {
-        ArrayList<GroupMember> list = this.groupMemberService.getGroupMemberList(id);
+        List<GroupMember> list = this.groupMemberService.getGroupMemberList(id);
         System.out.println("加入房间" + id + "---" + list);
         list.forEach(item -> {
             if (!rooms.containsKey(item.getGroup_id())) {
@@ -219,7 +216,7 @@ public class WebSocketServer {
      * @param id
      */
     private void leaveRooms(int id) {
-        ArrayList<GroupMember> list = this.groupMemberService.getGroupMemberList(id);
+        List<GroupMember> list = this.groupMemberService.getGroupMemberList(id);
         list.forEach(item -> {
             this.leaveRoomById(id, item.getGroup_id());
         });

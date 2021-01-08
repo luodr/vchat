@@ -1,7 +1,9 @@
 package net.sinlo.vchat.service;
 
+import net.sinlo.vchat.dto.RequestChatMessage;
 import net.sinlo.vchat.dto.group.CreateGroupDto;
 import net.sinlo.vchat.entity.Group;
+import net.sinlo.vchat.entity.GroupChat;
 import net.sinlo.vchat.entity.User;
 
 import java.util.List;
@@ -14,9 +16,6 @@ import java.util.List;
  * @author ldr
  * @since 2020-11-14
  */
-public interface IGroupService  {
-    Group createGroup(User user, CreateGroupDto[] createGroupDtos);
-    public boolean joinGroup(int groupId,CreateGroupDto[] createGroupDtos);
-
-    List<Group> findByUserID(int userID);
+public interface IGroupChatService {
+    GroupChat sendGroupChat(int userId,RequestChatMessage chatMessage);
 }

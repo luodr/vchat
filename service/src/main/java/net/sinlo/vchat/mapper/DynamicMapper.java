@@ -32,7 +32,7 @@ public interface DynamicMapper {
             " where  dynamic.send_user_id in" +
             "<if test=\"list != null\" >" +
             "<foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\">" +
-            "#{item}"+
+            " #{item}"+
             "</foreach>"+
             " </if>"+
             "Order BY dynamic.createdAt DESC  </script>" )

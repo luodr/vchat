@@ -3,6 +3,8 @@ package net.sinlo.vchat.entity;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -18,6 +20,42 @@ import io.swagger.annotations.ApiModelProperty;
 public class Group implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private List<GroupMember> groupMembers;
+
+   private  List<User> users;
+
+    private List<GroupChat> messages;
+
+    public Group(String name, Integer created_user_ID, LocalDateTime createdAt) {
+        this.name = name;
+        this.created_user_ID = created_user_ID;
+        this.createdAt = createdAt;
+    }
+
+    public Group( ){
+
+    }
+
+    public List<GroupChat> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<GroupChat> messages) {
+        this.messages = messages;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public List<GroupMember> getGroupMembers() {
+        return groupMembers;
+    }
+
+    public void setGroupMembers(List<GroupMember> groupMembers) {
+        this.groupMembers = groupMembers;
+    }
+
 
 
     private Integer id;
@@ -115,7 +153,13 @@ public class Group implements Serializable {
     public void setDeleteAt(LocalDateTime deleteAt) {
         this.deleteAt = deleteAt;
     }
+    public List<User> getUsers() {
+        return users;
+    }
 
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
     @Override
     public String toString() {
         return "Group{" +

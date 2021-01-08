@@ -7,17 +7,17 @@
         <li
           v-for="(item,index) in searchedChatlist"
           class="sessionlist"
-          :class="{ active: item.id === selectId }"
-          @click="selectSession(item.id)"
-          @click.right.prevent="userChoose(item.id,index)"
+          :class="{ active: item.id === selectId && item.max_num== selectItem.max_num }"
+          @click="selectSession(item)"
+          @click.right.prevent="userChoose(item,index)"
           @mousedown.prevent="mousedown"
-          :key="item.id"
+          :key="index"
         >
           <div class="list-left">
-            <img class="avatar" width="42" height="42" :alt="item.myFriend.name" :src="item.myFriend.img" />
+            <img class="avatar" width="42" height="42" :alt="item.remark||item.name||item.myFriend.name" :src="item.myFriend?item.myFriend.img:'/img/UserAvatar.5f827e98.jpg'" />
           </div>
           <div class="list-right">
-            <p class="name">{{item.remark||item.myFriend.name}}</p>
+            <p class="name">{{item.remark||item.name||item.myFriend.name}}</p>
             <span class="time">{{item.messages[item.messages.length-1].updateAt | time}}</span>
             <p class="lastmsg">{{item.messages[item.messages.length-1].context}}</p>
           </div>
@@ -46,8 +46,8 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapState(["selectId", "searchText",'user']),
-    ...mapGetters(["searchedChatlist"])
+    ...mapState(["selectId", "searchText",'user','selectItem']),
+    ...mapGetters(["searchedChatlist","getGruops"])
   },
   data() {
     return {
@@ -59,13 +59,15 @@ export default {
   methods: {
     ...mapActions(["selectSession"]),
     // 右击
-    userChoose(id,index) {
-      this.selectSession(id);
+    userChoose(item,index) {
+     
+      this.selectSession(item);
       this.showList = true
-      this.id = id
+      this.id = item.id
     },
     // 删除聊天
     deleteChat(){
+      
         let deleteIndex = this.searchedChatlist.findIndex(item=>{
             return item.id === this.id
         })
@@ -83,10 +85,9 @@ export default {
         if(this.top > 400){
             this.top = 360
         }
-    }
+        }
   },
   mounted() {
-
   },
   filters: {
     // 将日期过滤为 hour:minutes

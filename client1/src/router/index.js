@@ -13,6 +13,7 @@ import store from '../store';
 import { createLogger } from 'vuex';
 import {getFriends,getAddFriends} from "@/api/friend";
 import {getInfo} from "@/api/user";
+import {getMyGroup} from "@/api/group"
 Vue.use(Router)
 
 const router = new Router({
@@ -103,7 +104,9 @@ function initData(){
         store.state.newFriendList=res
        
       });
-      
+      getMyGroup().then(res=>{
+        store.state.groups=res
+      })
       if(!store.state.ws)
      store.state.ws=longSock("ws://127.0.0.1:8888/webSocket/"+localStorage.token,(evt, ws)=>{    
        if(evt.data){
@@ -115,8 +118,20 @@ function initData(){
          session.messages.push(obj.data)
          break;
          case 'addFriend':
-          
+          // context: "text"
+          // createdAt: "2021-01-08T10:18:14.771"
+          // deleteAt: null
+          // groupChatRead: null
+          // id: 13
+          // send_user_id: 3
+          // to_group_id: 1
+          // type: "12312"
+          // updateAt: "2021-01-08T10:18:14.771
           store.state.newFriendList.push(obj.data)
+           break;
+           case 'GroupChat':
+            let g = store.state.groups.find(group => group.id === obj.data.to_group_id)
+            g.messages.push(obj.data)
            break;
          }
         

@@ -5,6 +5,8 @@ import net.sinlo.vchat.dto.user.LoginDto;
 import net.sinlo.vchat.dto.user.UserRegisterDto;
 import net.sinlo.vchat.entity.User;
 
+import java.util.List;
+
 
 /**
  * <p>
@@ -21,5 +23,5 @@ public interface IUserService  {
       User findByPhone(String phone);
 
       User search(String phone);
-
+      List<User> findByGroupId(int groupId);
 }

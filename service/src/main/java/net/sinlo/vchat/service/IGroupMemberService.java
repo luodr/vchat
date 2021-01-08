@@ -3,6 +3,7 @@ package net.sinlo.vchat.service;
 import net.sinlo.vchat.entity.GroupMember;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +15,7 @@ import java.util.ArrayList;
  */
 
 public interface IGroupMemberService {
-    ArrayList<GroupMember> getGroupMemberList(int userId);
+    List<GroupMember> getGroupMemberList(int userId);
+
+    boolean leaveGroup(int groupID,int userId);
 }

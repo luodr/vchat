@@ -1,6 +1,7 @@
 <!-- 消息框 -->
 <template>
-  <div class="message">
+ <div>
+    <div class="message" v-if="selectedChat&&selectedChat.myFriend">
     <header class="header u-f u-f-sbc" v-if="selectedChat">
       <div class="friendname">{{(selectedChat.remark||selectedChat.myFriend.name)}}</div>
       <img src="@/assets/icon-imgs/c-gb.png" alt="" style="margin-left:auto;"/>
@@ -9,8 +10,9 @@
     </header>
     <div class="message-wrapper" ref="list">
       <ul v-if="selectedChat">
-        <li v-for="item in selectedChat.messages" class="message-item" :key="item.id">
-          <div class="time">
+        <li v-for="item in selectedChat.messages" class="message-item" :key="item.id" >
+      <div v-if="item.context">
+            <div class="time">
             <span>{{item.updateAt | time}}</span>
           </div>
           <div class="main" :class="{ self: item.self }">
@@ -25,15 +27,50 @@
               <div class="text" v-html="replaceFace(item.context,item.type)"></div>
             </div>
           </div>
+      </div>
         </li>
       </ul>
     </div>
   </div>
+   <div class="message" v-if="selectedChat&&!selectedChat.myFriend">
+    <header class="header u-f u-f-sbc" v-if="selectedChat">
+      <div class="friendname">{{(selectedChat.remark||selectedChat.name)}}</div>
+      <img src="@/assets/icon-imgs/c-gb.png" alt="" style="margin-left:auto;"/>
+      <img src="@/assets/icon-imgs/inform.png" alt="" />
+      <img src="@/assets/icon-imgs/c-more.png" alt="" />
+    </header>
+    <div class="message-wrapper" ref="list">
+      <ul v-if="selectedChat">
+        <li v-for="item in selectedChat.messages" class="message-item" :key="item.id">
+      <div v-if="item.context">
+            <div class="time">
+            <span>{{item.updateAt | time}}</span>
+          </div>
+          <div class="main" :class="{ self:isSelf(item)}">
+            <img
+              class="avatar"
+              width="36"
+              height="36"
+              
+              :src="getGroupUser(item.send_user_id).img"
+            />
+            <div class="content">
+              <div class="text" v-html="replaceFace(item.context,item.type)"></div>
+            </div>
+          </div>
+      </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+ </div>
+
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
 export default {
+  
    data() {
     return {
       userImg:this.$store.state.user.img
@@ -45,7 +82,7 @@ export default {
 
   },
   mounted() {
- 
+        
     //  在页面加载时让信息滚动到最下面
     setTimeout(
       () => (this.$refs.list.scrollTop = this.$refs.list.scrollHeight),
@@ -56,13 +93,20 @@ export default {
     // 发送信息后,让信息滚动到最下面
     messages() {
       setTimeout(
-        () => (this.$refs.list.scrollTop = this.$refs.list.scrollHeight),
+        () => {this.$refs.list.scrollTop = this.$refs.list.scrollHeight ;  console.log("回到底部")},
         0
       );
     }
   },
   methods: {
-   
+    isSelf(item){
+      return item.send_user_id===this.$store.state.user.id;
+    },
+   getGroupUser(userId){
+     const user=  this.selectedChat.users.find(item=>item.id===userId)
+     console.log(user,'user',userId);
+       return  user
+     },
     //  在发送信息之后，将输入的内容中属于表情的部分替换成emoji图片标签
     //  再经过v-html 渲染成真正的图片
     replaceFace(con,type) {
@@ -78,9 +122,8 @@ export default {
         return con;
       }
       }
-
           if(type==='image'){
-          con =  `<img src='${con}'  style="max-width:500px;max-hight:500px" />`
+          con =  `<img src='${con}'  style="max-width:200px;max-hight:200px" />`
         return con;
       
       }

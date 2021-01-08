@@ -35,9 +35,11 @@ public class MessageServiceImpl implements IMessagetService {
 
     @Override
     public Message sendMessage(int userId,RequestChatMessage chatMessage) {
-        Message message=new Message(userId,chatMessage.getTo_user_id(),chatMessage.getMessageType(),chatMessage.getContent());
+        Message message=new Message(userId,chatMessage.getTarget_id(),chatMessage.getMessageType(),chatMessage.getContent());
         message.updateAt();
+        System.out.println(message);
         this.messageMapper.sendMessage(message);
+
         message.setSelf(true);
         return message;
     }

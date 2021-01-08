@@ -2,4 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="net.sinlo.vchat.mapper.GroupMapper">
 
+
+
+
+
+
+    <resultMap type="net.sinlo.vchat.entity.Group" id="group">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="max_num" property="max_num"/>
+        <result column="remark" property="remark"/>
+
+        <result column="created_user_ID" property="created_user_ID"/>
+        <result column="createdAt" property="createdAt"/>
+        <result column="updateAt" property="updateAt"/>
+        <result column="deleteAt" property="deleteAt"/>
+        <collection property="groupMembers"  ofType="net.sinlo.vchat.entity.GroupMember">
+            <id column="member_user_id" property="user_id"/>
+            <id column="member_group_id" property="group_id"/>
+            <id column="member_id" property="id"/>
+            <id column="member_type" property="type"/>
+            <id column="member_createdAt" property="createdAt" />
+            <id column="member_updateAt" property="updateAt"/>
+            <id column="member_deleteAt" property="deleteAt"/>
+        </collection>
+        <collection property="messages"  ofType="net.sinlo.vchat.entity.GroupChat">
+            <id column="c_send_user_id" property="send_user_id"/>
+            <id column="c_to_group_id" property="to_group_id"/>
+            <id column="c_type" property="type"/>
+            <id column="c_context" property="context"/>
+            <id column="c_createdAt" property="createdAt" />
+            <id column="c_updateAt" property="updateAt"/>
+            <id column="c_deleteAt" property="deleteAt"/>
+        </collection>
+
+
+
+    </resultMap>
 </mapper>

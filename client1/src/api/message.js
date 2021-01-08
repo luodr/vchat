@@ -16,3 +16,13 @@ export const sendPrivateChat =  (data) => {
      })
     
  };
+
+
+ export const sendGroupChat =  (data) => {
+   return new Promise( (resolve,reject)=>{
+      post("chat/sendGroupChat",data).then(res=>{
+         resolve(res.data)
+      })
+     })
+    
+ };

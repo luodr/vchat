@@ -3,27 +3,27 @@ package net.sinlo.vchat.dto;
 import java.io.Serializable;
 
 public class RequestChatMessage implements Serializable {
-    private int to_user_id;
+    private int target_id;
     private String contentType;
     private String content;
 
     private String messageType;
 
 
-    public RequestChatMessage(int to_user_id, String contentType, String content, String messageType) {
-        this.to_user_id = to_user_id;
+    public RequestChatMessage(int target_id, String contentType, String content, String messageType) {
+     this.target_id=target_id;
         this.contentType = contentType;
         this.content = content;
         this.messageType = messageType;
 
     }
 
-    public int getTo_user_id() {
-        return to_user_id;
+    public int getTarget_id() {
+        return target_id;
     }
 
-    public void setTo_user_id(int to_user_id) {
-        this.to_user_id = to_user_id;
+    public void setTarget_id(int target_id) {
+        this.target_id = target_id;
     }
 
     public String getContentType() {

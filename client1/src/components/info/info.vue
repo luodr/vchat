@@ -5,7 +5,10 @@
       <div class="nickname">{{selectedFriend.name}}</div>
     </div>
     <div class="friendInfo" v-if="selectedFriend.id > 0">
-      <div class="esInfo">
+      <!-- 好友 -->
+     <div v-if="selectedFriend.myFriend">
+
+        <div class="esInfo">
         <div class="left">
           <div class="people">
             <div class="nickname">{{selectedFriend.myFriend.name}}</div>
@@ -30,6 +33,19 @@
           <span>微信号</span>
           {{selectedFriend.myFriend.id}}
         </div>
+      </div>
+     </div>
+          <!-- 群聊 -->
+      <div v-else>
+ <div class="left">
+     <div class="esInfo">
+          <div class="people">
+            <div class="nickname">{{selectedFriend.name}}</div>
+          </div>
+          </div>
+        
+        </div>
+
       </div>
       <div class="send" @click="send">
         <span>发消息</span>

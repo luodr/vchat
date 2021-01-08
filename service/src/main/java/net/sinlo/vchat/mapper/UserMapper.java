@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -25,4 +27,16 @@ public interface UserMapper  {
 
     @Insert("insert  into user(phone,password,created_at) values(#{phone},#{password},now())")
     boolean insertOne(User user);
+
+    @Select("SELECT USER\n" +
+            "\t.id AS id,\n" +
+            "\tUSER.phone AS phone,\n" +
+            "\tUSER.NAME AS NAME,\n" +
+            "\tUSER.img AS img,\n" +
+            "\tUSER.signature AS signature\n" +
+            "FROM\n" +
+            "\tUSER LEFT JOIN groupmember ON groupmember.group_id = #{groupId} \n" +
+            "WHERE\n" +
+            "\tUSER.id = groupmember.user_id")
+    List<User> findByGroupId(int groupId);
 }

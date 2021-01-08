@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 
 /**
  * <p>
@@ -99,6 +100,11 @@ public class UserServiceImpl implements IUserService {
         User user=this.userMapper.findByPhoneOne(phone);
         user.setPassword(null);
         return user;
+    }
+
+    @Override
+    public List<User> findByGroupId(int groupId) {
+        return userMapper.findByGroupId(groupId);
     }
 
 

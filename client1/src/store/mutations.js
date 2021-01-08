@@ -8,7 +8,7 @@ const mutations = {
     addNewFriendToList(state, friend) {
         state.friendlist.push(friend)
     },
-
+    
     // 获取socketid
     getSocketID(state,socketid){
         state.user.socketid = socketid
@@ -64,14 +64,16 @@ const mutations = {
     },
     // 得知用户当前选择的是哪个对话。便于匹配对应的对话框
     selectSession(state, value) {
-        // console.log(value,'选择列表哪一个聊天')
-        state.selectId = value
+        console.log(value,'选择列表哪一个聊天')
+        state.selectItem=value;
+        state.selectId = value.id
         // 让未读消息变为已读消息
         // state.user.msgCount=0
     },
     // 得知用户当前选择的是哪个好友。
     selectFriend(state, value) {
-        state.selectFriendId = value
+        state.selectListItem=value;
+        state.selectFriendId = value.id;
     },
     // 发送信息
     sendMessage(state, msg) {
@@ -96,31 +98,43 @@ const mutations = {
     // 选择好友后，点击发送信息。判断在聊天列表中是否有该好友，有的话跳到该好友对话。没有的话
     // 添加该好友的对话 并置顶
     send(state) {
-        let result = state.friendlist.find(friend => friend.id === state.selectFriendId)
-        let msg = state.chatlist.find(msg => msg.user.name === result.remark)
-        if (!msg) {
-            state.selectId = 1
-            for (let i = 0; i < state.chatlist.length; i++) {
-                state.chatlist[i].id++;
-                state.chatlist[i].index++;
-            }
-            state.chatlist.unshift({
-                id: 1,
-                user: {
-                    name: result.remark,
-                    img: result.img
-                },
-                messages: [{
-                    content: '已经置顶聊天，可以给我发信息啦！',
-                    date: new Date()
-                }],
-                index: 1
-            })
+        // let result = state.friendlist.find(friend => friend.id === state.selectFriendId)
+        let result= state. selectListItem
+        state.selectItem=result;
+        state.selectId = result.id
+      
+        if (result.messages.length>0) {
             router.push({ path: '/chat' })  // 可能不需要这行代码
         } else {
-            state.selectId = msg.index
+            result.messages.push({})
+    
             router.push({ path: '/chat' })
         }
+        // console.log( state.chatlis,' state.chatlis')
+        // let msg = state.chatlist.find(msg => msg.user.name === result.remark)
+        // if (!msg) {
+        //     state.selectId = 1
+        //     for (let i = 0; i < state.chatlist.length; i++) {
+        //         state.chatlist[i].id++;
+        //         state.chatlist[i].index++;
+        //     }
+        //     state.chatlist.unshift({
+        //         id: 1,
+        //         user: {
+        //             name: result.remark,
+        //             img: result.img
+        //         },
+        //         messages: [{
+        //             content: '已经置顶聊天，可以给我发信息啦！',
+        //             date: new Date()
+        //         }],
+        //         index: 1
+        //     })
+        //     router.push({ path: '/chat' })  // 可能不需要这行代码
+        // } else {
+        //     state.selectId = msg.index
+        //     router.push({ path: '/chat' })
+        // }
     },
 
     // 聊天列表 信息索引
