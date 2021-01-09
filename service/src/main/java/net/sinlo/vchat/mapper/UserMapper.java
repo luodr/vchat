@@ -5,6 +5,7 @@ import net.sinlo.vchat.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -39,4 +40,6 @@ public interface UserMapper  {
             "WHERE\n" +
             "\tUSER.id = groupmember.user_id")
     List<User> findByGroupId(int groupId);
+     @Update("update  user set img=#{img} where id =#{userId} ")
+    boolean updateImg(int userId,String img);
 }

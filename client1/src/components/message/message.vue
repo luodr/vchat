@@ -20,7 +20,6 @@
               class="avatar"
               width="36"
               height="36"
-              
               :src="item.self ? userImg: selectedChat.myFriend.img"
             />
             <div class="content">

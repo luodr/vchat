@@ -15,22 +15,33 @@
       ></span>
     </header>
     <!-- 用户资料蒙版 -->
-    <div class="user-info" v-show="showUser" @click="handleShowUser">
-      <el-card class="box-card">
+    <div class="user-info" v-show="showUser" >
+      <el-card class="box-card" >
+        <div  @mouseleave="handleShowUser"> 
         <div slot="header" class="user-header u-f u-f-sbc">
           <div class="u-left u-f-c u-f-jsb">
             <div style="font-size:15px;margin-top:8px" class="u-f u-f-ac">
               <span>{{user.name}}</span>
-              <img
+  
+         
+     <img
                 src="@/assets/icon-imgs/person-icon.png"
                 alt
                 style="height:16px;width:16px;margin-left:10px;"
               />
+
             </div>
             <p style="font-size:13px;color:#666;margin-top:8px;">手机号： +86 {{user.phone}}</p>
             <p style="font-size:13px;color:#666;margin-top:8px;">昵称：{{user.name}}</p>
           </div>
+                    <el-upload
+  action="api/file/upload/one"
+  :on-success="sendFile"
+  list-type="text"
+  :show-file-list=false
+  >
           <img :src="user.img" class="u-right" />
+            </el-upload>
         </div>
         <p class="u-mark">设置备注和标签</p>
         <el-divider></el-divider>
@@ -42,6 +53,7 @@
         <div class="u-footer u-f u-f-end">
           <img src="@/assets/icon-imgs/send-card.png" alt class="u-icon" />
           <img src="@/assets/icon-imgs/send-msg.png" alt class="u-icon" />
+        </div>
         </div>
       </el-card>
     </div>
@@ -137,6 +149,10 @@ export default {
     ...mapState(["user", "onlineStatusList", "setList","messagesUnReadCount"])
   },
   methods: {
+     sendFile(response, file, fileList) {
+        console.log(response, file, fileList);
+  
+    },
     // 查看用户资料
     lookUserinfo() {
       this.showUser = !this.showUser;

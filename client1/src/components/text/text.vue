@@ -75,13 +75,11 @@ export default {
       if(this.content){
         this.sendMessage(this.content,'text')
       }
-
      },        
       sendFile(response, file, fileList) {
         console.log(response, file, fileList);
       if(response.data)
        this.sendMessage(response.data,'image')
-       
     },
 
     sendMessage(content,type){  

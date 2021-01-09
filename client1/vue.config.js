@@ -35,7 +35,14 @@ module.exports = {
                 // changeOrigin: true,
                 pathRewrite: {
                     upload: "upload"
-                }
+                },
+            },
+                "^/static": {
+                    target: "http://localhost:8888/",
+                    // changeOrigin: true,
+                    pathRewrite: {
+                        upload: "static"
+                    }
             }
             // "/jqr": {
             //     target: 'http://openapi.tuling123.com',

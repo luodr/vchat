@@ -9,12 +9,14 @@ import net.sinlo.vchat.authorization.UserLoginToken;
 import net.sinlo.vchat.dto.user.GetCodeDto;
 import net.sinlo.vchat.dto.user.LoginDto;
 import net.sinlo.vchat.dto.user.UserRegisterDto;
+import net.sinlo.vchat.dto.user.UserUpdateDto;
 import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.service.IUserService;
 import net.sinlo.vchat.util.MyBeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -44,7 +46,11 @@ public class UserController {
     public boolean register(@RequestBody @Validated UserRegisterDto dto) {
          return this.userService.register(dto);
     }
-
+    @PostMapping("update/img")
+    public boolean updateImg(@ParamUser  @ApiIgnore User user, @RequestBody @Validated UserUpdateDto dto) {
+        System.out.println(dto.getImg()+"----"+user.getId());
+        return this.userService.updateImg(user.getId(),dto.getImg());
+    }
     @ApiOperation("获取验证码")
     @GetMapping("code")
     public boolean getCode(@Validated GetCodeDto dto) {

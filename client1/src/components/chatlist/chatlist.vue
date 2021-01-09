@@ -14,7 +14,7 @@
           :key="index"
         >
           <div class="list-left">
-            <img class="avatar" width="42" height="42" :alt="item.remark||item.name||item.myFriend.name" :src="item.myFriend?item.myFriend.img:'/img/UserAvatar.5f827e98.jpg'" />
+            <img class="avatar" width="42" height="42" :alt="item.remark||item.name||item.myFriend.name" :src="item.myFriend?item.myFriend.img:'static/group.png'" />
           </div>
           <div class="list-right">
             <p class="name">{{item.remark||item.name||item.myFriend.name}}</p>

@@ -21,7 +21,7 @@ public interface IUserService  {
       String login(LoginDto dto);
       boolean sendCode(GetCodeDto dto);
       User findByPhone(String phone);
-
+      boolean updateImg(int userId,String img);
       User search(String phone);
       List<User> findByGroupId(int groupId);
 }

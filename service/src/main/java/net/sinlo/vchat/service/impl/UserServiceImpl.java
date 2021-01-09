@@ -96,6 +96,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public boolean updateImg(int userId, String img) {
+        return this.userMapper.updateImg(userId,img);
+    }
+
+    @Override
     public User search(String phone) {
         User user=this.userMapper.findByPhoneOne(phone);
         user.setPassword(null);

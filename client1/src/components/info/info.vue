@@ -37,16 +37,25 @@
      </div>
           <!-- 群聊 -->
       <div v-else>
- <div class="left">
-     <div class="esInfo">
+    
+      <div class="left">
+        <div class="esInfo">
           <div class="people">
             <div class="nickname">{{selectedFriend.name}}</div>
           </div>
-          </div>
         
         </div>
+      
+         <div>
+            <span v-for="item in selectedFriend.users.slice(0,20)" :key="item.id"  style="  position: relative;" >
+             <el-avatar     :src="item.img"></el-avatar>
+          </span>
+         </div>    
+       
+        </div>
 
-      </div>
+
+     </div>
       <div class="send" @click="send">
         <span>发消息</span>
       </div>
@@ -197,6 +206,7 @@ export default {
 
 .send {
   position: relative;
+
   text-align: center;
   width: 140px;
   height: 36px;

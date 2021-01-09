@@ -25,7 +25,8 @@ import {
     Dialog,
     Popconfirm,
     Popover,
-    Transfer, 
+    Transfer,
+    Avatar
 } from 'element-ui';
 
 Vue.use(Button)
@@ -43,9 +44,9 @@ Vue.use(FormItem)
 Vue.use(Dialog)
 Vue.use(Popconfirm)
 Vue.use(Popover)
-
+Vue.use(Avatar)
 Vue.use(Transfer)
- 
+
 
  
 Vue.prototype.$message = Message;
