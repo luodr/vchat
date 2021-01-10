@@ -47,6 +47,6 @@ Vue.use(Popover)
 Vue.use(Avatar)
 Vue.use(Transfer)
 
-
- 
+// import Recorderx from 'recorderx';
+//  Vue.use(Recorderx)
 Vue.prototype.$message = Message;

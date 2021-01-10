@@ -121,6 +121,9 @@
         <div v-for="item in setList" :key="item.id" class="text-item">
           <span>{{ item.name }}</span>
         </div>
+        <div class="text-item" @click="logout">
+          <span>退出登录</span>
+        </div>
       </el-card>
     </div>
   </div>
@@ -131,7 +134,7 @@ import { mapState } from "vuex";
 import { pathToBase64 } from "@/utils/base64ToImage.js";
 import { uploadImg } from "../../utils/network/user";
 import Config from "../../utils/config";
-import {updateImg} from '@/api/user'
+import {updateImg,loginOut} from '@/api/user'
 
 
 
@@ -259,7 +262,8 @@ export default {
     },
     // 退出登录
     logout() {
-      this.$store.commit("logoutUser");
+      loginOut();
+      // this.$store.commit("logoutUser");
       this.$router.replace("/login");
       this.$message("退出登录成功");
     }

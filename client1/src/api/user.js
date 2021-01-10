@@ -1,6 +1,6 @@
 
 const { post, get } = require("./request");
-
+import store from '../store';
 export   function login(data) {
  return new Promise( (resolve,reject)=>{
  post("login", data).then(res=>{
@@ -58,4 +58,8 @@ export  function code(data) {
    resolve(res)
    })
   })
+}
+export function loginOut(){
+  localStorage.token =""
+  store.state.ws.close();
 }

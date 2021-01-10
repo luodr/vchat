@@ -100,7 +100,9 @@ function longSock(url, fn, intro = '') {
         if(evt.data === 'HeartBeat') return
         fn(evt, ws)
       }
+     
       ws.onclose = e => {
+        flag=false;
         console.info(`${intro}关闭11`, e.code)
         if (e.code !== 1000) {
           timeoutFlag = false

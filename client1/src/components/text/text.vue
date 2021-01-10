@@ -10,9 +10,14 @@
   list-type="text"
   :show-file-list=false
   >
+ 
       <img src="@/assets/icon-imgs/f-icon.png" class="icon-img test"  />
   </el-upload>
-        <img src="@/assets/icon-imgs/caputre.png" class="icon-img" />
+   <!-- <mt-popup v-model="popupVisible2" position="bottom" class="popup2"> -->
+      <img  src="@/assets/icon-imgs/caputre.png" class="icon-img" alt="" @touchmove="translationStart" @touchend="translationEnd">
+      <!-- <span @click="popupShow2">×</span> -->
+<!-- </mt-popup> -->
+      
         <img src="@/assets/icon-imgs/send-msg.png" class="icon-img" />
         <div style="margin-left:auto;" class="u-f u-f-ac">
           <img src="@/assets/icon-imgs/voice-icon.png" class="icon-img" />
@@ -44,6 +49,7 @@
 </template>
 
 <script>
+import Recorderx, { ENCODE_TYPE } from 'recorderx';
 import { robotChat } from "../../utils/network/user";
 import {sendPrivateChat,sendGroupChat} from "@/api/message";
 import { mapGetters, mapState } from "vuex";
@@ -54,7 +60,8 @@ export default {
       reply: "未找到",
       frequency: 0,
       warn: false,
-      showEmoji: false
+      showEmoji: false,
+            popupVisible2:''
     };
   },
   computed: {
@@ -63,7 +70,28 @@ export default {
   },
   methods: {
 
-   
+    translationStart(){
+      console.log("开始！");
+            let that = this
+            that.rc = new Recorderx()
+            that.$nextTick(()=>{
+                that.rc.start()
+                .then(() => {
+                    console.log("start recording");
+                }).catch(error => {
+                    console.log("Recording failed.", error);
+                });
+            })
+        },
+
+        //录音结束
+        translationEnd(){
+            this.rc.pause()
+            var wav = this.rc.getRecord({
+                encodeTo: ENCODE_TYPE.WAV,
+            });
+            this.uplode(wav)
+        },
     // 按回车发送信息
     onKeyup(e) {
       if (e.keyCode === 13) {
