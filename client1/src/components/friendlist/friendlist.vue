@@ -27,7 +27,7 @@
         <li v-for="item in searchedFriendlist" class="frienditem"  :class="{ noborder: !item.initial}" :key="item.id">
             <div class="list_title" v-if="item.initial">{{item.initial}}</div>
             <div class="friend-info" :class="{ active: item.id === selectFriendId &&selectListItem.myFriend}" @click="selectFriend(item)">
-                <img class="avatar"  width="36" height="36" :src="item.myFriend.img">
+                <img class="avatar"  width="36" height="36" :src="item.myFriend.img||''">
                 <div class="remark">{{item.remark||item.myFriend.name}}</div>
             </div>
         </li>

@@ -26,12 +26,36 @@ export  function getInfo(data) {
   })
    }
 
-// export  function register(data) {
-//   const res =  post("register", data);
-//   return res;
-// }
-// export  function code(phone) {
-//   console.log(get);
-//   const res = await get("code", { phone });
-//   return res;
-// }
+   export  function updateImg(data) {
+    return new Promise( (resolve,reject)=>{
+      post("update/img", data).then(res=>{
+     if (res.data) {
+      resolve(res.data)  
+     }
+     resolve(res)
+     })
+    })
+     }
+
+
+
+export  function register(data) {
+  return new Promise( (resolve,reject)=>{
+    post("register", data).then(res=>{
+   if (res.data) {
+    resolve(res.data)  
+   }
+   resolve(res)
+   })
+  })
+}
+export  function code(data) {
+  return new Promise( (resolve,reject)=>{
+    get("code", data).then(res=>{
+   if (res.data) {
+    resolve(res.data)  
+   }
+   resolve(res)
+   })
+  })
+}

@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import { register, code } from "../../api/user";
+import { register, code }  from "@/api/user";
 export default {
   name: "register",
   components: {},
@@ -54,12 +54,12 @@ export default {
 
   methods: {
     // 发送验证码
-    async sendCode() {
+     sendCode() {
       if (!this.sondF) {
         return;
       }
-      const res = await code(this.phone);
-      if (res.data) {
+     code({phone:this.phone}).then(res=>{
+     if (res) {
         const interval = setInterval(() => {
           let v = this.nowTime + this.jg - Date.now();
           if (!this.sondF) {
@@ -75,15 +75,20 @@ export default {
           }
         }, 1000);
       }
+
+     });
+     
     },
     //去注册
-    async toRegister() {
-      const res = await register({
+     toRegister() {
+     register({
         phone: this.phone,
         password: this.password,
         code: this.code
-      });
-      console.log("注册", res);
+      }).then(res=>{
+        console.log("注册", res);
+      })
+      
     }
   }
 };

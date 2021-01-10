@@ -83,17 +83,26 @@ const router = new Router({
         isShowAside: false,
         requiresAuth: false
       }
+    },{
+      path: '/reg',
+      component: () => import('@/page/register.vue'),
+      meta: {
+        keepAlive: true, // true :缓存  false :不缓存
+        isBack: false, //用于判断上一个页面是哪个
+        isShowAside: false,
+        requiresAuth: false
+      }
     },
   ],
   linkActiveClass: 'active'
 })
 
 function initData(){
-  if(!store.state.user.phone){
+  // if(!store.state.user.phone){
     getInfo().then(res=>{
          store.state.user=res
     })
-  }
+  // }
      getFriends().then(res=>{
        console.log('朋友们',res)
         store.state.friendlist=res
@@ -140,10 +149,12 @@ function initData(){
 store.state.dataInit=true
 }
 router.beforeEach((to, from, next) => {
-    if(!localStorage.token||to.path==='/login'){
-          next('/login')
+ 
+    if(!localStorage.token&&to.path!=='/login'){
+      next('/login')
     }else{
-       if(localStorage.token&&!store.state.dataInit){
+      //&&!store.state.dataInit
+       if(localStorage.token){
           initData()
        }
       next()

@@ -131,6 +131,9 @@ import { mapState } from "vuex";
 import { pathToBase64 } from "@/utils/base64ToImage.js";
 import { uploadImg } from "../../utils/network/user";
 import Config from "../../utils/config";
+import {updateImg} from '@/api/user'
+
+
 
 export default {
   data() {
@@ -151,7 +154,12 @@ export default {
   methods: {
      sendFile(response, file, fileList) {
         console.log(response, file, fileList);
-  
+   updateImg({img:response.data}).then(res=>{
+     if(res){
+       this.$store.state.user.img=response.data
+     }
+     console.log(res,"回调");
+   })
     },
     // 查看用户资料
     lookUserinfo() {
