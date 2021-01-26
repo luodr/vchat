@@ -57,3 +57,4 @@ build/
 
 ## config###
 sms.properties
+key.properties

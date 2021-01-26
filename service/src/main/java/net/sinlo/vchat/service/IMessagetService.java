@@ -2,6 +2,7 @@ package net.sinlo.vchat.service;
 
 import net.sinlo.vchat.dto.RequestChatMessage;
 import net.sinlo.vchat.entity.Message;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface IMessagetService {
     List<Message> geMeesages(int userId);
     boolean readMessage(int userId,int send_userId);
     Message sendMessage(int userId,RequestChatMessage chatMessage);
+
+    JSONObject speech(String path);
 }

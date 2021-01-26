@@ -14,14 +14,14 @@
       <img src="@/assets/icon-imgs/f-icon.png" class="icon-img test"  />
   </el-upload>
    <!-- <mt-popup v-model="popupVisible2" position="bottom" class="popup2"> -->
-      <img  src="@/assets/icon-imgs/caputre.png" class="icon-img" alt="" @touchmove="translationStart" @touchend="translationEnd">
+      <img  src="@/assets/icon-imgs/voice-icon.png" class="icon-img" alt="" @click="translationStart" @mouseleave="translationEnd">
       <!-- <span @click="popupShow2">×</span> -->
 <!-- </mt-popup> -->
       
         <img src="@/assets/icon-imgs/send-msg.png" class="icon-img" />
         <div style="margin-left:auto;" class="u-f u-f-ac">
-          <img src="@/assets/icon-imgs/voice-icon.png" class="icon-img" />
-          <img src="@/assets/icon-imgs/video-icon.png" class="icon-img" />
+          <!-- <img src="@/assets/icon-imgs/voice-icon.png" class="icon-img" />
+          <img src="@/assets/icon-imgs/video-icon.png" class="icon-img" /> -->
         </div>
       </div>
       <transition name="showbox">
@@ -51,7 +51,7 @@
 <script>
 import Recorderx, { ENCODE_TYPE } from 'recorderx';
 import { robotChat } from "../../utils/network/user";
-import {sendPrivateChat,sendGroupChat} from "@/api/message";
+import {sendPrivateChat,sendGroupChat,uploadOne,uploadBlobOne} from "@/api/message";
 import { mapGetters, mapState } from "vuex";
 export default {
   data() {
@@ -86,11 +86,18 @@ export default {
 
         //录音结束
         translationEnd(){
+          if(!this.rc)return
             this.rc.pause()
             var wav = this.rc.getRecord({
                 encodeTo: ENCODE_TYPE.WAV,
             });
-            this.uplode(wav)
+              var data = new FormData();
+               data.append('file',wav);
+               data.append('suffix','wav');
+              uploadBlobOne(data).then(res=>{
+               this. sendMessage(res,'voice')
+            })
+        
         },
     // 按回车发送信息
     onKeyup(e) {
@@ -106,8 +113,15 @@ export default {
      },        
       sendFile(response, file, fileList) {
         console.log(response, file, fileList);
-      if(response.data)
-       this.sendMessage(response.data,'image')
+      if(response.data){
+             let imgs= ['jpg','png','gif']
+            if(imgs.includes( response.data.substring( response.data.lastIndexOf('.')+1)))
+           {
+                this.sendMessage(response.data,'image')
+           }else{
+                this.sendMessage(response.data,'file')
+           }
+      }
     },
 
     sendMessage(content,type){  

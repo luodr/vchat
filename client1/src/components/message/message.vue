@@ -6,24 +6,25 @@
       <div class="friendname">{{(selectedChat.remark||selectedChat.myFriend.name)}}</div>
       <img src="@/assets/icon-imgs/c-gb.png" alt="" style="margin-left:auto;"/>
       <img src="@/assets/icon-imgs/inform.png" alt="" />
-      <img src="@/assets/icon-imgs/c-more.png" alt="" />
+      <img src="@/assets/icon-imgs/more.png" alt="" />
     </header>
     <div class="message-wrapper" ref="list">
       <ul v-if="selectedChat">
-        <li v-for="item in selectedChat.messages" class="message-item" :key="item.id" >
+        <li v-for="(item,index) in selectedChat.messages" class="message-item" :key="item.id" >
       <div v-if="item.context">
             <div class="time">
             <span>{{item.updateAt | time}}</span>
           </div>
-          <div class="main" :class="{ self: item.self }">
+          <div class="main" :class="{ self: isSelf(item)}"  @mousedown.prevent="mousedown" @click="handleshowList"  @click.right.prevent="userChoose(item,index)">
             <img
               class="avatar"
               width="36"
               height="36"
-              :src="item.self ? userImg: selectedChat.myFriend.img"
+              :src=" isSelf(item) ? userImg: selectedChat.myFriend.img"
             />
             <div class="content">
-              <div class="text" v-html="replaceFace(item.context,item.type)"></div>
+              <div class="text" v-html="replaceFace(item.context,item.type,item)"></div>
+                  <div  class="text" v-if="item.speech"> <p style="text-indent:5px" >{{item.speech}}</p></div>
             </div>
           </div>
       </div>
@@ -36,11 +37,11 @@
       <div class="friendname">{{(selectedChat.remark||selectedChat.name)}}</div>
       <img src="@/assets/icon-imgs/c-gb.png" alt="" style="margin-left:auto;"/>
       <img src="@/assets/icon-imgs/inform.png" alt="" />
-      <img src="@/assets/icon-imgs/c-more.png" alt="" />
+ <img src="@/assets/icon-imgs/more.png" alt="" />
     </header>
     <div class="message-wrapper" ref="list">
       <ul v-if="selectedChat">
-        <li v-for="item in selectedChat.messages" class="message-item" :key="item.id">
+        <li v-for="item in selectedChat.messages" class="message-item" :key="item.id"  >
       <div v-if="item.context">
             <div class="time">
             <span>{{item.updateAt | time}}</span>
@@ -50,11 +51,14 @@
               class="avatar"
               width="36"
               height="36"
-              
               :src="getGroupUser(item.send_user_id).img"
             />
             <div class="content">
-              <div class="text" v-html="replaceFace(item.context,item.type)"></div>
+            
+                <div class="text" v-html="replaceFace(item.context,item.type)">
+                 
+              </div>
+           
             </div>
           </div>
       </div>
@@ -62,17 +66,35 @@
       </ul>
     </div>
   </div>
+
+   <!-- 用户资料蒙版 -->
+    <div class="user-info" v-show="showList" @click="handleshowList">
+      <el-card class="box-card" :style="{top: top+'px',left:left+'px' }">
+        <div class="u-list u-f-c u-f-jsb">
+          <p @click="speech">语音转文字</p>
+          <p >取消</p>
+        </div>
+      </el-card>
+    </div>
  </div>
 
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import { speech } from "@/api/message";
+
+
+
 export default {
   
    data() {
     return {
-      userImg:this.$store.state.user.img
+        showList: false,
+      userImg:this.$store.state.user.img,
+       top:50,
+      left:50,
+      item:{}
     };
   },
   computed: {
@@ -98,17 +120,49 @@ export default {
     }
   },
   methods: {
+    speech(){
+
+      if(this.item.type=='voice')
+     {
+            
+        let path=this.item.context.split('/upload/')[1];
+       speech({path}).then(data=>{
+        let obj= JSON.parse(data)
+        if(obj.result){
+           this.item.speech=""
+          obj.result.forEach(item=>{
+          this.item.speech+=item;
+          })
+          this.userChoose(this.item)
+           this.userChoose(this.item)
+        }
+      })
+     }
+    },
+      userChoose(item,index) {
+      this.item=item;
+      this.showList = ! this.showList
+ 
+    },
+       mousedown(e){
+        let clientY = e.clientY-150
+        let clientX = e.clientX
+        this.top = clientY;
+        this.left=clientX;
+        
+        },
+    handleshowList(){  this.showList = false},
     isSelf(item){
       return item.send_user_id===this.$store.state.user.id;
     },
    getGroupUser(userId){
      const user=  this.selectedChat.users.find(item=>item.id===userId)
-     console.log(user,'user',userId);
+   
        return  user
      },
     //  在发送信息之后，将输入的内容中属于表情的部分替换成emoji图片标签
     //  再经过v-html 渲染成真正的图片
-    replaceFace(con,type) {
+    replaceFace(con,type,item) {
      if(type==='text'){
         if (con.includes("/:")) {
         var emojis = this.emojis;
@@ -122,11 +176,32 @@ export default {
       }
       }
           if(type==='image'){
-          con =  `<img src='${con}'  style="max-width:200px;max-hight:200px" />`
+          con =  `<img src='${con}'  style="max-width:200px;max-hight:200px" />
+          
+          `
         return con;
       
       }
-      
+      if(type==='voice'){
+         con =  `<audio src="${con}"  controls  style='width:300px;height: 54px;   display: block;'>
+                   </audio> 
+                
+               
+                 `
+        return con;
+      }
+       if(type==='file'){
+         con =  `<a href="${con}"  controls  style='width:200px;height: 54px; '>
+          <div style='width:30px;height: 30px; display: block; float:left; '> 
+          <img src="${require("@/assets/icon-imgs/file.png")}" alt="" style='width:30px;height: 30px;'/>
+          
+          </div>
+          <span style='color:black'>${con.substring(con.lastIndexOf('/')+1)}</span>
+          </br>
+          点击下载
+          </a>`
+        return con;
+      }
       return con;
     }
   },
@@ -168,6 +243,7 @@ export default {
       width: 24px;
       height: 24px;
       margin:0 6px;
+      
       cursor: pointer;
     }
   }
@@ -200,6 +276,7 @@ export default {
     }
 
     .main {
+      
       .avatar {
         float: left;
         margin-left: 15px;
@@ -251,6 +328,53 @@ export default {
         }
       }
     }
-  }
+  } 
+
+
+  
 }
+
+
+  .user-info {
+    position: absolute;
+    left: 0;
+    top: 0px;
+    z-index: 99;
+    width: $width;
+    height: $height;
+    width: 200px;
+
+    .box-card {
+      position: absolute;
+      left: 60px;
+    //   top: 20px;
+      width: 140px;
+      height: 130px;
+      background: rgba(255, 255, 255, 0.9);
+      padding-bottom: 10px;
+      z-index: 6;
+
+      >>> .el-card__header {
+        padding: 10px;
+      }
+
+      >>> .el-card__body {
+        padding: 10px;
+      }
+
+      >>> .el-divider--horizontal {
+        margin: 4px 0;
+      }
+
+      .u-list {
+        padding-left: 10px;
+        cursor: pointer;
+
+        p {
+          font-size: 14px;
+          margin: 7px 0;
+        }
+      }
+    }
+  }
 </style>

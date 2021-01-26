@@ -26,3 +26,30 @@ export const sendPrivateChat =  (data) => {
      })
     
  };
+
+ export const uploadOne=(data)=>{
+   return new Promise( (resolve,reject)=>{
+      post("file/upload/one",data).then(res=>{
+         resolve(res.data)
+      })
+     })
+
+ }
+
+ export const uploadBlobOne=(data)=>{
+   return new Promise( (resolve,reject)=>{
+      post("file/uploadBlob/one",data).then(res=>{
+         resolve(res.data)
+      })
+     })
+
+ }
+
+ export const speech=(data)=>{
+   return new Promise( (resolve,reject)=>{
+      post("message/speech",data).then(res=>{
+         resolve(res.data)
+      })
+     })
+
+ }

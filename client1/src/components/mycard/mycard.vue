@@ -63,7 +63,7 @@
         <span class="msg-count" v-if="this.count>0">{{this.count}}</span>
       </router-link>
       <router-link to="/friend" class="icon iconfont icon-friend"></router-link>
-      <router-link to="/my" class="icon iconfont icon-collection"></router-link>
+      <!-- <router-link to="/my" class="icon iconfont icon-collection"></router-link> -->
       <router-link to="/myfile" class="icon1 icons"></router-link>
     </div>
     <footer>

@@ -4,8 +4,10 @@ package net.sinlo.vchat.controller;
 import io.swagger.annotations.Api;
 import net.sinlo.vchat.authorization.ParamUser;
 import net.sinlo.vchat.authorization.UserLoginToken;
+import net.sinlo.vchat.dto.SpeechDto;
 import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.service.IMessagetService;
+import net.sinlo.vchat.util.AipSpeechUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -41,6 +43,11 @@ public class MessagetController {
         return this.service.readMessage(user.getId(), sendUserID);
 
     }
+    @PostMapping("speech")
+    public String speech(@ParamUser  @ApiIgnore User user,@RequestBody SpeechDto dto) {
+        System.out.println(dto.getPath());
+        return service.speech(dto.getPath()).toString(2);
 
+    }
 }
 

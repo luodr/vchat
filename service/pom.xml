@@ -109,6 +109,20 @@
 		<version>2.3.3</version>
 		</dependency>
 		<!--∧ webSocket相关依赖-->
+		<!--百度 skd 相关依赖-->
+		<dependency>
+			<groupId>com.baidu.aip</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>4.15.3</version>
+		</dependency>
+		<!--腾讯 skd 相关依赖-->
+		<dependency>
+			<groupId>com.tencentcloudapi</groupId>
+			<artifactId>tencentcloud-sdk-java</artifactId>
+			<!-- go to https://search.maven.org/search?q=tencentcloud-sdk-java and get the latest version. -->
+			<!-- 请到 https://search.maven.org/search?q=tencentcloud-sdk-java 查询最新版本 -->
+			<version>3.1.87</version>
+		</dependency>
 	</dependencies>
 
 	<build>

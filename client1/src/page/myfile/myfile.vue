@@ -29,7 +29,7 @@
     <div class="main-tab">
       <div class="tab1" v-if="currentIndex==1" :key="currentIndex">
         <p class="pyq">朋友圈 </p>
-        <div class="t-item" v-for="(item,index) in wechatMoments" :key="item.id">
+        <div class="t-item" v-for="(item) in wechatMoments" :key="item.id">
           <div class="u-f">
             <img :src="item.img" alt="头像" class="face" />
             <div class="t-content">
@@ -593,7 +593,7 @@ data.forEach(item=>{
   height: 510px;
 }
 .my-friends {
-  background-image: url('../../static/images/bg/bg4.jpg');
+  // background-image: url('../../static/images/bg/bg4.jpg');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   height: 100%;

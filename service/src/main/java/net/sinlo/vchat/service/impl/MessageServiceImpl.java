@@ -5,7 +5,10 @@ import net.sinlo.vchat.entity.Message;
 import net.sinlo.vchat.mapper.MessageMapper;
 import net.sinlo.vchat.service.IMessagetService;
 
+import net.sinlo.vchat.util.AipSpeechUtil;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,12 +25,14 @@ import java.util.List;
 public class MessageServiceImpl implements IMessagetService {
     @Autowired
     private MessageMapper messageMapper;
-
+    @Autowired
+    private AipSpeechUtil speechUtil;
     @Override
     public List<Message> geMeesages(int userId) {
         return this.messageMapper.geMeesages(userId);
     }
-
+    @Value("${upload.file.path}")
+    private  String uploadPath;
     @Override
     public boolean readMessage(int userId, int send_userId) {
         return this.messageMapper.readMessage(userId,send_userId);
@@ -42,6 +47,11 @@ public class MessageServiceImpl implements IMessagetService {
 
         message.setSelf(true);
         return message;
+    }
+
+    @Override
+    public JSONObject speech(String path) {
+        return speechUtil.asrWav(uploadPath+"/"+path,"wav");
     }
 
 

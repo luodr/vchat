@@ -1,14 +1,11 @@
 package net.sinlo.vchat.controller;
 
 import io.swagger.annotations.Api;
-import net.sinlo.vchat.authorization.UserLoginToken;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.text.resources.FormatData;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +34,26 @@ public class FileController {
         Date date = new Date();
         String newName = format.format(date) + "_"+random.nextInt(3) +"_"+ fileName;
         String path = uploadPath + "/" + newName;
-        System.out.println("图片保存路径:"+path);
+        System.out.println("文件保存路径:"+path);
+        File file1 = new File(path);
+        try {
+            file.transferTo(file1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "/upload/"+newName;
+    }
+
+    @PostMapping("uploadBlob/one")
+    public String uploadBlob(@RequestParam("file") MultipartFile file, @RequestParam("suffix") String suffix) {
+        if (file.isEmpty()) {
+            return "file is empty";
+        }
+        String fileName = file.getOriginalFilename();
+        Date date = new Date();
+        String newName = format.format(date) + "_"+random.nextInt(3) +"_"+ fileName+'.'+suffix;
+        String path = uploadPath + "/" + newName;
+        System.out.println("Blob保存路径:"+path);
         File file1 = new File(path);
         try {
             file.transferTo(file1);

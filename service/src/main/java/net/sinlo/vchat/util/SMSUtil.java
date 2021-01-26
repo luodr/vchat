@@ -8,16 +8,14 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
-import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
-@PropertySource(value = {"classpath:sms.properties",}, encoding = "utf-8")
+@PropertySource(value = {"classpath:key.properties",}, encoding = "utf-8")
 @ConfigurationProperties(prefix = "sms")
 public class SMSUtil {
 

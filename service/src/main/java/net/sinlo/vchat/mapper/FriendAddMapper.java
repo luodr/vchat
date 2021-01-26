@@ -26,7 +26,7 @@ public interface FriendAddMapper {
     @Update("update friendAdd set state=#{state} , updateAt=now() where send_user_id= #{send_user_id} and to_user_id=#{to_user_id}")
     boolean updateState(FriendAdd friendAdd);
     @ResultMap("FriendUserAddResultMap")
-    @Select("select * from friendAdd left join user on user.id=friendAdd.to_user_id where friendAdd.to_user_id=#{userId}")
+    @Select("select * from friendAdd left join user on user.id=friendAdd.send_user_id where friendAdd.to_user_id=#{userId}")
     List<FriendAdd> getFriendAdds(int userId);
     @ResultMap("FriendUserAddResultMap")
     @Select("select * from friendAdd left join user on user.id=friendAdd.to_user_id where friendAdd.id=#{id}")
