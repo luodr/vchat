@@ -8,7 +8,7 @@
           v-for="(item,index) in searchedChatlist"
           class="sessionlist"
           :class="{ active: item.id === selectId && item.max_num== selectItem.max_num }"
-          @click="selectSession(item)"
+          @click="selectSessionItem(item)"
           @click.right.prevent="userChoose(item,index)"
           @mousedown.prevent="mousedown"
           :key="index"
@@ -44,6 +44,7 @@
 
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
+import { readMessages } from "@/api/message";
 export default {
   computed: {
     ...mapState(["selectId", "searchText",'user','selectItem']),
@@ -58,12 +59,17 @@ export default {
   },
   methods: {
     ...mapActions(["selectSession"]),
+    selectSessionItem(item){
+      readMessages(item.id)
+this.selectSession(item)
+    },
     // 右击
     userChoose(item,index) {
      
       this.selectSession(item);
       this.showList = true
       this.id = item.id
+   
     },
     // 删除聊天
     deleteChat(){

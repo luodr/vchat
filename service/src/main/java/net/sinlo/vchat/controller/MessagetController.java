@@ -37,7 +37,7 @@ public class MessagetController {
         return this.service.geMeesages(user.getId());
     }
 
-    @PutMapping("{sendUserID}")
+    @PostMapping("read/{sendUserID}")
     public boolean readMessage(@ParamUser  @ApiIgnore User user,@PathVariable() int sendUserID) {
         System.out.println(sendUserID+"sendUserID"+this.service.readMessage(user.getId(), sendUserID));
         return this.service.readMessage(user.getId(), sendUserID);

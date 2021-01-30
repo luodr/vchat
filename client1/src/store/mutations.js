@@ -64,7 +64,7 @@ const mutations = {
     },
     // 得知用户当前选择的是哪个对话。便于匹配对应的对话框
     selectSession(state, value) {
-        console.log(value,'选择列表哪一个聊天')
+        
         state.selectItem=value;
         state.selectId = value.id
         // 让未读消息变为已读消息

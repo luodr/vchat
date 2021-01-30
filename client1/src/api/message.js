@@ -7,7 +7,15 @@ export const getMessages =  () => {
     })
    
 };
-
+export const readMessages =  (sendUserID) => {
+   return new Promise( (resolve,reject)=>{
+      post("/message/read/"+sendUserID,{}).then(res=>{
+         resolve(res.data)
+      })
+     })
+    
+ };
+ 
 export const sendPrivateChat =  (data) => {
    return new Promise( (resolve,reject)=>{
       post("chat/sendPrivateChat",data).then(res=>{

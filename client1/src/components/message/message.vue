@@ -103,7 +103,6 @@ export default {
 
   },
   mounted() {
-        
     //  在页面加载时让信息滚动到最下面
     setTimeout(
       () => (this.$refs.list.scrollTop = this.$refs.list.scrollHeight),
@@ -111,6 +110,7 @@ export default {
     );
   },
   watch: {
+    
     // 发送信息后,让信息滚动到最下面
     messages() {
       setTimeout(
