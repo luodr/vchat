@@ -128,18 +128,22 @@ export default {
         let path=this.item.context.split('/upload/')[1];
        speech({path}).then(data=>{
         let obj= JSON.parse(data)
-        if(obj.result){
+        if(obj.Result){ //腾讯的
+            this.item.speech=obj.Result
+        }
+        if(obj.result){//百度的
            this.item.speech=""
           obj.result.forEach(item=>{
           this.item.speech+=item;
           })
-          this.userChoose(this.item)
-           this.userChoose(this.item)
+   
         }
+               this.userChoose(this.item)
+           this.userChoose(this.item)
       })
      }
     },
-      userChoose(item,index) {
+      userChoose(item) {
       this.item=item;
       this.showList = ! this.showList
  
@@ -162,7 +166,7 @@ export default {
      },
     //  在发送信息之后，将输入的内容中属于表情的部分替换成emoji图片标签
     //  再经过v-html 渲染成真正的图片
-    replaceFace(con,type,item) {
+    replaceFace(con,type) {
      if(type==='text'){
         if (con.includes("/:")) {
         var emojis = this.emojis;
@@ -183,8 +187,16 @@ export default {
       
       }
       if(type==='voice'){
-         con =  `<audio src="${con}"  controls  style='width:300px;height: 54px;   display: block;'>
-                   </audio> 
+        //  <audio src="${con}"  controls  style='width:300px;height: 54px;   display: block;'>
+        //            </audio> 
+         con =  `
+         <div id="msg" onclick="play()">
+  <audio id="audio" src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"></audio>
+  <div id="icon"></div>
+  <span class="loading" id="time"></span>
+</div>
+         
+        
                 
                
                  `
@@ -377,4 +389,89 @@ export default {
       }
     }
   }
+
+
+   #msg {
+          width: 92px;
+          height: 34px;
+          display: inline-block;
+          position: relative;
+          margin: 100px;
+          background-color: #FFFFFF;
+          border: 1px solid #EDEDED;
+          border-radius: 3px;
+          pointer-events: none;
+      }
+
+      #msg:after {
+          content: '';
+          width: 8px;
+          height: 8px;
+          position: absolute;
+          top: 11px;
+          left: -5px;
+          transform: rotate(45deg);
+          background-color: #FFFFFF;
+          border-left: 1px solid #EDEDED;
+          border-bottom: 1px solid #EDEDED;
+          border-radius: 1px; /* 不要超过 1px */
+      }
+
+      #msg:hover, #msg:hover:after {
+          background-color: #F6F6F6;
+          border-color: #E7E7E7;
+      }
+
+      #msg #icon {
+          width: 24px;
+          height: 24px;
+          margin: 5px 0 5px 8px;
+          background: url(../../assets.voice3.png) right;
+      }
+
+      .voice_play {
+          animation: voice_play 1.2s normal infinite steps(2);
+      }
+
+      @keyframes voice_play {
+          0% {
+              background-position: 0;
+          }
+          66.6667% {
+              background-position: 100%;
+          }
+      }
+
+      #msg #time {
+          width: 16px;
+          height: 16px;
+          position: absolute;
+          right: -24px;
+          color: #9C9C9C;
+          font-size: 13px;
+      }
+
+      .time {
+          bottom: 4px;
+      }
+
+      .time:after {
+          content: '"';
+      }
+
+      .loading {
+          bottom: 8px;
+          background-image: url("../../assets/loading.png");
+          background-size: cover;
+          animation: rotate 2s linear infinite;
+      }
+
+      @keyframes rotate {
+          0% {
+              transform: rotate(0);
+          }
+          100% {
+              transform: rotate(360deg);
+          }
+      }
 </style>

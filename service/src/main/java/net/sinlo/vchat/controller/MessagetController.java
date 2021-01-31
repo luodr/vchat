@@ -46,8 +46,9 @@ public class MessagetController {
     @PostMapping("speech")
     public String speech(@ParamUser  @ApiIgnore User user,@RequestBody SpeechDto dto) {
         System.out.println(dto.getPath());
-        return service.speech(dto.getPath()).toString(2);
-
+//         service.speech(dto.getPath()).toString(2);
+        // 腾讯的语言识别
+        return service.speechTX(dto.getPath());
     }
 }
 

@@ -1,22 +1,38 @@
+package net.sinlo.vchat.util;
+
+import com.baidu.aip.speech.AipSpeech;
+import com.tencentcloudapi.asr.v20190614.AsrClient;
+import com.tencentcloudapi.asr.v20190614.models.SentenceRecognitionRequest;
+import com.tencentcloudapi.asr.v20190614.models.SentenceRecognitionResponse;
 import com.tencentcloudapi.common.Credential;
+import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.common.profile.ClientProfile;
 import com.tencentcloudapi.common.profile.HttpProfile;
-import com.tencentcloudapi.common.exception.TencentCloudSDKException;
+import org.json.JSONObject;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
-import com.tencentcloudapi.asr.v20190614.AsrClient;
-import com.tencentcloudapi.asr.v20190614.models.*;;import java.io.File;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Base64;
 
-public class SentenceRecognition
-{
-    public static void main(String [] args) {
+@Component
+@PropertySource(value = {"classpath:key.properties",}, encoding = "utf-8")
+@ConfigurationProperties(prefix = "tencent")
+public class AipSpeechTxUtil {
+
+    private static String apyKey;
+    private static String  SecretKey;
+    private static AipSpeech client = null;
+
+    public    String asrWav(String path,String format){
         //采用本地语音上传方式调用
         try{
 
-            File file = new File("D:\\fileupload\\2021-01-30_07-01-32_1_blob.wav");
+            File file = new File(path);
             FileInputStream inputFile = new FileInputStream(file);
             byte[] buffer = new byte[(int)file.length()];
 
@@ -43,20 +59,16 @@ public class SentenceRecognition
             req.setSubServiceType(2L);
             req.setEngSerViceType("16k_zh");
             req.setSourceType(1L);
-            req.setVoiceFormat("wav");
+            req.setVoiceFormat(format);
             req.setUsrAudioKey("test");
             req.setData(encodeData);
             SentenceRecognitionResponse resp = client.SentenceRecognition(req);
-
-            System.out.println(SentenceRecognitionResponse.toJsonString(resp));
+       return  SentenceRecognitionResponse.toJsonString(resp);
         } catch (TencentCloudSDKException | FileNotFoundException e ) {
             System.out.println(e.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        return  "";
     }
-
-
 }
