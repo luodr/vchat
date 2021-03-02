@@ -40,7 +40,7 @@ public class WebSocketController {
         return message;
     }
     /**
-     * 发送私聊信息
+     * 发送群聊信息
      *
      * @param user
      * @param chatMessage

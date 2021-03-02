@@ -5,7 +5,7 @@ import net.sinlo.vchat.entity.Message;
 import net.sinlo.vchat.mapper.MessageMapper;
 import net.sinlo.vchat.service.IMessagetService;
 
-import net.sinlo.vchat.util.AipSpeechTxUtil;
+import net.sinlo.vchat.util.TencentAipUtil;
 import net.sinlo.vchat.util.AipSpeechUtil;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class MessageServiceImpl implements IMessagetService {
     @Autowired
     private AipSpeechUtil speechUtil;
     @Autowired
-    private AipSpeechTxUtil aipSpeechTxUtil;
+    private TencentAipUtil tencentAipUtil;
     @Override
     public List<Message> geMeesages(int userId) {
         return this.messageMapper.geMeesages(userId);
@@ -58,6 +58,16 @@ public class MessageServiceImpl implements IMessagetService {
     }
 
     public String speechTX(String path) {
-        return aipSpeechTxUtil.asrWav(uploadPath+"/"+path,"wav");
+        return tencentAipUtil.asrWav(uploadPath+"/"+path,"wav");
+    }
+
+    @Override
+    public String translated(String text, String source, String taeget) {
+        return tencentAipUtil.translated(text,source,taeget);
+    }
+
+    @Override
+    public String imgToText(String path) {
+        return tencentAipUtil.imgToText(uploadPath+"/"+path);
     }
 }

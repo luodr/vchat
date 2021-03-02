@@ -1,5 +1,6 @@
 package net.sinlo.vchat.service.impl;
 
+import net.sinlo.vchat.dto.friend.FriendRemarkDto;
 import net.sinlo.vchat.entity.Friend;
 import net.sinlo.vchat.entity.FriendAdd;
 import net.sinlo.vchat.mapper.FriendAddMapper;
@@ -65,6 +66,11 @@ public class FriendServiceImpl implements IFriendService {
     @Override
     public FriendAdd getFriendById(int id) {
         return this.friendAddMapper.getFriendById(id);
+    }
+
+    @Override
+    public boolean updateOneRemark(int userId,FriendRemarkDto dto) {
+        return this.mapper.updateOneRemark(userId,dto.getFriendId(),dto.getRemark());
     }
 
     @Override

@@ -25,6 +25,8 @@
             <div class="content">
               <div class="text" v-html="replaceFace(item.context,item.type,item)"></div>
                   <div  class="text" v-if="item.speech"> <p style="text-indent:5px" >{{item.speech}}</p></div>
+                             <div  class="text" v-if="item.translate"> <p style="text-indent:5px" >翻译:{{item.translate}}</p></div>
+                  
             </div>
           </div>
       </div>
@@ -56,7 +58,8 @@
             <div class="content">
             
                 <div class="text" v-html="replaceFace(item.context,item.type)">
-                 
+                  <div  class="text" v-if="item.speech"> <p style="text-indent:5px" >{{item.speech}}</p></div>
+                  <div  class="text" v-if="item.translate"> <p style="text-indent:5px" >翻译:{{item.translate}}</p></div>
               </div>
            
             </div>
@@ -71,18 +74,37 @@
     <div class="user-info" v-show="showList" @click="handleshowList">
       <el-card class="box-card" :style="{top: top+'px',left:left+'px' }">
         <div class="u-list u-f-c u-f-jsb">
-          <p @click="speech">语音转文字</p>
+          <p v-if="this.item.type=='voice'"  @click="speech">语音转文字</p>
+          <a  v-if="this.item.type=='image'" :href=" this.item.context" :download="this.item.context">保存图片</a>
+         <p v-if="this.item.type=='image'"  @click="imageToText">图片文字识别</p>
+          <p v-if="this.item.type=='text'"  @click="translate('zh')">翻译成中文</p>
+        <p v-if="this.item.type=='text'"  @click="translate('en')">翻译成英文</p>
           <p >取消</p>
         </div>
       </el-card>
     </div>
+
+
+
+
+    <el-dialog
+  title="转换成功"
+  :visible.sync="dialogVisible"
+  width="30%"
+  :before-close="handleClose">
+  <div v-html="imageText"></div>
+  <span slot="footer" class="dialog-footer">
+    <!-- <el-button @click="dialogVisible = false">取 消</el-button> -->
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+   </el-dialog>
  </div>
 
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import { speech } from "@/api/message";
+import { speech ,translate,imageToText} from "@/api/message";
 
 
 
@@ -94,7 +116,9 @@ export default {
       userImg:this.$store.state.user.img,
        top:50,
       left:50,
-      item:{}
+      item:{},
+      imageText:"",
+      dialogVisible:false
     };
   },
   computed: {
@@ -120,6 +144,42 @@ export default {
     }
   },
   methods: {
+imageToText(){
+   if(this.item.type=='image'){
+     let path=this.item.context.split('/upload/')[1];
+       imageToText({path}).then(data=>{
+            let obj= JSON.parse(data)
+         console.log(obj,"图片文字识别")
+           this.imageText="";
+          if(obj.TextDetections){
+            let Y=0;
+           obj.TextDetections.forEach(item=>{
+           
+              if(Y!=item.ItemPolygon.Y){
+                 this.imageText+='</br>'
+                //  alert("换行")
+              }
+              this.imageText+=item.DetectedText
+              Y=item.ItemPolygon.Y;
+            })
+          }
+       this.dialogVisible=true;
+       })
+   }
+},
+translate(target){
+if(this.item.type=='text'){
+  translate({text:this.item.context,target,source:'auto'}).then(data=>{
+     let obj= JSON.parse(data)
+         console.log(obj,"翻译")
+          //"{"TargetText":"Happy New year\n","Source":"zh","Target":"en","RequestId":"08721d10-0792-4f27-9835-f46bb6b886b6"}"
+          this.item.translate=obj.TargetText
+            this.userChoose(this.item)
+           this.userChoose(this.item)
+  })
+}
+},
+
     speech(){
 
       if(this.item.type=='voice')
@@ -176,34 +236,30 @@ export default {
             "<img src=" + require("@/static/emoji/" + emojis[i].file) + " />"
           );
         }
+  
         return con;
       }
       }
           if(type==='image'){
           con =  `<img src='${con}'  style="max-width:200px;max-hight:200px" />
-          
           `
         return con;
-      
       }
       if(type==='voice'){
-        //  <audio src="${con}"  controls  style='width:300px;height: 54px;   display: block;'>
-        //            </audio> 
-         con =  `
-         <div id="msg" onclick="play()">
-  <audio id="audio" src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"></audio>
-  <div id="icon"></div>
-  <span class="loading" id="time"></span>
-</div>
-         
-        
-                
-               
-                 `
+        //  
+//          con =  `
+//          <div id="msg" onclick="play()">
+//   <audio id="audio" src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"></audio>
+//   <div id="icon"></div>
+//   <span class="loading" id="time"></span>
+// </div>           
+//                  `
+                 con=`<audio src="${con}"  controls  style='width:300px;height: 54px;   display: block;'>
+                  </audio> `
         return con;
       }
        if(type==='file'){
-         con =  `<a href="${con}"  controls  style='width:200px;height: 54px; '>
+         con =  `<a href="${con}"  controls  style='width:200px;height: 54px; download="${con.substring(con.lastIndexOf('/')+1)}'>
           <div style='width:30px;height: 30px; display: block; float:left; '> 
           <img src="${require("@/assets/icon-imgs/file.png")}" alt="" style='width:30px;height: 30px;'/>
           
@@ -391,87 +447,5 @@ export default {
   }
 
 
-   #msg {
-          width: 92px;
-          height: 34px;
-          display: inline-block;
-          position: relative;
-          margin: 100px;
-          background-color: #FFFFFF;
-          border: 1px solid #EDEDED;
-          border-radius: 3px;
-          pointer-events: none;
-      }
-
-      #msg:after {
-          content: '';
-          width: 8px;
-          height: 8px;
-          position: absolute;
-          top: 11px;
-          left: -5px;
-          transform: rotate(45deg);
-          background-color: #FFFFFF;
-          border-left: 1px solid #EDEDED;
-          border-bottom: 1px solid #EDEDED;
-          border-radius: 1px; /* 不要超过 1px */
-      }
-
-      #msg:hover, #msg:hover:after {
-          background-color: #F6F6F6;
-          border-color: #E7E7E7;
-      }
-
-      #msg #icon {
-          width: 24px;
-          height: 24px;
-          margin: 5px 0 5px 8px;
-          background: url(../../assets.voice3.png) right;
-      }
-
-      .voice_play {
-          animation: voice_play 1.2s normal infinite steps(2);
-      }
-
-      @keyframes voice_play {
-          0% {
-              background-position: 0;
-          }
-          66.6667% {
-              background-position: 100%;
-          }
-      }
-
-      #msg #time {
-          width: 16px;
-          height: 16px;
-          position: absolute;
-          right: -24px;
-          color: #9C9C9C;
-          font-size: 13px;
-      }
-
-      .time {
-          bottom: 4px;
-      }
-
-      .time:after {
-          content: '"';
-      }
-
-      .loading {
-          bottom: 8px;
-          background-image: url("../../assets/loading.png");
-          background-size: cover;
-          animation: rotate 2s linear infinite;
-      }
-
-      @keyframes rotate {
-          0% {
-              transform: rotate(0);
-          }
-          100% {
-              transform: rotate(360deg);
-          }
-      }
+   
 </style>

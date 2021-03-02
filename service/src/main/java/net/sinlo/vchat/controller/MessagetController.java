@@ -4,15 +4,15 @@ package net.sinlo.vchat.controller;
 import io.swagger.annotations.Api;
 import net.sinlo.vchat.authorization.ParamUser;
 import net.sinlo.vchat.authorization.UserLoginToken;
-import net.sinlo.vchat.dto.SpeechDto;
+import net.sinlo.vchat.dto.message.ImageToTextDto;
+import net.sinlo.vchat.dto.message.SpeechDto;
+import net.sinlo.vchat.dto.message.TranslateDto;
 import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.service.IMessagetService;
-import net.sinlo.vchat.util.AipSpeechUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
@@ -33,7 +33,6 @@ public class MessagetController {
 
     @GetMapping("/list")
     public List getMeesages(@ParamUser  @ApiIgnore User user) {
-
         return this.service.geMeesages(user.getId());
     }
 
@@ -44,11 +43,21 @@ public class MessagetController {
 
     }
     @PostMapping("speech")
-    public String speech(@ParamUser  @ApiIgnore User user,@RequestBody SpeechDto dto) {
+    public String speech(@RequestBody SpeechDto dto) {
         System.out.println(dto.getPath());
 //         service.speech(dto.getPath()).toString(2);
-        // 腾讯的语言识别
+        // 语音识别
         return service.speechTX(dto.getPath());
+    }
+    @PostMapping("imageToText")
+    public String imageToText(@RequestBody ImageToTextDto dto) {
+        //图片转文字
+        return service.imgToText(dto.getPath());
+    }
+    @PostMapping("translate")
+    public String translated(@RequestBody TranslateDto dto) {
+        // 翻译
+        return service.translated(dto.getText(),dto.getSource(),dto.getTarget());
     }
 }
 

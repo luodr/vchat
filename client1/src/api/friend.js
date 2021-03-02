@@ -30,7 +30,13 @@ export const search =  data => {
      })
  };
 
- 
+ export const updateRemark =  data => {
+   return new Promise( (resolve,reject)=>{
+      post("friend/remark", data).then(res=>{
+         resolve(res.data)
+      })
+     })
+ };
 
  export const getAddFriends =  data => {
    return new Promise( (resolve,reject)=>{

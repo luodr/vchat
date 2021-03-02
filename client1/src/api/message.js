@@ -61,3 +61,20 @@ export const sendPrivateChat =  (data) => {
      })
 
  }
+
+ export const imageToText=(data)=>{
+   return new Promise( (resolve,reject)=>{
+      post("message/imageToText",data).then(res=>{
+         resolve(res.data)
+      })
+     })
+
+ }
+ export const translate=(data)=>{
+   return new Promise( (resolve,reject)=>{
+      post("message/translate",data).then(res=>{
+         resolve(res.data)
+      })
+     })
+
+ }

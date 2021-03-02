@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import net.sinlo.vchat.authorization.ParamUser;
 import net.sinlo.vchat.authorization.UserLoginToken;
 import net.sinlo.vchat.dto.friend.FriendDto;
+import net.sinlo.vchat.dto.friend.FriendRemarkDto;
 import net.sinlo.vchat.entity.FriendAdd;
 import net.sinlo.vchat.entity.User;
 
@@ -49,6 +50,12 @@ public class FriendController {
     @DeleteMapping("")
     public boolean deleteFriend(@ParamUser @ApiIgnore User user, @RequestBody() FriendDto friendDto) {
         return this.friendService.deleteFriend(user.getId(), friendDto.getFriendId());
+    }
+    @ApiOperation("修改备注")
+    @PostMapping("remark")
+    public boolean updateFriendRemark(@ParamUser @ApiIgnore User user, @RequestBody() FriendRemarkDto dto) {
+        System.out.println(dto);
+        return this.friendService.updateOneRemark(user.getId(), dto);
     }
 
     @PostMapping("add")

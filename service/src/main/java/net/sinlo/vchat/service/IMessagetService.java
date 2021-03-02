@@ -21,5 +21,9 @@ public interface IMessagetService {
     Message sendMessage(int userId,RequestChatMessage chatMessage);
 
     JSONObject speech(String path);
-    public String speechTX(String path);
+     String speechTX(String path);
+    String translated(String text,String source,String taeget);
+    String imgToText(String path);
+
+
 }

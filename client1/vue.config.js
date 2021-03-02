@@ -23,7 +23,7 @@ module.exports = {
         open: true, //配置自动启动浏览器
         proxy: {
                 "^/api": {
-                  target: "http://localhost:8888/",
+                  target: "http://localhost:8880/",
                   // ws: true,
                   // changeOrigin: true
                   pathRewrite: {
@@ -31,14 +31,14 @@ module.exports = {
                   }
             },
             "^/upload": {
-                target: "http://localhost:8888/",
+                target: "http://localhost:8880/",
                 // changeOrigin: true,
                 pathRewrite: {
                     upload: "upload"
                 },
             },
                 "^/static": {
-                    target: "http://localhost:8888/",
+                    target: "http://localhost:8880/",
                     // changeOrigin: true,
                     pathRewrite: {
                         upload: "static"

@@ -10,4 +10,11 @@ public class FriendDto {
     public void setFriendId(int friendId) {
         this.friendId = friendId;
     }
+
+    @Override
+    public String toString() {
+        return "FriendDto{" +
+                "friendId=" + friendId +
+                '}';
+    }
 }

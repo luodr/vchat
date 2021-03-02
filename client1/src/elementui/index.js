@@ -7,7 +7,7 @@
  * @LastEditTime: 2020-07-22 14:32:46
  */ 
 import Vue from 'vue'
-
+import ElementUI from 'element-ui';
 import { 
     Button,
     Upload,
@@ -26,7 +26,8 @@ import {
     Popconfirm,
     Popover,
     Transfer,
-    Avatar
+    Avatar,
+    Notification 
 } from 'element-ui';
 
 Vue.use(Button)
@@ -46,7 +47,10 @@ Vue.use(Popconfirm)
 Vue.use(Popover)
 Vue.use(Avatar)
 Vue.use(Transfer)
+// Vue.use(Message)
+// Vue.use(Notification )
 
 // import Recorderx from 'recorderx';
 //  Vue.use(Recorderx)
 Vue.prototype.$message = Message;
+Vue.prototype.$notify = Notification;

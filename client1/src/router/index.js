@@ -15,7 +15,10 @@ import {getFriends,getAddFriends} from "@/api/friend";
 import {getInfo} from "@/api/user";
 import {getMyGroup} from "@/api/group"
 Vue.use(Router)
+import { 
 
+  Notification 
+} from 'element-ui';
 const router = new Router({
   // 共三个页面： 聊天页面，好友页面，个人简历分别对应一下路由
   routes: [
@@ -117,14 +120,20 @@ function initData(){
         store.state.groups=res
       })
       if(!store.state.ws)
-     store.state.ws=longSock("ws://127.0.0.1:8888/webSocket/"+localStorage.token,(evt, ws)=>{    
+     store.state.ws=longSock("ws://127.0.0.1:8880/webSocket/"+localStorage.token,(evt, ws)=>{    
        if(evt.data){
          let obj=JSON.parse(evt.data)
+        
          console.log(obj,"接收到的！");
          switch(obj.type){
            case 'PrivateChat':
            let session = store.state.friendlist.find(session => session.id === obj.data.send_user_id)
          session.messages.push(obj.data)
+         Notification({
+          title: session.remark||session.myFriend.name,
+          message: obj.data.context,
+          position: 'bottom-right'
+        });
          break;
          case 'addFriend':
           // context: "text"
@@ -137,6 +146,11 @@ function initData(){
           // type: "12312"
           // updateAt: "2021-01-08T10:18:14.771
           store.state.newFriendList.push(obj.data)
+          Notification({
+            title: "好友申请",
+            message: obj.data.user.name,
+            position: 'bottom-right'
+          });
            break;
            case 'GroupChat':
             let g = store.state.groups.find(group => group.id === obj.data.to_group_id)

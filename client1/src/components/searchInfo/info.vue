@@ -52,7 +52,7 @@ export default {
     ...mapMutations(["addNewFriendToList"]),
     // 发送信息
     send() {
-     addFriends({friendId:selectedSearch.id}).then(data=>{
+     addFriends({friendId:this.selectedSearch.id}).then(data=>{
        console.log("发送请求成功!",data);
      })
     },

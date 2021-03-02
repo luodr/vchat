@@ -163,7 +163,7 @@ public class WebSocketServer {
     }
 
     /**
-     *  私聊发送
+     *  通过websocket 发送 私聊信息
      * @param message
      * @throws IOException
      */

@@ -47,4 +47,7 @@ public interface FriendMapper  {
 
     @Select("select friend.friend_id from friend where friend.user_id=#{userId}")
     List<Integer> getFriendIDs(int userId);
+
+    @Update("update friend set remark =#{remark} where user_id=#{userId} and friend_id=#{friendId}")
+    boolean updateOneRemark(int userId,int friendId,String remark);
 }

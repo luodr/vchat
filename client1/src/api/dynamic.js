@@ -7,7 +7,7 @@ export const getDynamic =  () => {
     })
    }
    
-   export const sendDynamic =  (data) => {
+export const sendDynamic =  (data) => {
       return new Promise( (resolve,reject)=>{
          post("dynamic/send", data).then(res=>{
            resolve(res.data)
@@ -15,14 +15,14 @@ export const getDynamic =  () => {
         })
        }
        
-       export const doodDynamic =  (id) => {
+export const doodDynamic =  (id) => {
          return new Promise( (resolve,reject)=>{
             post("dynamic/good/"+id, {}).then(res=>{
               resolve(res.data)
             })
            })
           }
-          export const commentDynamic =  (data) => {
+export const commentDynamic =  (data) => {
             return new Promise( (resolve,reject)=>{
                post("dynamic/comment", data).then(res=>{
                  resolve(res.data)

@@ -1,4 +1,4 @@
-package net.sinlo.vchat.dto;
+package net.sinlo.vchat.dto.message;
 
 import io.swagger.annotations.ApiModelProperty;
 

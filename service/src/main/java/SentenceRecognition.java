@@ -4,7 +4,13 @@ import com.tencentcloudapi.common.profile.HttpProfile;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 
 import com.tencentcloudapi.asr.v20190614.AsrClient;
-import com.tencentcloudapi.asr.v20190614.models.*;;import java.io.File;
+import com.tencentcloudapi.asr.v20190614.models.*;
+import com.tencentcloudapi.ocr.v20181119.OcrClient;
+import com.tencentcloudapi.ocr.v20181119.models.GeneralBasicOCRRequest;
+import com.tencentcloudapi.ocr.v20181119.models.GeneralBasicOCRResponse;
+import com.tencentcloudapi.tmt.v20180321.TmtClient;
+import com.tencentcloudapi.tmt.v20180321.models.TextTranslateRequest;
+import com.tencentcloudapi.tmt.v20180321.models.TextTranslateResponse;;import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,49 +18,31 @@ import java.util.Base64;
 
 public class SentenceRecognition
 {
-    public static void main(String [] args) {
-        //采用本地语音上传方式调用
+    public static void main(String [] args) throws TencentCloudSDKException, IOException {
+//        Credential cred = new Credential("", "");
         try{
 
-            File file = new File("D:\\fileupload\\2021-01-30_07-01-32_1_blob.wav");
-            FileInputStream inputFile = new FileInputStream(file);
-            byte[] buffer = new byte[(int)file.length()];
-
-            inputFile.read(buffer);
-            inputFile.close();
-
-            String encodeData = Base64.getEncoder().encodeToString(buffer);
-
-
             Credential cred = new Credential("AKID93g2dzFtZ1WliUudnfO13XOzKCW6DigS", "4x5D4h3C6j9IWXIn2tjJTVI7hFZcZ0Ff");
-
             HttpProfile httpProfile = new HttpProfile();
-            httpProfile.setEndpoint("asr.tencentcloudapi.com");
-            httpProfile.setProtocol("https://");
+            httpProfile.setEndpoint("tmt.tencentcloudapi.com");
 
             ClientProfile clientProfile = new ClientProfile();
-            clientProfile.setDebug(true);
             clientProfile.setHttpProfile(httpProfile);
 
-            AsrClient client = new AsrClient(cred, "", clientProfile);
+            TmtClient client = new TmtClient(cred, "ap-guangzhou", clientProfile);
 
-            SentenceRecognitionRequest req = new SentenceRecognitionRequest();
+            TextTranslateRequest req = new TextTranslateRequest();
+            req.setSourceText("带翻译文档");
+            req.setSource("zh");
+            req.setTarget("en");
             req.setProjectId(0L);
-            req.setSubServiceType(2L);
-            req.setEngSerViceType("16k_zh");
-            req.setSourceType(1L);
-            req.setVoiceFormat("wav");
-            req.setUsrAudioKey("test");
-            req.setData(encodeData);
-            SentenceRecognitionResponse resp = client.SentenceRecognition(req);
 
-            System.out.println(SentenceRecognitionResponse.toJsonString(resp));
-        } catch (TencentCloudSDKException | FileNotFoundException e ) {
+            TextTranslateResponse resp = client.TextTranslate(req);
+
+            System.out.println(TextTranslateResponse.toJsonString(resp));
+        } catch (TencentCloudSDKException e) {
             System.out.println(e.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
 
     }
 

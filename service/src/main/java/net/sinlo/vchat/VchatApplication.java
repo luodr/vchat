@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 
-
 @SpringBootApplication
 @MapperScan("net.sinlo.vchat.mapper")
 public class VchatApplication {

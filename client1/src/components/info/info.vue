@@ -2,7 +2,7 @@
 <template>
   <div class="Info-wrapper">
     <div class="newfriend" v-show="selectedFriend.id === 0">
-      <div class="nickname">{{selectedFriend.name}}</div>
+      <div class="nickname">新的好友</div>
     </div>
     <div class="friendInfo" v-if="selectedFriend.id > 0">
       <!-- 好友 -->
@@ -23,7 +23,10 @@
       <div class="detInfo">
         <div class="remark">
           <span>备&nbsp;&nbsp;&nbsp;注</span>
-          {{selectedFriend.remark||selectedFriend.myFriend.name}}
+          <!-- {{selectedFriend.remark||selectedFriend.myFriend.name}} -->
+          <input v-model="selectedFriend.remark" placeholder="添加添加备注"  @blur="blur(selectedFriend)" />
+          <!-- <i class="el-icon-edit"></i> -->
+          <!-- <el-input v-model="input" placeholder="请输入内容"></el-input> -->
         </div>
         <div class="area">
           <span>地&nbsp;&nbsp;&nbsp;区</span>
@@ -31,7 +34,7 @@
         </div>
         <div class="wxid">
           <span>微信号</span>
-          {{selectedFriend.myFriend.id}}
+          {{selectedFriend.myFriend.phone}}
         </div>
       </div>
      </div>
@@ -60,7 +63,7 @@
         <span>发消息</span>
       </div>
     </div>
-    <div v-else class="my-new-friends" :style="{backgroundImage: 'url(' + backImg2 + ')'}">
+    <div v-else class="my-new-friends" >
       <div class="friend-list">
         <div class="friend-item u-f u-f-sbc" v-for="item in newFriendList" :key="item.id">
           <div class="f-left u-f u-f-ac">
@@ -87,7 +90,7 @@
 <script>
 import router from "../../router";
 import { mapGetters, mapState, mapMutations } from "vuex";
-import {agreeFriend,refuseFriend} from "@/api/friend";
+import {agreeFriend,refuseFriend,updateRemark} from "@/api/friend";
 export default {
   computed: {
     ...mapGetters(["selectedFriend"]),
@@ -99,6 +102,16 @@ export default {
     send() {
       this.$store.dispatch("send");
       this.$store.dispatch("search", "");
+    },
+      blur(item) {
+
+    updateRemark({friendId:item.id,remark:item.remark}).then(date=>{
+   this.$notify({
+          title: '修改好友备注',
+          message: '修改备注成功',
+          position: 'bottom-right'
+        });
+    })
     },
     // 接受
     receiveFriend(target) {
