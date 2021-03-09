@@ -18,4 +18,6 @@ import java.util.List;
  */
 public interface IGroupChatService {
     GroupChat sendGroupChat(int userId,RequestChatMessage chatMessage);
+    List<GroupChat> findGroupChatByUserIsNotRead(int user_id,int group_chat_id);
+    boolean readGroupChat(int user_id ,int group_chat_id);
 }

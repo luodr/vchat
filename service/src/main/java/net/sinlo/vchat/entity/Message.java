@@ -17,9 +17,9 @@ import io.swagger.annotations.ApiModelProperty;
  * @since 2020-11-14
  */
 @ApiModel(value="Chat对象", description="")
-public class Message implements Serializable {
+public class Message  {
 
-    private static final long serialVersionUID = 1L;
+
 
 
     private Integer id;
@@ -138,15 +138,17 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-        return "Chat{" +
-        "id=" + id +
-        ", send_user_id=" + send_user_id +
-        ", to_user_id=" + to_user_id +
-        ", type=" + type +
-        ", context=" + context +
-        ", createdAt=" + createdAt +
-        ", updateAt=" + updateAt +
-        ", deleteAt=" + deleteAt +
-        "}";
+        return "Message{" +
+                "id=" + id +
+                ", send_user_id=" + send_user_id +
+                ", to_user_id=" + to_user_id +
+                ", type='" + type + '\'' +
+                ", context='" + context + '\'' +
+                ", isRead=" + isRead +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updateAt +
+                ", deleteAt=" + deleteAt +
+                ", self=" + self +
+                '}';
     }
 }

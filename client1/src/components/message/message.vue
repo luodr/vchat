@@ -11,7 +11,7 @@
     <div class="message-wrapper" ref="list">
       <ul v-if="selectedChat">
         <li v-for="(item,index) in selectedChat.messages" class="message-item" :key="item.id" >
-      <div v-if="item.context">
+      <div v-if="item.context&&item.id">
             <div class="time">
             <span>{{item.updateAt | time}}</span>
           </div>
@@ -24,8 +24,8 @@
             />
             <div class="content">
               <div class="text" v-html="replaceFace(item.context,item.type,item)"></div>
-                  <div  class="text" v-if="item.speech"> <p style="text-indent:5px" >{{item.speech}}</p></div>
-                             <div  class="text" v-if="item.translate"> <p style="text-indent:5px" >翻译:{{item.translate}}</p></div>
+               <div  class="text" v-if="item.speech"> <p style="text-indent:5px" >{{item.speech}}</p></div>
+              <div  class="text" v-if="item.translate"> <p style="text-indent:5px" >翻译:{{item.translate}}</p></div>
                   
             </div>
           </div>
@@ -34,6 +34,8 @@
       </ul>
     </div>
   </div>
+
+  <!--群聊-->
    <div class="message" v-if="selectedChat&&!selectedChat.myFriend">
     <header class="header u-f u-f-sbc" v-if="selectedChat">
       <div class="friendname">{{(selectedChat.remark||selectedChat.name)}}</div>
@@ -48,7 +50,7 @@
             <div class="time">
             <span>{{item.updateAt | time}}</span>
           </div>
-          <div class="main" :class="{ self:isSelf(item)}">
+          <div class="main" :class="{ self:isSelf(item)}"  @mousedown.prevent="mousedown" @click="handleshowList"  @click.right.prevent="userChoose(item,index)">
             <img
               class="avatar"
               width="36"
@@ -57,11 +59,11 @@
             />
             <div class="content">
             
-                <div class="text" v-html="replaceFace(item.context,item.type)">
-                  <div  class="text" v-if="item.speech"> <p style="text-indent:5px" >{{item.speech}}</p></div>
-                  <div  class="text" v-if="item.translate"> <p style="text-indent:5px" >翻译:{{item.translate}}</p></div>
-              </div>
-           
+                <div class="text" v-html="replaceFace(item.context,item.type)"> </div>
+                  
+             
+             <div  class="text" v-if="item.speech"> <p style="text-indent:5px" >{{item.speech}}</p></div>
+              <div  class="text" v-if="item.translate"> <p style="text-indent:5px" >翻译:{{item.translate}}</p></div>
             </div>
           </div>
       </div>
@@ -205,6 +207,7 @@ if(this.item.type=='text'){
     },
       userChoose(item) {
       this.item=item;
+
       this.showList = ! this.showList
  
     },

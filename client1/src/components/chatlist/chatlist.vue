@@ -19,11 +19,11 @@
           <div class="list-right">
             <p class="name">{{item.remark||item.name||item.myFriend.name}}</p>
             <span class="time">{{item.messages[item.messages.length-1].updateAt | time}}</span>
-            <p class="lastmsg">{{item.messages[item.messages.length-1].context}}</p>
+            <p class="lastmsg">{{item.messages[item.messages.length-1].id?item.messages[item.messages.length-1].context:""}}</p>
           </div>
-          <!-- <template v-if="user.msgCount>0">
-            <span class="msg-count" v-if="index===2">{{user.msgCount}}</span>
-          </template> -->
+          <template  v-if="itemUnRead(item)>0">
+            <span class="msg-count">{{item.count}}</span>
+          </template>
         </li>
       </ul>
     </div>
@@ -35,7 +35,7 @@
           <p>消息免打扰</p>
           <p>设置为星标朋友</p>
           <el-divider></el-divider>
-          <p @click.stop="deleteChat">删除聊天</p>
+          <!-- <p @click.stop="deleteChat">删除聊天</p> -->
         </div>
       </el-card>
     </div>
@@ -60,9 +60,24 @@ export default {
   methods: {
     ...mapActions(["selectSession"]),
     selectSessionItem(item){
-      readMessages(item.id)
-this.selectSession(item)
+      
+      readMessages({
+        type:item.myFriend?'PrivateChat':'GroupChat',
+        chatID:item.id
+      })
+     this.selectSession(item)
     },
+     itemUnRead(item){
+       item.count=0;
+       item.messages?.forEach(t => {
+        
+        if( !t.read&&t.send_user_id!==this.$store.state.user.id){
+            item.count++;
+        }
+       });
+       return   item.count;
+     },
+
     // 右击
     userChoose(item,index) {
      

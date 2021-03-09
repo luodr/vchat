@@ -7,7 +7,7 @@ const actions = {
     selectSession: ({ commit }, value) => commit('selectSession', value),
     selectFriend: ({ commit }, value) => commit('selectFriend', value),
     sendMessage: ({ commit }, msg) => commit('sendMessage', msg),
-    send: ({ commit }) => commit('send'),
+    send: ({ commit },value) => commit('send',value),
     initData: ({ commit }) => commit('initData'),
 }
 

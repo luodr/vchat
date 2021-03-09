@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sinlo.vchat.dto.ResponseChatMessage;
 import net.sinlo.vchat.dto.WebSocketMessageDto;
+import net.sinlo.vchat.dto.group.CreateGroupDto;
 import net.sinlo.vchat.entity.*;
 import net.sinlo.vchat.service.IGroupMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,8 +208,42 @@ public class WebSocketServer {
             }
             System.out.println(id + "进入房间" + item.getGroup_id());
             rooms.get(item.getGroup_id()).add(id);
+
+
+
         });
     }
+
+    /**
+     * 创建群聊
+     * @param
+     */
+    public static void createRooms(CreateGroupDto[] list , int groupId,Group group) {
+        if (!rooms.containsKey(groupId)) {
+            rooms.put(groupId, new HashSet());
+        }
+
+      for(int i=0;i<list.length;i++){
+          rooms.get(groupId).add(list[i].getId());
+          WebSocketServer ws = webSocketMap.get(list[i].getId());
+          if(ws!=null){
+              try {
+                  WebSocketMessageDto<Group> data=new WebSocketMessageDto("CreateGroupChat",group);
+                  ws.sendMessage(objectMapper.writeValueAsString(data));
+              } catch (IOException  e) {
+                  System.out.println("发送群聊信息失败！");
+                  e.printStackTrace();
+              }
+          }
+
+      }
+
+    }
+
+
+
+
+
 
     /**
      * 离线

@@ -7,10 +7,13 @@ import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.mapper.GroupMapper;
 import net.sinlo.vchat.mapper.GroupMemberMapper;
 import net.sinlo.vchat.service.IGroupService;
+import net.sinlo.vchat.service.IUserService;
+import net.sinlo.vchat.websocket.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,11 +30,15 @@ public class GroupServiceImpl implements IGroupService {
     GroupMapper groupMapper;
     @Autowired
     GroupMemberMapper groupMemberMapper;
+
+    @Autowired
+    IUserService userService;
     @Override
     public Group createGroup(User user, CreateGroupDto[] createGroupDtos) {
         StringBuffer name = new StringBuffer();
-        for (int i = 0; i < createGroupDtos.length; i++) {
 
+        for (int i = 0; i < createGroupDtos.length; i++) {
+            System.out.println(createGroupDtos[i]);
             name.append(createGroupDtos[i].getName());
             if (i == 2) {
                 name.append("...");
@@ -45,7 +52,12 @@ public class GroupServiceImpl implements IGroupService {
         Group group = new Group(name.toString(), user.getId(), LocalDateTime.now());
         groupMapper.createGroup(group);
         groupMemberMapper.joinGroup(createGroupDtos,group.getId());
-        return group;
+
+        group.setGroupMembers(new ArrayList<>());
+        group=groupMapper.findByID(group.getId());
+        group.setUsers(userService.findByGroupId(group.getId()));
+        WebSocketServer.createRooms(createGroupDtos,group.getId(),group);
+        return  group;
     }
 
     @Override

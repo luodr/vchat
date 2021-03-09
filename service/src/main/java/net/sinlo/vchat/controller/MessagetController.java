@@ -4,10 +4,12 @@ package net.sinlo.vchat.controller;
 import io.swagger.annotations.Api;
 import net.sinlo.vchat.authorization.ParamUser;
 import net.sinlo.vchat.authorization.UserLoginToken;
+import net.sinlo.vchat.dto.MessageReadDto;
 import net.sinlo.vchat.dto.message.ImageToTextDto;
 import net.sinlo.vchat.dto.message.SpeechDto;
 import net.sinlo.vchat.dto.message.TranslateDto;
 import net.sinlo.vchat.entity.User;
+import net.sinlo.vchat.service.IGroupChatService;
 import net.sinlo.vchat.service.IMessagetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,18 +32,28 @@ import java.util.List;
 public class MessagetController {
     @Autowired
     IMessagetService service;
-
+    @Autowired
+    IGroupChatService groupChatService;
     @GetMapping("/list")
-    public List getMeesages(@ParamUser  @ApiIgnore User user) {
+    public List getMeesages(@ParamUser @ApiIgnore User user) {
         return this.service.geMeesages(user.getId());
     }
 
-    @PostMapping("read/{sendUserID}")
-    public boolean readMessage(@ParamUser  @ApiIgnore User user,@PathVariable() int sendUserID) {
-        System.out.println(sendUserID+"sendUserID"+this.service.readMessage(user.getId(), sendUserID));
-        return this.service.readMessage(user.getId(), sendUserID);
+    @PostMapping("read")
+    public boolean readMessage(@ParamUser @ApiIgnore User user, @RequestBody MessageReadDto dto) {
+        System.out.println(dto);
+        switch (dto.getType()) {
+            case "GroupChat":
+                return this.groupChatService.readGroupChat(user.getId(),dto.getChatID());
+            case "PrivateChat":
+                return this.service.readMessage(user.getId(), dto.getChatID());
+            default:
+                return false;
+        }
+
 
     }
+
     @PostMapping("speech")
     public String speech(@RequestBody SpeechDto dto) {
         System.out.println(dto.getPath());
@@ -49,15 +61,17 @@ public class MessagetController {
         // 语音识别
         return service.speechTX(dto.getPath());
     }
+
     @PostMapping("imageToText")
     public String imageToText(@RequestBody ImageToTextDto dto) {
         //图片转文字
         return service.imgToText(dto.getPath());
     }
+
     @PostMapping("translate")
     public String translated(@RequestBody TranslateDto dto) {
         // 翻译
-        return service.translated(dto.getText(),dto.getSource(),dto.getTarget());
+        return service.translated(dto.getText(), dto.getSource(), dto.getTarget());
     }
 }
 

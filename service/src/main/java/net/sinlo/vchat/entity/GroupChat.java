@@ -29,7 +29,18 @@ public class GroupChat implements Serializable {
     public GroupChatRead getGroupChatRead() {
         return groupChatRead;
     }
+    private  boolean read;
 
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
+    }
+    public boolean getRead() {
+        return read;
+    }
     public void setGroupChatRead(GroupChatRead groupChatRead) {
         this.groupChatRead = groupChatRead;
     }

@@ -7,9 +7,9 @@ export const getMessages =  () => {
     })
    
 };
-export const readMessages =  (sendUserID) => {
+export const readMessages =  (data) => {
    return new Promise( (resolve,reject)=>{
-      post("/message/read/"+sendUserID,{}).then(res=>{
+      post("/message/read",data).then(res=>{
          resolve(res.data)
       })
      })

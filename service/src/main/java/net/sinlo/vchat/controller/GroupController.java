@@ -38,6 +38,7 @@ public class GroupController {
     IGroupMemberService groupMemberService;
     @PostMapping("create")
     public Group createGroup(@ParamUser @ApiIgnore User user, @RequestBody CreateGroupDto[] array){
+
     return groupService.createGroup(user,array);
     }
     @PostMapping("join/{groupId}")

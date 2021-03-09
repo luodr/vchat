@@ -52,7 +52,7 @@
 import Recorderx, { ENCODE_TYPE } from 'recorderx';
 import { robotChat } from "../../utils/network/user";
 import {sendPrivateChat,sendGroupChat,uploadOne,uploadBlobOne} from "@/api/message";
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState,mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -69,7 +69,7 @@ export default {
     ...mapGetters(["selectedChat"])
   },
   methods: {
-
+   ...mapActions(["selectSession"]),
     translationStart(){
       console.log("开始！");
             let that = this
@@ -125,30 +125,32 @@ export default {
     },
 
     sendMessage(content,type){  
- if(this.$store.state.selectItem.myFriend)
+       if(this.selectedChat.myFriend)
        {
         sendPrivateChat({
-        target_id:this.$store.state.selectId,
+        target_id:this.selectedChat.id,
         contentType:'PrivateChat',
         content:content,
         messageType:type
       }).then(data=>{
       if(data.id){
-        this.$store.state. selectItem.messages.push(data)
+        this.selectedChat.messages.push(data)
          this.content="";
-        
-      
       }
       })
     }else{
          sendGroupChat({
-        target_id:this.$store.state.selectId,
+        target_id:this.selectedChat.id,
         contentType:'GroupChat',
         content:content,
         messageType:type
       }).then(data=>{
       if(data.id){
-           this.$store.state. selectItem.messages.push(data)
+          // this.selectedChat.messages.push(data)
+          let g= this.$store.state.groups.find(group => group.id === this.selectedChat.id)
+          this.selectSession(g)
+          g.messages.push(data);
+
          this.content="";
       
       }

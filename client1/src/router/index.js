@@ -125,6 +125,7 @@ function initData(){
          let obj=JSON.parse(evt.data)
         
          console.log(obj,"接收到的！");
+         console.log(store.state.selectItem,obj)
          switch(obj.type){
            case 'PrivateChat':
            let session = store.state.friendlist.find(session => session.id === obj.data.send_user_id)
@@ -136,15 +137,6 @@ function initData(){
         });
          break;
          case 'addFriend':
-          // context: "text"
-          // createdAt: "2021-01-08T10:18:14.771"
-          // deleteAt: null
-          // groupChatRead: null
-          // id: 13
-          // send_user_id: 3
-          // to_group_id: 1
-          // type: "12312"
-          // updateAt: "2021-01-08T10:18:14.771
           store.state.newFriendList.push(obj.data)
           Notification({
             title: "好友申请",
@@ -155,6 +147,10 @@ function initData(){
            case 'GroupChat':
             let g = store.state.groups.find(group => group.id === obj.data.to_group_id)
             g.messages.push(obj.data)
+           break;
+           case 'CreateGroupChat':
+            let newG = store.state.groups.find(group => group.id === obj.data.id)
+            if(!newG){ store.state.groups.push(obj.data)}
            break;
          }
         

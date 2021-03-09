@@ -30,7 +30,7 @@ public interface FriendMapper  {
             "\t m.isRead AS m_isRead ,\n" +
             "\t m.id as m_id,\n" +
             "\t m.context as m_context," +
-            "\t  m.send_user_id= 2 as m_self "+
+            "\t m.send_user_id= #{userId} as m_self "+
             " from friend left JOIN user on user.id=friend.friend_id   " +
             " left JOIN message as m on" +
             " (m.to_user_id=#{userId} or m.send_user_id=#{userId}) " +
@@ -39,7 +39,7 @@ public interface FriendMapper  {
             " where" +
             " friend.user_id=#{userId}" +
             " ")
-     List<Friend> getFriends(int userId);
+    List<Friend> getFriends(int userId);
     @Update("update friend set deleteAt =now() where user_id=#{userId} and friend_id=#{friendId}")
     boolean softDeleteFriend(int userId,int friendId);
     @Insert("insert into friend(user_id,friend_id,createdAt,updateAt) values(#{userId},#{friendId},now(),now())")

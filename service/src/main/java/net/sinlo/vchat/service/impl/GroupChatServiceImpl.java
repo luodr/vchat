@@ -8,6 +8,7 @@ import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.mapper.GroupChatMapper;
 import net.sinlo.vchat.mapper.GroupMapper;
 import net.sinlo.vchat.mapper.GroupMemberMapper;
+import net.sinlo.vchat.mapper.GroupReadMapper;
 import net.sinlo.vchat.service.IGroupChatService;
 import net.sinlo.vchat.service.IGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,8 @@ import java.util.List;
 public class GroupChatServiceImpl implements IGroupChatService {
     @Autowired
     private GroupChatMapper groupChatMapper;
-
+    @Autowired
+    private GroupReadMapper groupReadMapper;
     @Override
     public GroupChat sendGroupChat(int userId,RequestChatMessage groupChat) {
         GroupChat chat=new GroupChat();
@@ -41,5 +43,20 @@ public class GroupChatServiceImpl implements IGroupChatService {
         System.out.println(chat);
         groupChatMapper.sendGroupChat(chat);
         return chat;
+    }
+
+    @Override
+    public List<GroupChat> findGroupChatByUserIsNotRead(int user_id, int group_chat_id) {
+        return groupChatMapper.findGroupChatByUserIsNotRead(user_id,group_chat_id);
+    }
+
+    @Override
+    public boolean readGroupChat(int user_id, int group_chat_id) {
+        List<GroupChat> list =groupChatMapper.findGroupChatByUserIsNotRead(user_id,group_chat_id);
+        System.out.println(list);
+        list.forEach(chat->{
+            groupReadMapper.readGroupChat(user_id,chat.getId());
+        });
+        return true;
     }
 }

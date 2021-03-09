@@ -64,12 +64,16 @@ const mutations = {
     },
     // 得知用户当前选择的是哪个对话。便于匹配对应的对话框
     selectSession(state, value) {
-        
         state.selectItem=value;
         state.selectId = value.id
+         value.messages.forEach(item=>{
+            item.read=true;
+        })
         // 让未读消息变为已读消息
         // state.user.msgCount=0
     },
+
+    
     // 得知用户当前选择的是哪个好友。
     selectFriend(state, value) {
         state.selectListItem=value;
@@ -97,19 +101,22 @@ const mutations = {
 
     // 选择好友后，点击发送信息。判断在聊天列表中是否有该好友，有的话跳到该好友对话。没有的话
     // 添加该好友的对话 并置顶
-    send(state) {
+    send(state,value) {
         // let result = state.friendlist.find(friend => friend.id === state.selectFriendId)
-        let result= state. selectListItem
+        let result= value || state. selectListItem
+      
         state.selectItem=result;
         state.selectId = result.id
-      
-        if (result.messages.length>0) {
-            router.push({ path: '/chat' })  // 可能不需要这行代码
-        } else {
-            result.messages.push({})
-    
+        // if (result.messages.length>0) {
+        //      // 可能不需要这行代码
+        // } else {
+
             router.push({ path: '/chat' })
-        }
+
+     
+    
+        //     router.push({ path: '/chat' })
+        // }
         // console.log( state.chatlis,' state.chatlis')
         // let msg = state.chatlist.find(msg => msg.user.name === result.remark)
         // if (!msg) {

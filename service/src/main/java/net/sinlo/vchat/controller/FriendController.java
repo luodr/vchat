@@ -43,7 +43,9 @@ public class FriendController {
     @ApiOperation("获取好友列表")
     @GetMapping("list")
     public List myFriends(@ParamUser @ApiIgnore User user) {
-        return this.friendService.getFriends(user.getId());
+        List list =this.friendService.getFriends(user.getId());
+        System.out.println(list);
+        return list;
     }
 
     @ApiOperation("删除好友")

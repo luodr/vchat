@@ -7,6 +7,7 @@ const state = {
   searchList:[],
   // 输入的搜索值
   searchText: '',
+  unReadCount:0,
   // 用户状态
   onlineStatusList: [
     { id: 1, name: '在线' }, { id: 2, name: '离开' }, { id: 3, name: '忙碌' }, { id: 4, name: '隐身' }

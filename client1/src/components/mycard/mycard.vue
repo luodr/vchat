@@ -60,7 +60,7 @@
 
     <div class="navbar" @click="clearSearch">
       <router-link to="/chat" class="icon iconfont icon-msg">
-        <span class="msg-count" v-if="this.count>0">{{this.count}}</span>
+        <span class="msg-count" v-if="unReadCount>0">{{unReadCount}}</span>
       </router-link>
       <router-link to="/friend" class="icon iconfont icon-friend"></router-link>
       <!-- <router-link to="/my" class="icon iconfont icon-collection"></router-link> -->
@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState ,mapGetters} from "vuex";
 import { pathToBase64 } from "@/utils/base64ToImage.js";
 import { uploadImg } from "../../utils/network/user";
 import Config from "../../utils/config";
@@ -149,10 +149,11 @@ export default {
     };
   },
   mounted(){
-    this.countNotRead();
+    // this.countNotRead();
   },
   computed: {
-    ...mapState(["user", "onlineStatusList", "setList","messagesUnReadCount"])
+    ...mapState(["user", "onlineStatusList", "setList","messagesUnReadCount",'searchedChatlist','unReadCount']),
+    ...mapGetters(["searchedChatlist"])
   },
   methods: {
      sendFile(response, file, fileList) {
@@ -161,7 +162,7 @@ export default {
      if(res){
        this.$store.state.user.img=response.data
      }
-     console.log(res,"回调");
+
    })
     },
     // 查看用户资料
@@ -169,12 +170,13 @@ export default {
       this.showUser = !this.showUser;
     },
      countNotRead(){
-      this.count=0;
-        
-            this.$store.state.friendlist.forEach(items=>{
+           this.count=0;
+        this.searchedChatlist.forEach(items=>{
             items.messages.forEach(item=>{
-              
-             if(!item.read)this.count++
+             if(item.id&&!item.read)
+             {
+               this.count++;
+             }
             })
         })
      },

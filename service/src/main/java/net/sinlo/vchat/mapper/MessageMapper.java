@@ -23,8 +23,7 @@ public interface MessageMapper {
     @Update("update message set isRead=1 where send_user_id=#{send_userId} and to_user_id=#{userId}")
     boolean readMessage(int userId,int send_userId);
     @SelectKey(keyColumn = "id",keyProperty = "id",before = false,resultType =Integer.class,statement = {" select last_insert_id()"})
-    @Insert("insert into message(send_user_id,to_user_id,type,context,createdAt,updateAt,isRead)" +
-            " values(#{send_user_id},#{to_user_id},#{type},#{context},now(),now(),0)")
+    @Insert("insert into message(send_user_id,to_user_id,type,context,createdAt,updateAt,isRead)  values(#{send_user_id},#{to_user_id},#{type},#{context},now(),now(),0)")
     void sendMessage(Message message);
 
 }

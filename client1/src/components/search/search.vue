@@ -33,9 +33,21 @@ import { mapState, mapActions ,mapGetters } from 'vuex'
 
 export default {
 	 methods: {
+		   ...mapActions([
+             'selectFriend','send',
+        ])  ,
 		 createGroupBT(){
 			createGroup(this.value).then(data=>{
-				console.log(data,"?????????/");
+		
+		     
+this.selectFriend(data)
+       this.$store.state.groups.push(data)
+	   this.selectFriend(data)
+		this.send(data)
+	       
+				  		//    this.$store.dispatch("send");
+		
+			  
 			})
 		 },
 

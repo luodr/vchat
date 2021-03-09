@@ -119,16 +119,19 @@ public class Friend implements Serializable {
         this.deleteAt = deleteAt;
     }
 
+
     @Override
     public String toString() {
         return "Friend{" +
-        "id=" + id +
-        ", user_id=" + user_id +
-        ", friend_id=" + friend_id +
-        ", remark=" + remark +
-        ", createdAt=" + createdAt +
-        ", updateAt=" + updateAt +
-        ", deleteAt=" + deleteAt +
-        "}";
+                "id=" + id +
+                ", user_id=" + user_id +
+                ", friend_id=" + friend_id +
+                ", remark='" + remark + '\'' +
+                ", myFriend=" + myFriend +
+                ", messages=" + messages +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updateAt +
+                ", deleteAt=" + deleteAt +
+                '}';
     }
 }
