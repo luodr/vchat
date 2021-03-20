@@ -71,7 +71,7 @@ export default {
        item.count=0;
        item.messages?.forEach(t => {
         
-        if( !t.read&&t.send_user_id!==this.$store.state.user.id){
+        if( t.id&&!t.read&&t.send_user_id!==this.$store.state.user.id){
             item.count++;
         }
        });

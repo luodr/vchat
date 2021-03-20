@@ -13,14 +13,25 @@
   title="创建群聊"
   :visible.sync="dialogVisible"
   width='40%'>
-   <el-transfer
+   <!-- <el-transfer
     filterable
     :filter-method="filterMethod"
     filter-placeholder="搜索"
     v-model="value"
 	:titles="titles"
     :data="data">
-  </el-transfer>
+  </el-transfer> -->
+
+    <!-- <el-checkbox-group v-model="checkList"> -->
+    <el-checkbox v-model="item.checked" v-for="item in data" :key="item.id" width="150px"> <div> 
+		<img class="avatar" width="42" height="42"   :src="item.myFriend?item.myFriend.img:item.img" />
+		{{item.name}} </div>
+		</el-checkbox>
+	
+  <!-- </el-checkbox-group> -->
+  <br/>
+   <br/>
+    <br/>
     <el-button type="success" round style="float:right;top:-15px;     position: relative" @click="createGroupBT">创建群聊</el-button>
 </el-dialog>
 </div>
@@ -37,6 +48,13 @@ export default {
              'selectFriend','send',
         ])  ,
 		 createGroupBT(){
+			console.log(this.data);
+			this.value=[];
+			this.data.forEach(item=>{
+				if(item.checked){
+						this.value.push(item.key)
+				}
+			})
 			createGroup(this.value).then(data=>{
 		
 		     
@@ -57,6 +75,10 @@ this.selectFriend(data)
 			this.searchedFriendlist.forEach((item,index)=>{
 				data.push({
 					label:item.remark||item.myFriend.name,
+					img:item.myFriend.img,
+					id:item.id,
+						name:item.myFriend.name,
+						checked:false,
 					key:{
 						id:item.id,
 						name:item.myFriend.name
@@ -84,6 +106,7 @@ this.selectFriend(data)
      		   search: '',
 			   active: false,
 			   dialogVisible: false,
+			   checkList:[],
 			   data:[],
 			   titles:["勾选联系人","已勾选"],
                value: [],

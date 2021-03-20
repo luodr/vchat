@@ -10,11 +10,13 @@ import net.sinlo.vchat.service.IGroupMemberService;
 import net.sinlo.vchat.service.IGroupService;
 import net.sinlo.vchat.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
 import java.util.List;
 
@@ -41,8 +43,9 @@ public class GroupController {
 
     return groupService.createGroup(user,array);
     }
-    @PostMapping("join/{groupId}")
-    public boolean joinGroup(@PathVariable int groupId, @RequestBody CreateGroupDto[] array){
+    @PostMapping(value = "join/{groupId}")
+    public boolean joinGroup(@PathVariable int groupId, @RequestBody  CreateGroupDto[] array, HttpServletRequest servletRequest){
+
         return groupService.joinGroup(groupId,array);
     }
     @PostMapping("leave/{groupId}")
