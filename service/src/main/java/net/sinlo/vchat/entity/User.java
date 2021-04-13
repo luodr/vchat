@@ -23,7 +23,23 @@ public class User implements Serializable {
 
     private Integer id;
 
-    @ApiModelProperty(value = "手机号")
+    public User() {
+    }
+
+    public User(Integer id, String phone, String password, String city, String signature, String name, String img, LocalDateTime createdAt, LocalDateTime updateAt, LocalDateTime deleteAt) {
+        this.id = id;
+        this.phone = phone;
+        this.password = password;
+        this.city = city;
+        this.signature = signature;
+        this.name = name;
+        this.img = img;
+        this.createdAt = createdAt;
+        this.updateAt = updateAt;
+        this.deleteAt = deleteAt;
+    }
+
+    @ApiModelProperty(value = "手机号",dataType = "varchar")
     private String phone;
 
     @ApiModelProperty(value = "密码")
@@ -47,8 +63,25 @@ public class User implements Serializable {
 
     private LocalDateTime deleteAt;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", city='" + city + '\'' +
+                ", signature='" + signature + '\'' +
+                ", name='" + name + '\'' +
+                ", img='" + img + '\'' +
+                ", createdAt=" + createdAt +
+                ", updateAt=" + updateAt +
+                ", deleteAt=" + deleteAt +
+                '}';
+    }
 
-
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Integer getId() {
         return id;
@@ -72,14 +105,6 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
     }
 
     public String getCity() {
@@ -106,6 +131,14 @@ public class User implements Serializable {
         this.name = name;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -128,21 +161,5 @@ public class User implements Serializable {
 
     public void setDeleteAt(LocalDateTime deleteAt) {
         this.deleteAt = deleteAt;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", phone=" + phone +
-                ", password=" + password +
-                ", img=" + img +
-                ", city=" + city +
-                ", signature=" + signature +
-                ", name=" + name +
-                ", createdAt=" + createdAt +
-                ", updateAt=" + updateAt +
-                ", deleteAt=" + deleteAt +
-                "}";
     }
 }

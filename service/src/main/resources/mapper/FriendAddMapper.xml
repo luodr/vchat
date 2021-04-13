@@ -16,7 +16,16 @@
             <result column="signature" property="signature"/>
             <result column="name" property="name"/>
         </association>
-
+<!--        "\t user.*,\n" +-->
+<!--        "\t friend.*,\n" +-->
+<!--        "\t m.type AS m_type,\n" +-->
+<!--        "\t m.updateAt AS m_updateAt,\n" +-->
+<!--        "\t m.to_user_id as m_to_user_id,\n" +-->
+<!--        "\t m.send_user_id AS m_send_user_id,\n" +-->
+<!--        "\t m.isRead AS m_isRead ,\n" +-->
+<!--        "\t m.id as m_id,\n" +-->
+<!--        "\t m.context as m_context," +-->
+<!--        "\t m.send_user_id= #{userId} as m_self "+-->
     </resultMap>
 
 </mapper>

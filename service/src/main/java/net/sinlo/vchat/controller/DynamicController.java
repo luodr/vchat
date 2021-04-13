@@ -11,7 +11,6 @@ import net.sinlo.vchat.entity.Dynamic;
 import net.sinlo.vchat.entity.Good;
 import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.service.IDynamicService;
-import net.sinlo.vchat.service.IMessagetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;

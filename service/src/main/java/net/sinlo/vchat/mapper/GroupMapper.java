@@ -54,7 +54,7 @@ public interface GroupMapper {
             "\tLEFT JOIN group_chat AS c ON c.to_group_id = g.id\n" +
             "\tLEFT JOIN group_chat_read AS r ON r.group_chat_id = c.id and  r.user_id = #{userID} \n" +
             "WHERE\n" +
-            "\tmember.user_id = #{userID} " +
+            "\tmember.user_id = #{userID} and member.deleteAt is null " +
             "\tORDER BY \tc.createdAt")
     List<Group> findByUserID(int userID);
 

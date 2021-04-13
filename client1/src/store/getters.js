@@ -42,12 +42,15 @@ const getters = {
     },
     // 筛选出含有搜索值的好友列表
     searchedFriendlist(state) {
+      
         let friends = state.friendlist.filter(friends => {
             if(friends.remark) return friends.remark.includes(state.searchText)
             if(friends.myFriend.name) return friends.myFriend.name.includes(state.searchText)
 
         });
         return friends
+    
+     
     },
      // 获取所有群聊
     getGruops(state) {

@@ -16,3 +16,12 @@ export const getMyGroup =  (data) => {
      })
     
  };
+
+ export const leaveGroup =  (data) => {
+   return new Promise( (resolve,reject)=>{
+    post("/group/leave/"+data).then(res=>{
+         resolve(res.data)
+      })
+     })
+    
+ };

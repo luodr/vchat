@@ -34,35 +34,38 @@ public class GroupServiceImpl implements IGroupService {
     @Autowired
     IUserService userService;
     @Override
-    public Group createGroup(User user, CreateGroupDto[] createGroupDtos) {
+    public Group createGroup(User user, List<CreateGroupDto> array){
         StringBuffer name = new StringBuffer();
+        array.add(new CreateGroupDto(user.getName(),user.getId()));
+        System.out.println(array);
 
-        for (int i = 0; i < createGroupDtos.length; i++) {
-            System.out.println(createGroupDtos[i]);
-            name.append(createGroupDtos[i].getName());
+        for (int i = 0; i < array.size(); i++) {
+//            System.out.println(createGroupDtos[i]);
+            CreateGroupDto dto=array.get(i);
+            name.append(dto.getName());
             if (i == 2) {
                 name.append("...");
                 break;
             }
-            if( i < createGroupDtos.length-1){
+            if( i < array.size()-1){
                 name.append("、");
             }
 
         }
         Group group = new Group(name.toString(), user.getId(), LocalDateTime.now());
         groupMapper.createGroup(group);
-        groupMemberMapper.joinGroup(createGroupDtos,group.getId());
+        groupMemberMapper.joinGroup(array,group.getId());
 
         group.setGroupMembers(new ArrayList<>());
         group=groupMapper.findByID(group.getId());
         group.setUsers(userService.findByGroupId(group.getId()));
-        WebSocketServer.createRooms(createGroupDtos,group.getId(),group);
+        WebSocketServer.createRooms(array,group.getId(),group);
         return  group;
     }
 
     @Override
-    public boolean joinGroup(int groupId,CreateGroupDto[] createGroupDtos) {
-        return  groupMemberMapper.joinGroup(createGroupDtos,groupId);
+    public boolean joinGroup(int groupId,List arrayList ) {
+        return  groupMemberMapper.joinGroup(arrayList,groupId);
     }
 
     @Override

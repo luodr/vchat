@@ -1,8 +1,6 @@
 package net.sinlo.vchat.controller;
 
-
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import net.sinlo.vchat.authorization.ParamUser;
 import net.sinlo.vchat.authorization.UserLoginToken;
@@ -10,19 +8,12 @@ import net.sinlo.vchat.dto.friend.FriendDto;
 import net.sinlo.vchat.dto.friend.FriendRemarkDto;
 import net.sinlo.vchat.entity.FriendAdd;
 import net.sinlo.vchat.entity.User;
-
 import net.sinlo.vchat.service.IFriendService;
-import net.sinlo.vchat.service.impl.FriendServiceImpl;
 import net.sinlo.vchat.websocket.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.stereotype.Controller;
 import springfox.documentation.annotations.ApiIgnore;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -43,13 +34,14 @@ public class FriendController {
     @ApiOperation("获取好友列表")
     @GetMapping("list")
     public List myFriends(@ParamUser @ApiIgnore User user) {
+        System.out.println("获取好友列表"+user);
         List list =this.friendService.getFriends(user.getId());
-        System.out.println(list);
+
         return list;
     }
 
     @ApiOperation("删除好友")
-    @DeleteMapping("")
+    @PostMapping("deleteFriend")
     public boolean deleteFriend(@ParamUser @ApiIgnore User user, @RequestBody() FriendDto friendDto) {
         return this.friendService.deleteFriend(user.getId(), friendDto.getFriendId());
     }

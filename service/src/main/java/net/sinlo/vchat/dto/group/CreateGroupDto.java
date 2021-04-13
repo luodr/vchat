@@ -8,6 +8,14 @@ public class CreateGroupDto {
     @ApiModelProperty(value = "被邀请人用户id")
     private int id;
 
+    public CreateGroupDto(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+
+    public CreateGroupDto() {
+    }
+
     @Override
     public String toString() {
         return "CreateGroupDto{" +

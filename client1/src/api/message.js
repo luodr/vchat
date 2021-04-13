@@ -78,3 +78,16 @@ export const sendPrivateChat =  (data) => {
      })
 
  }
+ export const withdrawMessage=(id,data)=>{
+   return new Promise( (resolve,reject)=>{
+      post("message/withdraw/"+id,data).then(res=>{
+         resolve(res.data)
+      })
+     })
+
+ }
+
+
+
+
+ 

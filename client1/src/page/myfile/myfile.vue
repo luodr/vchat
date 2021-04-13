@@ -110,25 +110,19 @@
             
             </div>
           </div>
+          <br>
            <div v-if="item.openInput">
+             
           <el-input
               type="textarea"
               v-model="commentInput"
-              :rows="5"
+              :rows="3"
               placeholder="这一刻的想法..."
             ></el-input>
               <br/>
-             <el-button
-         @click="closeInput(item)"
-          type="info"
-          style="width:100px;margin-right:20px;"
-        >
-          取消
-          <i class="el-icon-close" style="margin-left:4px;font-size:16px;"></i>
-        </el-button>
-        <el-button  type="primary" style="width:100px;" @click="commentSend(item.id)">
-          发布
-          <i class="el-icon-upload el-icon--right" style="margin-left:4px;font-size:16px;"></i>
+        <br/>
+        <el-button  type="primary" style="width:80px;" @click="commentSend(item.id)" class="sendPL">
+          评论
         </el-button>
             </div>
         </div>
@@ -233,6 +227,7 @@ export default {
       isActive: true,
       wechatMoments: [],
       commentInput:"",
+      preItem:null,
       ruleForm: {
         expressText: "" // 文本框
       },
@@ -454,6 +449,10 @@ data.forEach(item=>{
       this.currentIndex = index;
     },
     openInput(item){
+      if(this.preItem){
+      this. preItem.openInput=false;
+      }
+      this.preItem=item;
       item.openInput=true;
     },
     closeInput(item){
@@ -583,12 +582,17 @@ data.forEach(item=>{
 .el-popconfirm__main {
   margin-bottom: 10px;
 }
+
 </style>
 <style lang="stylus" scoped>
 ::-webkit-scrollbar {
   width: 0px;
 }
 
+.sendPL{
+ position: realative;
+          float:right;
+}
 .amap-demo {
   height: 510px;
 }

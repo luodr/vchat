@@ -19,8 +19,22 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(value="Chat对象", description="")
 public class Message  {
 
+    public Message() {
 
+    }
 
+    public Message(Integer id, Integer send_user_id, Integer to_user_id, String type, String context, boolean isRead, LocalDateTime createdAt, LocalDateTime updateAt, LocalDate deleteAt, boolean self) {
+        this.id = id;
+        this.send_user_id = send_user_id;
+        this.to_user_id = to_user_id;
+        this.type = type;
+        this.context = context;
+        this.isRead = isRead;
+        this.createdAt = createdAt;
+        this.updateAt = updateAt;
+        this.deleteAt = deleteAt;
+        this.self = self;
+    }
 
     private Integer id;
 
@@ -43,6 +57,20 @@ public class Message  {
 
     }
 
+    public Message(Integer id, Integer send_user_id, Integer to_user_id, String type, String context, boolean isRead, LocalDateTime createdAt, LocalDateTime updateAt, LocalDate deleteAt, boolean self, boolean isWithdraw) {
+        this.id = id;
+        this.send_user_id = send_user_id;
+        this.to_user_id = to_user_id;
+        this.type = type;
+        this.context = context;
+        this.isRead = isRead;
+        this.createdAt = createdAt;
+        this.updateAt = updateAt;
+        this.deleteAt = deleteAt;
+        this.self = self;
+        this.isWithdraw = isWithdraw;
+    }
+
     public void updateAt( ) {
         this.createdAt=LocalDateTime.now();
         this.updateAt=LocalDateTime.now();
@@ -63,6 +91,18 @@ public class Message  {
     private LocalDate deleteAt;
 
     private boolean self;
+    private boolean isWithdraw;
+
+    public boolean isWithdraw() {
+        return isWithdraw;
+    }
+
+    public boolean getWithdraw() {
+        return isWithdraw;
+    }
+    public void setWithdraw(boolean withdraw) {
+        isWithdraw = withdraw;
+    }
 
     public boolean isSelf() {
         return self;

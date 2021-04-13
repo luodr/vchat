@@ -26,7 +26,9 @@
     <div id="register_but_div">
       <el-button type="primary" round id="register_but" @click="toRegister"
         >注册</el-button
-      >
+      >    <router-link to="/login">
+      <span>已有账号?去登录</span>
+ </router-link>
     </div>
   </div>
 </template>

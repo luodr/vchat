@@ -15,8 +15,8 @@ import java.util.List;
  * @since 2020-11-14
  */
 public interface IGroupService  {
-    Group createGroup(User user, CreateGroupDto[] createGroupDtos);
-    public boolean joinGroup(int groupId,CreateGroupDto[] createGroupDtos);
+    Group createGroup(User user, List<CreateGroupDto> array);
+    public boolean joinGroup(int groupId,List  array);
 
     List<Group> findByUserID(int userID);
 }

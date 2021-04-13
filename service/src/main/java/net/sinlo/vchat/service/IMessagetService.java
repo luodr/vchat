@@ -24,6 +24,6 @@ public interface IMessagetService {
      String speechTX(String path);
     String translated(String text,String source,String taeget);
     String imgToText(String path);
-
+    boolean withdrawMessage(int userId,int id);
 
 }

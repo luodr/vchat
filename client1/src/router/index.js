@@ -152,6 +152,18 @@ function initData(){
             let newG = store.state.groups.find(group => group.id === obj.data.id)
             if(!newG){ store.state.groups.push(obj.data)}
            break;
+           case "withdrawMessage" ://撤回
+           if(obj.data.type=='Private') // 私聊撤回
+           {
+            let friend = store.state.friendlist.find(session => session.id === obj.data.userID);
+            friend.messages.map(item=>{
+              if(item.id==obj.data.id){
+               item.withdraw=true;
+               item.context='撤回了一条信息';
+              }
+            })
+           }
+           break;
          }
         
        }
@@ -160,9 +172,12 @@ store.state.dataInit=true
 }
 router.beforeEach((to, from, next) => {
  
-    if(!localStorage.token&&to.path!=='/login'){
+    if(!localStorage.token&&to.path!=='/login'&&to.path!=='/reg'){
       next('/login')
-    }else{
+    }
+   else if(!localStorage.token&&to.path=='/reg'){
+      next()
+    } else{
       //&&!store.state.dataInit
        if(localStorage.token){
           initData()

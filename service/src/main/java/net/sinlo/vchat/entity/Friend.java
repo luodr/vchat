@@ -23,6 +23,21 @@ public class Friend implements Serializable {
 
     private Integer id;
 
+    public Friend() {
+    }
+
+    public Friend(Integer id, Integer user_id, Integer friend_id, String remark, User myFriend, List<Message> messages, LocalDateTime createdAt, LocalDateTime updateAt, LocalDateTime deleteAt) {
+        this.id = id;
+        this.user_id = user_id;
+        this.friend_id = friend_id;
+        this.remark = remark;
+        this.myFriend = myFriend;
+        this.messages = messages;
+        this.createdAt = createdAt;
+        this.updateAt = updateAt;
+        this.deleteAt = deleteAt;
+    }
+
     @ApiModelProperty(value = "用户ID")
     private Integer user_id;
 
@@ -31,38 +46,12 @@ public class Friend implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
     // 我的朋友
-
     private   User myFriend;
-
     private  List<Message> messages;
-
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
-    public User getMyFriend() {
-        return myFriend;
-    }
-
-    public void setMyFriend(User myFriend) {
-        this.myFriend = myFriend;
-    }
-
     private LocalDateTime createdAt;
-
     private LocalDateTime updateAt;
-
     private LocalDateTime deleteAt;
-
-
     public Integer getId() {
         return id;
     }
@@ -95,6 +84,22 @@ public class Friend implements Serializable {
         this.remark = remark;
     }
 
+    public User getMyFriend() {
+        return myFriend;
+    }
+
+    public void setMyFriend(User myFriend) {
+        this.myFriend = myFriend;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -117,21 +122,5 @@ public class Friend implements Serializable {
 
     public void setDeleteAt(LocalDateTime deleteAt) {
         this.deleteAt = deleteAt;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Friend{" +
-                "id=" + id +
-                ", user_id=" + user_id +
-                ", friend_id=" + friend_id +
-                ", remark='" + remark + '\'' +
-                ", myFriend=" + myFriend +
-                ", messages=" + messages +
-                ", createdAt=" + createdAt +
-                ", updateAt=" + updateAt +
-                ", deleteAt=" + deleteAt +
-                '}';
     }
 }

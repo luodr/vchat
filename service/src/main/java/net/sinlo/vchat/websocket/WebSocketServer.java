@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.sinlo.vchat.dto.ResponseChatMessage;
 import net.sinlo.vchat.dto.WebSocketMessageDto;
+import net.sinlo.vchat.dto.WithdrawMessage;
 import net.sinlo.vchat.dto.group.CreateGroupDto;
 import net.sinlo.vchat.entity.*;
 import net.sinlo.vchat.service.IGroupMemberService;
@@ -183,6 +184,26 @@ public class WebSocketServer {
     }
 
     /**
+     *  通知好友撤回信息
+     * @param message
+     * @throws IOException
+     */
+    public static  void withdrawMessage(int toUserID, WithdrawMessage message){
+        WebSocketServer socketServer=webSocketMap.get(toUserID);
+        if(socketServer!=null){
+            try {
+
+                WebSocketMessageDto<Message> data=new WebSocketMessageDto("withdrawMessage",message);
+                socketServer.sendMessage(objectMapper.writeValueAsString(data));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+    /**
      *  好友申请
      * @param friendAdd
      * @throws IOException
@@ -218,14 +239,15 @@ public class WebSocketServer {
      * 创建群聊
      * @param
      */
-    public static void createRooms(CreateGroupDto[] list , int groupId,Group group) {
+    public static void createRooms(List<CreateGroupDto> list , int groupId,Group group) {
         if (!rooms.containsKey(groupId)) {
             rooms.put(groupId, new HashSet());
         }
 
-      for(int i=0;i<list.length;i++){
-          rooms.get(groupId).add(list[i].getId());
-          WebSocketServer ws = webSocketMap.get(list[i].getId());
+      for(int i=0;i<list.size();i++){
+          CreateGroupDto dto=list.get(i);
+          rooms.get(groupId).add(dto.getId());
+          WebSocketServer ws = webSocketMap.get(dto.getId());
           if(ws!=null){
               try {
                   WebSocketMessageDto<Group> data=new WebSocketMessageDto("CreateGroupChat",group);
@@ -260,13 +282,14 @@ public class WebSocketServer {
     /**
      * 离开单个房间
      *
-     * @param id
+     * @param userId 用户ID
+     * @param groupID 群聊ID
      */
-    public void leaveRoomById(int id, int Rooms) {
-        if (!rooms.containsKey(Rooms)) {
-            rooms.put(Rooms, new HashSet());
+    public static void leaveRoomById(int userId, int groupID) {
+        if (!rooms.containsKey(groupID)) {
+            rooms.put(groupID, new HashSet());
         }
-        rooms.get(Rooms).remove(id);
+        rooms.get(groupID).remove(userId);
     }
 
     public static synchronized int getOnlineCount() {

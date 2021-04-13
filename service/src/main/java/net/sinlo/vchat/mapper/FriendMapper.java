@@ -30,24 +30,31 @@ public interface FriendMapper  {
             "\t m.isRead AS m_isRead ,\n" +
             "\t m.id as m_id,\n" +
             "\t m.context as m_context," +
-            "\t m.send_user_id= #{userId} as m_self "+
+            "\t m.send_user_id= #{userId} as m_self ,"+
+            "\t m.isWithdraw as m_isWithdraw "+
             " from friend left JOIN user on user.id=friend.friend_id   " +
             " left JOIN message as m on" +
             " (m.to_user_id=#{userId} or m.send_user_id=#{userId}) " +
             "and " +
             "(m.to_user_id=user.id or m.send_user_id=user.id) " +
-            " where" +
+            " where"+
             " friend.user_id=#{userId}" +
+            " and friend.deleteAt is null" +
             " ")
     List<Friend> getFriends(int userId);
     @Update("update friend set deleteAt =now() where user_id=#{userId} and friend_id=#{friendId}")
     boolean softDeleteFriend(int userId,int friendId);
+    @Delete("delete from friend  where user_id=#{userId} and friend_id=#{friendId}")
+    boolean deleteFriend(int userId,int friendId);
     @Insert("insert into friend(user_id,friend_id,createdAt,updateAt) values(#{userId},#{friendId},now(),now())")
     boolean addFriend(int userId,int friendId);
-
+    @Select("select * from  friend   where user_id=#{userId} and friend_id=#{friendId} ")
+    Friend getFriend(int userId,int friendId);
     @Select("select friend.friend_id from friend where friend.user_id=#{userId}")
     List<Integer> getFriendIDs(int userId);
 
     @Update("update friend set remark =#{remark} where user_id=#{userId} and friend_id=#{friendId}")
     boolean updateOneRemark(int userId,int friendId,String remark);
+
+
 }

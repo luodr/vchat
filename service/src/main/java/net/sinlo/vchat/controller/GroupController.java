@@ -18,6 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,12 +40,12 @@ public class GroupController {
     @Autowired
     IGroupMemberService groupMemberService;
     @PostMapping("create")
-    public Group createGroup(@ParamUser @ApiIgnore User user, @RequestBody CreateGroupDto[] array){
+    public Group createGroup(@ParamUser @ApiIgnore User user, @RequestBody ArrayList<CreateGroupDto> array){
 
     return groupService.createGroup(user,array);
     }
     @PostMapping(value = "join/{groupId}")
-    public boolean joinGroup(@PathVariable int groupId, @RequestBody  CreateGroupDto[] array, HttpServletRequest servletRequest){
+    public boolean joinGroup(@PathVariable int groupId, @RequestBody  ArrayList<CreateGroupDto> array, HttpServletRequest servletRequest){
 
         return groupService.joinGroup(groupId,array);
     }

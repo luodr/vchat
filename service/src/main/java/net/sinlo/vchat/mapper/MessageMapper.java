@@ -25,5 +25,8 @@ public interface MessageMapper {
     @SelectKey(keyColumn = "id",keyProperty = "id",before = false,resultType =Integer.class,statement = {" select last_insert_id()"})
     @Insert("insert into message(send_user_id,to_user_id,type,context,createdAt,updateAt,isRead)  values(#{send_user_id},#{to_user_id},#{type},#{context},now(),now(),0)")
     void sendMessage(Message message);
-
+    @Update("update message set isWithdraw=1 , context='撤回了一条信息' where id=#{id} and send_user_id=#{userId} and  (unix_timestamp(createdAt)+120)  >  unix_timestamp(now())")
+    boolean withdrawMessage(int userId,int id);
+     @Select("select * from message where id=#{id}")
+    Message findById(int id);
 }

@@ -35,7 +35,7 @@ public class FriendServiceImpl implements IFriendService {
 
     @Override
     public boolean deleteFriend(int userId, int friendId) {
-        return this.mapper.softDeleteFriend(userId, friendId);
+        return this.mapper.deleteFriend(userId, friendId);
     }
 
     @Override
@@ -53,7 +53,9 @@ public class FriendServiceImpl implements IFriendService {
 
     @Override
     public boolean addFriend(int userId, int friendId) {
+       if(this.mapper.getFriend(userId,friendId)==null)
         this.mapper.addFriend(userId, friendId);
+        if(this.mapper.getFriend(friendId,userId)==null)
         this.mapper.addFriend(friendId, userId);
         return this.updateState("agree", userId, friendId);
     }

@@ -1,12 +1,14 @@
 package net.sinlo.vchat.service.impl;
 
 import net.sinlo.vchat.dto.RequestChatMessage;
+import net.sinlo.vchat.dto.WithdrawMessage;
 import net.sinlo.vchat.entity.Message;
 import net.sinlo.vchat.mapper.MessageMapper;
 import net.sinlo.vchat.service.IMessagetService;
 
 import net.sinlo.vchat.util.TencentAipUtil;
 import net.sinlo.vchat.util.AipSpeechUtil;
+import net.sinlo.vchat.websocket.WebSocketServer;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,5 +71,15 @@ public class MessageServiceImpl implements IMessagetService {
     @Override
     public String imgToText(String path) {
         return tencentAipUtil.imgToText(uploadPath+"/"+path);
+    }
+
+    @Override
+    public boolean withdrawMessage(int userId, int id) {
+     if( messageMapper.withdrawMessage(userId,id)){
+         Message message=messageMapper.findById(id);
+         WebSocketServer.withdrawMessage(message.getTo_user_id(),new WithdrawMessage(id,"Private",userId));
+         return  true;
+     }
+     return false;
     }
 }

@@ -21,6 +21,7 @@ public interface IFriendService  {
 
     List<Friend>  getFriends(int userId) ;
     boolean deleteFriend(int userId,int friendId);
+
      List<Integer> getFriendIDs(int userId);
     FriendAdd requestAddFriend(int userId, int friendId);
     boolean updateState(String state,int userId, int friendId);

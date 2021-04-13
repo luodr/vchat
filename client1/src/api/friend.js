@@ -10,7 +10,7 @@ export const getFriends =  () => {
 };
 export const deleteFriends =  data => {
   return new Promise( (resolve,reject)=>{
-     get("friend/deleteFriend", {}).then(res=>{
+     post("friend/deleteFriend", {friendId:data}).then(res=>{
         resolve(res.data)
      })
     })

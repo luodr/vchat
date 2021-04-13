@@ -9,8 +9,6 @@ import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.service.IGroupChatService;
 import net.sinlo.vchat.service.IMessagetService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import net.sinlo.vchat.websocket.WebSocketServer;
 import springfox.documentation.annotations.ApiIgnore;

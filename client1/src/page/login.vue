@@ -17,7 +17,11 @@
     <div id="login_but_div">
       <el-button type="primary" round id="login_but" @click="toLogin"
         >登录</el-button
-      >
+      > 
+      <router-link to="/reg">
+      <span>没有账号?去注册</span>
+ </router-link>
+      
     </div>
   </div>
 </template>

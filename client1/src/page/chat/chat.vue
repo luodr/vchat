@@ -1,11 +1,4 @@
-<!--
- * @Description: 
- * @Version: 1.0
- * @Autor: 
- * @Date: 2020-07-06 09:56:05
- * @LastEditors: 
- * @LastEditTime: 2020-07-21 10:07:13
---> 
+
 <template>
   <div class="content">
     <div class="msglist">

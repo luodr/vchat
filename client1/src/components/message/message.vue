@@ -1,17 +1,27 @@
 <!-- 消息框 -->
 <template>
  <div>
+ 
     <div class="message" v-if="selectedChat&&selectedChat.myFriend">
     <header class="header u-f u-f-sbc" v-if="selectedChat">
       <div class="friendname">{{(selectedChat.remark||selectedChat.myFriend.name)}}</div>
       <img src="@/assets/icon-imgs/c-gb.png" alt="" style="margin-left:auto;"/>
       <img src="@/assets/icon-imgs/inform.png" alt="" />
-      <img src="@/assets/icon-imgs/more.png" alt="" />
+      
+
+        <el-dropdown :hide-on-click="false">
+  <span class="el-dropdown-link">
+   <img src="@/assets/icon-imgs/more.png" alt="" />
+  </span>
+  <el-dropdown-menu slot="dropdown">
+    <el-dropdown-item><span @click="deleteFriends"> 删除好友 </span></el-dropdown-item>
+  </el-dropdown-menu>
+</el-dropdown>
     </header>
     <div class="message-wrapper" ref="list">
       <ul v-if="selectedChat">
         <li v-for="(item,index) in selectedChat.messages" class="message-item" :key="item.id" >
-      <div v-if="item.context&&item.id">
+      <div v-if="item.context&&item.id&&!item.withdraw">
             <div class="time">
             <span>{{item.updateAt | time}}</span>
           </div>
@@ -30,6 +40,15 @@
             </div>
           </div>
       </div>
+      <dev v-else  >
+         <div class="time">
+            <span>{{item.updateAt | time}}</span>
+          </div>
+           <div class="withdrawMessage">
+              <span v-if="isSelf(item)"> 我撤回了一条信息</span>
+            <span v-else> {{(selectedChat.remark||selectedChat.myFriend.name)}}撤回了一条信息</span>
+           </div>
+      </dev>
         </li>
       </ul>
     </div>
@@ -37,11 +56,19 @@
 
   <!--群聊-->
    <div class="message" v-if="selectedChat&&!selectedChat.myFriend">
+     
     <header class="header u-f u-f-sbc" v-if="selectedChat">
       <div class="friendname">{{(selectedChat.remark||selectedChat.name)}}</div>
       <img src="@/assets/icon-imgs/c-gb.png" alt="" style="margin-left:auto;"/>
       <img src="@/assets/icon-imgs/inform.png" alt="" />
- <img src="@/assets/icon-imgs/more.png" alt="" />
+       <el-dropdown :hide-on-click="false">
+  <span class="el-dropdown-link">
+   <img src="@/assets/icon-imgs/more.png" alt="" />
+  </span>
+  <el-dropdown-menu slot="dropdown">
+    <el-dropdown-item><span @click="exitChat"> 退出群聊 </span></el-dropdown-item>
+  </el-dropdown-menu>
+</el-dropdown>
     </header>
     <div class="message-wrapper" ref="list">
       <ul v-if="selectedChat">
@@ -81,6 +108,9 @@
          <p v-if="this.item.type=='image'"  @click="imageToText">图片文字识别</p>
           <p v-if="this.item.type=='text'"  @click="translate('zh')">翻译成中文</p>
         <p v-if="this.item.type=='text'"  @click="translate('en')">翻译成英文</p>
+           <p v-if="isSelf(item)"  @click="withdrawMessage(item)">撤回</p>
+
+      
           <p >取消</p>
         </div>
       </el-card>
@@ -106,9 +136,9 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import { speech ,translate,imageToText} from "@/api/message";
-
-
+import { speech ,translate,imageToText,withdrawMessage} from "@/api/message";
+import { leaveGroup,getMyGroup} from "@/api/group";
+import { deleteFriends} from "@/api/friend";
 
 export default {
   
@@ -146,6 +176,41 @@ export default {
     }
   },
   methods: {
+    deleteFriends(){
+      deleteFriends(this.selectedChat.id).then(data=>{
+    if(data)
+  {
+      this.$message({
+          message: "已删除该好友",
+          type: "error",
+          duration: 600
+        });
+       getFriends().then(res=>{
+     
+        this.$store.state.friendlist=res
+        // if(res&&res.length>0)
+        //  this.$store.state. selectId=res[0].id
+      });
+  }
+  })
+    }, 
+    // 退出群聊
+exitChat(){
+  leaveGroup(this.selectedChat.id).then(data=>{
+    if(data)
+  {
+      this.$message({
+          message: "已退出群聊",
+          type: "error",
+          duration: 600
+        });
+       getMyGroup().then(res=>{
+       this.$store.state.groups=res
+      })
+  }
+  })
+},
+
 imageToText(){
    if(this.item.type=='image'){
      let path=this.item.context.split('/upload/')[1];
@@ -222,6 +287,27 @@ if(this.item.type=='text'){
     isSelf(item){
       return item.send_user_id===this.$store.state.user.id;
     },
+    withdrawMessage(item){
+      withdrawMessage(item.id,item).then(data=>{
+        
+        if(data){
+          item.withdraw=true;
+      this.$message({
+          message: "成功撤回",
+  
+          duration: 1000
+        });
+        }else{
+       this.$message({
+          message: "撤回失败,超过两分钟无法撤回",
+          type: "error",
+          duration: 1000
+        });
+        }
+
+        
+      })
+    },
    getGroupUser(userId){
      const user=  this.selectedChat.users.find(item=>item.id===userId)
    
@@ -295,6 +381,29 @@ if(this.item.type=='text'){
 </script>
 
 <style lang="stylus" scoped>
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+
+.withdrawMessage{
+        width:200px;
+		    height:20px;
+		    background-color:#d3d7d4;
+		    display: block;
+		    margin:0 auto;
+        text-align:center;
+        font-size :10px;
+        line-height :20px;
+        border-radius:5px;
+         opacity:0.8;
+}
+
+
+
 .message {
   width: 100%;
   height: 450px;

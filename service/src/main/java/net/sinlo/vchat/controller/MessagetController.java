@@ -8,6 +8,7 @@ import net.sinlo.vchat.dto.MessageReadDto;
 import net.sinlo.vchat.dto.message.ImageToTextDto;
 import net.sinlo.vchat.dto.message.SpeechDto;
 import net.sinlo.vchat.dto.message.TranslateDto;
+import net.sinlo.vchat.entity.Message;
 import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.service.IGroupChatService;
 import net.sinlo.vchat.service.IMessagetService;
@@ -53,6 +54,14 @@ public class MessagetController {
 
 
     }
+    @PostMapping("withdraw/{id}")
+    public boolean withdrawMessage(@ParamUser @ApiIgnore User user, @PathVariable int  id) {
+
+     return  service.withdrawMessage(user.getId(),id);
+
+    }
+
+
 
     @PostMapping("speech")
     public String speech(@RequestBody SpeechDto dto) {

@@ -8,6 +8,7 @@
  */ 
 import Vue from 'vue'
 import ElementUI from 'element-ui';
+
 import { 
     Button,
     Upload,
@@ -23,30 +24,34 @@ import {
     Form,
     FormItem,
     Dialog,
+    Drawer,
     Popconfirm,
     Popover,
     Transfer,
+    Dropdown,
     Avatar,
     Notification 
 } from 'element-ui';
 
-Vue.use(Button)
-Vue.use(Upload)
-Vue.use(Card)
-Vue.use(Divider)
-Vue.use(Input)
-Vue.use(Checkbox)
-Vue.use(Tabs)
-Vue.use(TabPane)
-Vue.use(Radio)
-Vue.use(RadioGroup)
-Vue.use(Form)
-Vue.use(FormItem)
-Vue.use(Dialog)
-Vue.use(Popconfirm)
-Vue.use(Popover)
-Vue.use(Avatar)
-Vue.use(Transfer)
+Vue.use(ElementUI)
+// Vue.use(Upload)
+// Vue.use(Drawer)
+// Vue.use(Dropdown)
+// Vue.use(Card)
+// Vue.use(Divider)
+// Vue.use(Input)
+// Vue.use(Checkbox)
+// Vue.use(Tabs)
+// Vue.use(TabPane)
+// Vue.use(Radio)
+// Vue.use(RadioGroup)
+// Vue.use(Form)
+// Vue.use(FormItem)
+// Vue.use(Dialog)
+// Vue.use(Popconfirm)
+// Vue.use(Popover)
+// Vue.use(Avatar)
+// Vue.use(Transfer)
 // Vue.use(Message)
 // Vue.use(Notification )
 

@@ -13,6 +13,7 @@ import net.sinlo.vchat.util.SMSUtil;
 import net.sinlo.vchat.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -46,7 +47,7 @@ public class UserServiceImpl implements IUserService {
        String code=(String)this.redisUtil.get(dto.getPhone()+"code");
         System.err.println(dto);
         // 校验验证码
-      if(code!=null&&code.equals(dto.getCode())){
+      if(!StringUtils.isEmpty(code)&&code.equals(dto.getCode())){
 
         User u = this.userMapper.findByPhoneOne(dto.getPhone());
         // 账号已被注册

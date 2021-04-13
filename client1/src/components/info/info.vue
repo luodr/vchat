@@ -8,6 +8,24 @@
       <!-- 好友 -->
      <div v-if="selectedFriend.myFriend">
 
+
+ <header class="header u-f u-f-sbc" style="font-size: 14px;">
+      <div class="friendname"> </div>
+      <div style="margin-left:auto;"/>
+
+        <el-dropdown :hide-on-click="false">
+  <span class="el-dropdown-link">
+   <img src="@/assets/icon-imgs/more.png" alt="" />
+  </span>
+  <el-dropdown-menu slot="dropdown">
+    <el-dropdown-item>删除好友</el-dropdown-item>
+  </el-dropdown-menu>
+</el-dropdown>
+    </header>
+
+
+
+
         <div class="esInfo">
         <div class="left">
           <div class="people">
@@ -40,7 +58,19 @@
      </div>
           <!-- 群聊 -->
       <div v-else>
-    
+     <header class="header u-f u-f-sbc" style="font-size: 14px;">
+      <div class="friendname"> </div>
+      <div style="margin-left:auto;"/>
+
+        <el-dropdown :hide-on-click="false">
+  <span class="el-dropdown-link">
+   <img src="@/assets/icon-imgs/more.png" alt="" />
+  </span>
+  <el-dropdown-menu slot="dropdown">
+   <el-dropdown-item><span @click="exitChat"> 退出群聊 </span></el-dropdown-item>
+  </el-dropdown-menu>
+</el-dropdown>
+    </header>
       <div class="left">
         <div class="esInfo">
           <div class="people">
@@ -63,7 +93,7 @@
         <span>发消息</span>
       </div>
     </div>
-    <div v-else class="my-new-friends" >
+    <div v-else class="my-new-friends" >  
       <div class="friend-list">
         <div class="friend-item u-f u-f-sbc" v-for="item in newFriendList" :key="item.id">
           <div class="f-left u-f u-f-ac">
@@ -91,6 +121,7 @@
 import router from "../../router";
 import { mapGetters, mapState, mapMutations } from "vuex";
 import {agreeFriend,refuseFriend,updateRemark} from "@/api/friend";
+import { leaveGroup,getMyGroup} from "@/api/group";
 export default {
   computed: {
     ...mapGetters(["selectedFriend"]),
@@ -98,6 +129,22 @@ export default {
   },
   methods: {
     ...mapMutations(["addNewFriendToList"]),
+        // 退出群聊
+exitChat(){
+  leaveGroup(this.selectedFriend.id).then(data=>{
+    if(data)
+  {
+      this.$message({
+          message: "已退出群聊",
+          type: "error",
+          duration: 600
+        });
+       getMyGroup().then(res=>{
+       this.$store.state.groups=res
+      })
+  }
+  })
+},
     // 发送信息
     send() {
       this.$store.dispatch("send");
@@ -134,6 +181,33 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+ .header {
+    height: 60px;
+    padding: 0 10px;
+    box-sizing: border-box;
+  
+ 
+
+    .friendname {
+      font-size: 18px;
+     
+    }
+    img{
+      width: 24px;
+      height: 24px;
+      margin:0 6px;
+      
+      cursor: pointer;
+    }
+  }
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+
 .newfriend {
   height: 60px;
   padding: 28px 0 0 30px;
