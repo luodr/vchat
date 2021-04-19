@@ -59,5 +59,6 @@ build/
 sms.properties
 key.properties
 test.properties
+application.properties
 ## file###
 SentenceRecognition.java

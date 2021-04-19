@@ -26,7 +26,7 @@ public interface UserMapper  {
     @Select("select * from user where phone like #{phone}   limit 1")
     User findByPhoneOne(String phone);
 
-    @Insert("insert  into user(phone,password,created_at) values(#{phone},#{password},now())")
+    @Insert("insert  into user(phone,password,created_at,name,img) values(#{phone},#{password},now(),#{name},#{img})")
     boolean insertOne(User user);
 
     @Select("SELECT USER\n" +
@@ -42,4 +42,8 @@ public interface UserMapper  {
     List<User> findByGroupId(int groupId);
      @Update("update  user set img=#{img} where id =#{userId} ")
     boolean updateImg(int userId,String img);
+    @Update("update  user set name=#{name} where id =#{userId} ")
+    boolean updateName(int userId,String name);
+    @Update("update  user set password=#{password} where phone=#{phone} ")
+    boolean updatePassword(String phone,String password);
 }

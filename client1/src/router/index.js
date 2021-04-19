@@ -85,7 +85,17 @@ const router = new Router({
         isBack: false, //用于判断上一个页面是哪个
         isShowAside: false,
         requiresAuth: false
-      }
+      } },
+      {
+        path: '/forgot',
+        component: () => import('@/page/forgot.vue'),
+        meta: {
+          keepAlive: true, // true :缓存  false :不缓存
+          isBack: false, //用于判断上一个页面是哪个
+          isShowAside: false,
+          requiresAuth: false
+        }
+      
     },{
       path: '/reg',
       component: () => import('@/page/register.vue'),
@@ -102,6 +112,8 @@ const router = new Router({
 
 function initData(){
   // if(!store.state.user.phone){
+    store.state. selectItem.id=null;
+    store.state.selectId=null;
     getInfo().then(res=>{
          store.state.user=res
     })
@@ -172,10 +184,10 @@ store.state.dataInit=true
 }
 router.beforeEach((to, from, next) => {
  
-    if(!localStorage.token&&to.path!=='/login'&&to.path!=='/reg'){
+    if(!localStorage.token&&to.path!=='/login'&&(to.path!=='/reg'&&to.path!=='/forgot')  ){
       next('/login')
     }
-   else if(!localStorage.token&&to.path=='/reg'){
+   else if(!localStorage.token&&(to.path!=='/reg'&&to.path!=='/forgot') ){
       next()
     } else{
       //&&!store.state.dataInit

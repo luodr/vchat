@@ -51,5 +51,10 @@ public class DynamicController {
         return service.commentDynamics(user,dto);
     }
 
+    @PostMapping ("/update/delete/{id}")
+    public boolean updateDelete(@ParamUser  @ApiIgnore User user, @PathVariable int id) {
+        return service.updateDeleteAt(id,user.getId());
+    }
+
 }
 

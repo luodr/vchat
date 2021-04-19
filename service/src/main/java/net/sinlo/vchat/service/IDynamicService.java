@@ -23,4 +23,5 @@ public interface IDynamicService {
     List<Dynamic>  getDynamics(int userId);
      Good goodDynamics(User user,int dynamicID);
     Comment commentDynamics(User user, CommentDynamicDto dto);
+    boolean updateDeleteAt(int id ,int userId);
 }

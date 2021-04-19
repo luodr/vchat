@@ -74,7 +74,7 @@ public class SMSUtil {
         request.putQueryParameter("SignName", SignName);
         request.putQueryParameter("TemplateCode", TemplateCode);
         String vcode="";
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 4; i++) {
             vcode = vcode + (int)(Math.random() * 9);
         }
         request.putQueryParameter("TemplateParam", "{'code':'"+vcode+"\'}");

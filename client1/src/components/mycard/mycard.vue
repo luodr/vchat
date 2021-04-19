@@ -21,18 +21,19 @@
         <div slot="header" class="user-header u-f u-f-sbc">
           <div class="u-left u-f-c u-f-jsb">
             <div style="font-size:15px;margin-top:8px" class="u-f u-f-ac">
-              <span>{{user.name}}</span>
-  
+       
+        <input v-model="user.name" placeholder="修改昵称"  @blur="blur(user)" />
          
-     <img
+     <!-- <img
                 src="@/assets/icon-imgs/person-icon.png"
                 alt
                 style="height:16px;width:16px;margin-left:10px;"
-              />
+              /> -->
 
             </div>
             <p style="font-size:13px;color:#666;margin-top:8px;">手机号： +86 {{user.phone}}</p>
-            <p style="font-size:13px;color:#666;margin-top:8px;">昵称：{{user.name}}</p>
+         
+            <div style="font-size:13px;color:#666;margin-top:8px;"><span>昵称：</span>{{user.name}}</div>
           </div>
                     <el-upload
   action="api/file/upload/one"
@@ -134,7 +135,7 @@ import { mapState ,mapGetters} from "vuex";
 import { pathToBase64 } from "@/utils/base64ToImage.js";
 import { uploadImg } from "../../utils/network/user";
 import Config from "../../utils/config";
-import {updateImg,loginOut} from '@/api/user'
+import {updateImg,loginOut,updateName} from '@/api/user'
 
 
 
@@ -156,6 +157,15 @@ export default {
     ...mapGetters(["searchedChatlist"])
   },
   methods: {
+    blur(item){
+       updateName({name:item.name}).then(date=>{
+   this.$notify({
+          title: '修改昵称',
+          message: '修改昵称成功',
+          position: 'bottom-right'
+        });
+    })
+    },
      sendFile(response, file, fileList) {
         console.log(response, file, fileList);
    updateImg({img:response.data}).then(res=>{

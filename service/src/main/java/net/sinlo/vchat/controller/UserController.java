@@ -6,10 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import net.sinlo.vchat.authorization.ParamUser;
 import net.sinlo.vchat.authorization.PassToken;
 import net.sinlo.vchat.authorization.UserLoginToken;
-import net.sinlo.vchat.dto.user.GetCodeDto;
-import net.sinlo.vchat.dto.user.LoginDto;
-import net.sinlo.vchat.dto.user.UserRegisterDto;
-import net.sinlo.vchat.dto.user.UserUpdateDto;
+import net.sinlo.vchat.dto.user.*;
 import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.service.IUserService;
 import net.sinlo.vchat.util.MyBeanUtils;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -43,7 +41,7 @@ public class UserController {
     }
     @ApiOperation("注册")
     @PostMapping("register")
-    public boolean register(@RequestBody @Validated UserRegisterDto dto) {
+    public Map register(@RequestBody @Validated UserRegisterDto dto) {
          return this.userService.register(dto);
     }
     @PostMapping("update/img")
@@ -69,6 +67,17 @@ public class UserController {
     public User search(@ParamUser User user,@RequestParam(value = "phone") String phone) {
         return userService.search(phone);
     }
+    @PostMapping("update/name")
+    @UserLoginToken
+    public boolean updateName(@ParamUser  @ApiIgnore User user, @RequestBody @Validated UserUpdateNameDto dto) {
 
+        return this.userService.updateName(user.getId(),dto.getName());
+    }
+
+    @ApiOperation("修改密码")
+    @PostMapping("forget")
+    public Map updatePassword(@RequestBody @Validated UserRegisterDto dto) {
+        return this.userService.updatePassword(dto);
+    }
     }
 

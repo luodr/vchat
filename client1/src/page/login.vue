@@ -1,5 +1,24 @@
 <template>
-  <div>
+  <div id="login">
+<div id="login_ner">
+      <br>
+      <br>
+      <br>
+     
+     <div class="logo">
+
+             <img style="width:80%;height:80%;  " src="@/assets/icon-imgs/logo_white.png" class="icon-img" />
+   <p style=" text-align:right;">
+         
+          <router-link to="/forgot">
+  <span>&nbsp; 忘记密码?</span>
+ </router-link>
+     </p>
+             
+     </div>
+       <br>
+      <br>
+      <br>
     <div>
       <el-input placeholder="" v-model="phone">
         <template slot="prepend"
@@ -18,11 +37,18 @@
       <el-button type="primary" round id="login_but" @click="toLogin"
         >登录</el-button
       > 
-      <router-link to="/reg">
-      <span>没有账号?去注册</span>
- </router-link>
+
       
+   <br>
+       <p style=" text-align:right;">
+         
+          <router-link to="/reg">
+  <span>&nbsp; 没有账号?</span>
+ </router-link>
+     </p>
     </div>
+
+</div>
   </div>
 </template>
 <script>
@@ -55,6 +81,12 @@ export default {
       if(res.code){
      
         this.$router.push("/chat")
+      }else{
+         this.$message({
+          message: "账号或密码错误",
+         
+          duration: 2000
+        });
       }
       });
      
@@ -75,5 +107,22 @@ export default {
 }
 #login_but {
   width: 200px;
+}
+#login{
+ 
+  width: 860px
+}
+#login_ner{
+ width: 400px;
+ margin:0 auto;
+}
+.title{
+  font-size: 50px;
+  text-align: center;
+  color:rgb(67, 120, 236);
+}
+.logo{
+text-align: center;
+ /* margin:0 auto; */
 }
 </style>

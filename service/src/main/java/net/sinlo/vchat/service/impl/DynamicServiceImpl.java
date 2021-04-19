@@ -75,4 +75,9 @@ public class DynamicServiceImpl implements IDynamicService {
         commentMapper.goodDynamic(comment);
         return comment;
     }
+
+    @Override
+    public boolean updateDeleteAt(int id, int userId) {
+        return dynamicMapper.updateDeleteAt(id,userId);
+    }
 }

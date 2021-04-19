@@ -35,9 +35,12 @@ public interface DynamicMapper {
             " #{item}"+
             "</foreach>"+
             " </if>"+
+            " and dynamic.deleteAt is null "+
             "Order BY dynamic.createdAt DESC  </script>" )
      List<Dynamic>  getDynamics( List list,int userID);
     @SelectKey(keyColumn = "id",keyProperty = "id",before = false,resultType =Integer.class,statement = {" select last_insert_id()"})
     @Insert(" insert into dynamic(send_user_id,type,context,createdAt,updateAt,images) values(#{send_user_id},#{type},#{context},now(),now(),#{images})")
       void  sendDynamic(Dynamic dynamic);
+     @Update("update  dynamic set deleteAt=now() where id=#{id} and send_user_id=#{userId}")
+    boolean updateDeleteAt(int id ,int userId);
 }

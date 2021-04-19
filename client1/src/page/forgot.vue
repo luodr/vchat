@@ -22,7 +22,7 @@
     <div style="margin-top: 15px">
       <el-input placeholder="" v-model="password" type="password">
         <template slot="prepend"
-          ><div style="width: 40px">密码</div></template
+          ><div style="width: 40px">新密码</div></template
         >
       </el-input>
     </div>
@@ -37,12 +37,12 @@
     </div>
     <div id="register_but_div">
       <el-button type="primary" round id="register_but" @click="toRegister"
-        >注册</el-button>  
+        >修改密码</el-button>  
 
      <p style=" text-align:right">
           <router-link to="/login">
 
-      <span>已有账号?去登录</span>
+      <span>返回登录</span>
  </router-link>
      </p>
     </div>
@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-import { register, code }  from "@/api/user";
+import { register, code,forget }  from "@/api/user";
 export default {
   name: "register",
   components: {},
@@ -101,7 +101,7 @@ export default {
     },
     //去注册
      toRegister() {
-     register({
+     forget({
         phone: this.phone,
         password: this.password,
         code: this.code

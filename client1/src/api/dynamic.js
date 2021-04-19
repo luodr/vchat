@@ -30,4 +30,11 @@ export const commentDynamic =  (data) => {
               })
              }
              
-       
+             
+export const delteDynamic =  (id) => {
+              return new Promise( (resolve,reject)=>{
+                 post("dynamic/update/delete/"+id, ).then(res=>{
+                   resolve(res.data)
+                 })
+                })
+               }

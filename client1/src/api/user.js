@@ -39,16 +39,45 @@ export  function getInfo(data) {
 
 
 
+     export  function updateName(data) {
+      return new Promise( (resolve,reject)=>{
+        post("update/name", data).then(res=>{
+       if (res.data) {
+        resolve(res.data)  
+       }
+       resolve(res)
+       })
+      })
+       }
+  
+
+
+    
+
+
 export  function register(data) {
   return new Promise( (resolve,reject)=>{
     post("register", data).then(res=>{
    if (res.data) {
     resolve(res.data)  
    }
-   resolve(res)
+   resolve(res.data)
    })
   })
 }
+
+export  function forget(data) {
+  return new Promise( (resolve,reject)=>{
+    post("forget", data).then(res=>{
+   if (res.data) {
+    resolve(res.data)  
+   }
+   resolve(res.data)
+   })
+  })
+}
+
+
 export  function code(data) {
   return new Promise( (resolve,reject)=>{
     get("code", data).then(res=>{
@@ -62,4 +91,5 @@ export  function code(data) {
 export function loginOut(){
   localStorage.token =""
   store.state.ws.close();
+  
 }

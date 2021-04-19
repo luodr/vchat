@@ -335,14 +335,7 @@ if(this.item.type=='text'){
         return con;
       }
       if(type==='voice'){
-        //  
-//          con =  `
-//          <div id="msg" onclick="play()">
-//   <audio id="audio" src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"></audio>
-//   <div id="icon"></div>
-//   <span class="loading" id="time"></span>
-// </div>           
-//                  `
+       
                  con=`<audio src="${con}"  controls  style='width:300px;height: 54px;   display: block;'>
                   </audio> `
         return con;
@@ -358,6 +351,13 @@ if(this.item.type=='text'){
           点击下载
           </a>`
         return con;
+      }
+      if(type==='video'){
+       con =  ` <video src="${con}"  width="320" height="240" controls="controls" >
+您的浏览器不支持 video 标签。
+</video>`
+        return con;
+
       }
       return con;
     }

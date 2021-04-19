@@ -1,9 +1,14 @@
 <!-- 文本输入框 -->
 <template>
-  <div class="text">
+  <div class="text" v-if="selectedChat">
     <div class="emoji">
       <div class="u-f u-f-ac" style="padding-top:10px;">
+          <el-tooltip class="item" effect="dark" content="发送表情" placement="top-start"> 
         <img src="@/assets/icon-imgs/emoij.png" class="icon-img" @click="showEmoji=!showEmoji" />
+          </el-tooltip>
+           <el-tooltip class="item" effect="dark" content="文件上传" placement="top-start"> 
+    
+   
     <el-upload
   action="api/file/upload/one"
   :on-success="sendFile"
@@ -13,8 +18,12 @@
  
       <img src="@/assets/icon-imgs/f-icon.png" class="icon-img test"  />
   </el-upload>
+
+       </el-tooltip>
    <!-- <mt-popup v-model="popupVisible2" position="bottom" class="popup2"> -->
+      <el-tooltip class="item" effect="dark" content="点击开始录音" placement="top-start"> 
       <img  src="@/assets/icon-imgs/voice-icon.png" class="icon-img" alt="" @click="translationStart" @mouseleave="translationEnd">
+        </el-tooltip>
       <!-- <span @click="popupShow2">×</span> -->
 <!-- </mt-popup> -->
       
@@ -115,10 +124,13 @@ export default {
         console.log(response, file, fileList);
       if(response.data){
              let imgs= ['jpg','png','gif']
+              let videos= ['mp4','ogg','webm','swf']
             if(imgs.includes( response.data.substring( response.data.lastIndexOf('.')+1)))
            {
                 this.sendMessage(response.data,'image')
-           }else{
+           }else if(videos.includes( response.data.substring( response.data.lastIndexOf('.')+1))){
+           this.sendMessage(response.data,'video')
+           } else{
                 this.sendMessage(response.data,'file')
            }
       }

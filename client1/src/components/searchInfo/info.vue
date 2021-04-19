@@ -28,7 +28,7 @@
         </div>
         <div class="wxid">
           <span>微信号</span>
-          {{selectedSearch.id}}
+          {{selectedSearch.phone}}
         </div>
       </div>
       <div class="send" @click="send">
@@ -53,7 +53,11 @@ export default {
     // 发送信息
     send() {
      addFriends({friendId:this.selectedSearch.id}).then(data=>{
-       console.log("发送请求成功!",data);
+           this.$message({
+        message:'请求添加好友成功！',
+        type: "success",
+        duration: 1200
+      });
      })
     },
     // 接受

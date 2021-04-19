@@ -17,7 +17,7 @@
           :class="{'t-current': currentIndex===2}"
           style="width:60%;"
         >
-          <i class="el-icon-plus"></i> 记录美好生活
+          <i class="el-icon-plus"></i> 说点什么
         </li>
       </ul>
     </div>
@@ -71,7 +71,7 @@
                     <span>评论</span>
                   </div>
 
-                  <el-popconfirm title="确定删除此条数据吗？" @onConfirm="deleteOne(item.id)">
+                  <el-popconfirm title="确定删除此条数据吗？" @confirm="deleteOne(item.id)" v-if="user.id==item.send_user_id">
                     <img
                       slot="reference"
                       src="@/assets/icon-imgs/p-more.png"
@@ -79,7 +79,7 @@
                       class="c-img"
                     />
                   </el-popconfirm>
-               / </div>  
+               </div>  
               </div>
             </div>
           </div>
@@ -167,7 +167,7 @@
         </div> -->
         <!-- 选择 -->
         <el-radio-group v-model="radio" style="display:block;margin-bottom:30px;">
-          <el-radio :label="1">公开</el-radio>
+          <!-- <el-radio :label="1">公开</el-radio> -->
           <!-- <el-radio :label="2">私密</el-radio>
           <el-radio :label="3">部分可见</el-radio>
           <el-radio :label="4">不给谁看</el-radio> -->
@@ -179,11 +179,11 @@
           style="width:100px;margin-right:20px;"
         >
           取消
-          <i class="el-icon-close" style="margin-left:4px;font-size:16px;"></i>
+          <!-- <i class="el-icon-close" style="margin-left:4px;font-size:16px;"></i> -->
         </el-button>
         <el-button @click="submitForm('ruleForm')" type="primary" style="width:100px;">
           发布
-          <i class="el-icon-upload el-icon--right" style="margin-left:4px;font-size:16px;"></i>
+          <!-- <i class="el-icon-upload el-icon--right" style="margin-left:4px;font-size:16px;"></i> -->
         </el-button>
 
         <el-dialog title="选择所在位置" :visible.sync="dialog" width="70%" :before-close="handleClose">
@@ -219,7 +219,7 @@ import { mutiUploadFile } from "@/utils/network/user.js";
 import Config from "@/utils/config.js";
 import { mapState } from "vuex";
 import { setStore, getStore } from "@/utils/timeFunc.js";
-import {getDynamic,sendDynamic,doodDynamic,commentDynamic} from '@/api/dynamic'
+import {getDynamic,sendDynamic,doodDynamic,commentDynamic,delteDynamic} from '@/api/dynamic'
 export default {
   data() {
     return {
@@ -324,7 +324,12 @@ export default {
     //     item.time = timeFrom(item.time);
     //   }
     // });
-    getDynamic().then(data=>{
+this.init();
+    // this.getAddress();
+  },
+  methods: {
+    init(){
+          getDynamic().then(data=>{
 data.forEach(item=>{
   if(item.images)
   item.imgList=item.images.split(",")
@@ -332,9 +337,7 @@ data.forEach(item=>{
 
       this.wechatMoments=data;
     })
-    // this.getAddress();
-  },
-  methods: {
+    },
     isMyActive(id){
      let item= this.wechatMoments.find(items=>{
       return items.id===id;
@@ -349,16 +352,20 @@ data.forEach(item=>{
         return friend.remark|| friend. myFriend.name
     },
     handleSuccess(response, file, fileList){
+      
       if(this.uploadImges)  this.uploadImges+=','
-  this.uploadImges+=response.data
+          this.uploadImges+=response.data
          
     },
     // 删除某条评论
     deleteOne(id) {
-      this.wechatMoments =this.wechatMoments.filter(item=>{
-        return item.id !== id
+      console.log("????");
+      delteDynamic(id).then((data)=>{
+          if(data){
+           this. init();
+
+          }
       })
-      setStore("moments", this.wechatMoments);
     },
     // 上传文件
     async doUpload(file) {                                                                                                                                              
