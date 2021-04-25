@@ -8,16 +8,18 @@
      <div class="logo">
 
              <img style="width:80%;height:80%;  " src="@/assets/icon-imgs/logo_white.png" class="icon-img" />
-   <p style=" text-align:right;">
+ 
+             
+     </div>
+       <br>
+      <br>
+     
+        <p style=" text-align:right;">
          
           <router-link to="/forgot">
   <span>&nbsp; 忘记密码?</span>
  </router-link>
      </p>
-             
-     </div>
-       <br>
-      <br>
       <br>
     <div>
       <el-input placeholder="" v-model="phone">

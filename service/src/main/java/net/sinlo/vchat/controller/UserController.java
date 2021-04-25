@@ -47,7 +47,7 @@ public class UserController {
     @PostMapping("update/img")
     @UserLoginToken
     public boolean updateImg(@ParamUser  @ApiIgnore User user, @RequestBody @Validated UserUpdateDto dto) {
-        System.out.println(dto.getImg()+"----"+user.getId());
+
         return this.userService.updateImg(user.getId(),dto.getImg());
     }
     @ApiOperation("获取验证码")
@@ -70,7 +70,6 @@ public class UserController {
     @PostMapping("update/name")
     @UserLoginToken
     public boolean updateName(@ParamUser  @ApiIgnore User user, @RequestBody @Validated UserUpdateNameDto dto) {
-
         return this.userService.updateName(user.getId(),dto.getName());
     }
 
