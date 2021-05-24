@@ -163,7 +163,24 @@ public class WebSocketServer {
             }
         });
     }
-
+    /**
+     * 通知有人加入群聊
+     */
+    public static void joinRoom(int groupID)  {
+        Set room = rooms.get(groupID);
+        if(room==null){return;}
+        room.forEach(item -> {
+            WebSocketServer ws = webSocketMap.get(item);
+            if(ws==null){return;}
+            try {
+                WebSocketMessageDto<Message> data=new WebSocketMessageDto("updateGroup","有人加入群聊啦！");
+                ws.sendMessage(objectMapper.writeValueAsString(data));
+            } catch (IOException  e) {
+                System.out.println("通知加入群聊失败！");
+                e.printStackTrace();
+            }
+        });
+    }
     /**
      *  通过websocket 发送 私聊信息
      * @param message
@@ -229,12 +246,17 @@ public class WebSocketServer {
             }
             System.out.println(id + "进入房间" + item.getGroup_id());
             rooms.get(item.getGroup_id()).add(id);
-
-
-
         });
     }
+    public static void joinRoom(int userID,int groupID) {
 
+            if (!rooms.containsKey(groupID)) {
+                rooms.put(groupID, new HashSet());
+            }
+
+        rooms.get(groupID).add(userID);
+
+    }
     /**
      * 创建群聊
      * @param

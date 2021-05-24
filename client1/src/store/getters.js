@@ -52,6 +52,13 @@ const getters = {
     
      
     },
+
+    getXX(state) {
+
+        return state.dialogVisible
+    
+     
+    },
      // 获取所有群聊
     getGruops(state) {
         return state.groups

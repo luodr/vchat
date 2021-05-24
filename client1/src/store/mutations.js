@@ -72,7 +72,12 @@ const mutations = {
         // 让未读消息变为已读消息
         // state.user.msgCount=0
     },
-
+   // 邀请好友进群聊
+    inviteFriends(state, value) {
+        console.log("???????",value);
+   
+    state.inviteFriendsGruop=value;
+   },
     
     // 得知用户当前选择的是哪个好友。
     selectFriend(state, value) {

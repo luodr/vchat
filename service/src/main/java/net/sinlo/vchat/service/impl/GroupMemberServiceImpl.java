@@ -37,7 +37,6 @@ public class GroupMemberServiceImpl implements IGroupMemberService {
          }else{
              return  false;
          }
-
     }
 
     @Override

@@ -361,6 +361,9 @@ const mutations = {
   selectFriend(state, value) {
     state.selectFriendId = value
   },
+  inviteFriends(state, value) {
+    state.inviteFriendsGruop=value;
+   },
   // 发送信息
   sendMessage(state, msg) {
     // console.log(msg,state.selectId)

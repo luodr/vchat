@@ -67,6 +67,7 @@
   </span>
   <el-dropdown-menu slot="dropdown">
     <el-dropdown-item><span @click="exitChat"> 退出群聊 </span></el-dropdown-item>
+      <el-dropdown-item><span @click="$store.dispatch('inviteFriends',selectedChat)"> 邀请好友 </span></el-dropdown-item>
   </el-dropdown-menu>
 </el-dropdown>
     </header>
@@ -130,12 +131,16 @@
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
   </span>
    </el-dialog>
+   
  </div>
+
 
 </template>
 
+
+
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState ,mapActions} from "vuex";
 import { speech ,translate,imageToText,withdrawMessage} from "@/api/message";
 import { leaveGroup,getMyGroup} from "@/api/group";
 import { deleteFriends} from "@/api/friend";
@@ -154,11 +159,14 @@ export default {
     };
   },
   computed: {
+ 
+       
     ...mapGetters(["selectedChat", "messages"]),
-    ...mapState(["user", "emojis"])
-
+    ...mapState(["user", "emojis"]),
+  ...mapActions(["inviteFriends"]),
   },
   mounted() {
+    
     //  在页面加载时让信息滚动到最下面
     setTimeout(
       () => (this.$refs.list.scrollTop = this.$refs.list.scrollHeight),
@@ -176,6 +184,7 @@ export default {
     }
   },
   methods: {
+ 
     deleteFriends(){
       deleteFriends(this.selectedChat.id).then(data=>{
     if(data)

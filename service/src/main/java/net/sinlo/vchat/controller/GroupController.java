@@ -45,9 +45,9 @@ public class GroupController {
     return groupService.createGroup(user,array);
     }
     @PostMapping(value = "join/{groupId}")
-    public boolean joinGroup(@PathVariable int groupId, @RequestBody  ArrayList<CreateGroupDto> array, HttpServletRequest servletRequest){
-
-        return groupService.joinGroup(groupId,array);
+    public boolean joinGroup(@ParamUser @ApiIgnore User user,@PathVariable int groupId, @RequestBody  ArrayList<CreateGroupDto> array, HttpServletRequest servletRequest){
+        groupService.joinGroup(groupId,array);
+        return true;
     }
     @PostMapping("leave/{groupId}")
     public boolean leaveGroup(@PathVariable int groupId,@ParamUser @ApiIgnore User user){

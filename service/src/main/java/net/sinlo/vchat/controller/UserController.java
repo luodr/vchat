@@ -46,7 +46,7 @@ public class UserController {
     }
     @PostMapping("update/img")
     @UserLoginToken
-    public boolean updateImg(@ParamUser  @ApiIgnore User user, @RequestBody @Validated UserUpdateDto dto) {
+    public boolean updateImg(@ParamUser @ApiIgnore User user, @RequestBody @Validated UserUpdateDto dto) {
 
         return this.userService.updateImg(user.getId(),dto.getImg());
     }

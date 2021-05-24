@@ -39,4 +39,13 @@ public interface GroupMemberMapper {
      boolean rejoinGroup(int groupID,int userId);
      @Select("select user.* from groupMember left join user user.id=groupMember.user_id where groupMember.group_id=#{group_id}")
      ArrayList<User> findGroupUsersByGroupID(int group_id);
+
+
+     @Update("<script> " +
+             "update  groupMember  set deleteAt=null where id in" +
+             " <foreach collection=\"list\" item=\"item\" index=\"index\" open=\"(\" close=\")\" separator=\",\"> " +
+             "#{item.id}"+
+             "</foreach>"+
+             "</script>")
+     boolean updateDeleteNull(List<CreateGroupDto> list,int group_id);
 }

@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface IGroupService  {
     Group createGroup(User user, List<CreateGroupDto> array);
-    public boolean joinGroup(int groupId,List  array);
+    public boolean joinGroup(int groupId,List<CreateGroupDto>  array);
 
     List<Group> findByUserID(int userID);
 }

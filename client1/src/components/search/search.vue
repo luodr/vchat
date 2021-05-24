@@ -10,44 +10,51 @@
 	</div>
 
 <el-dialog
-  title="创建群聊"
+  title="加入群聊"
   :visible.sync="dialogVisible"
+@closed="handleClose"
   width='40%'>
-   <!-- <el-transfer
-    filterable
-    :filter-method="filterMethod"
-    filter-placeholder="搜索"
-    v-model="value"
-	:titles="titles"
-    :data="data">
-  </el-transfer> -->
 
-    <!-- <el-checkbox-group v-model="checkList"> -->
     <el-checkbox v-model="item.checked" v-for="item in data" :key="item.id" width="150px"> <div> 
 		<img class="avatar" width="42" height="42"   :src="item.myFriend?item.myFriend.img:item.img" />
+		
 		{{item.name}} </div>
 		</el-checkbox>
-	
-  <!-- </el-checkbox-group> -->
+
   <br/>
    <br/>
     <br/>
-    <el-button type="success" round style="float:right;top:-15px;     position: relative" @click="createGroupBT">创建群聊</el-button>
+    <el-button type="success" round style="float:right;top:-15px;     position: relative" @click="createGroupBT">加入群聊</el-button>
 </el-dialog>
 </div>
 </template>
 
 <script>
 import {search} from "@/api/friend"
-import {createGroup} from "@/api/group"
+import {createGroup,joinGroup,getMyGroup} from "@/api/group"
 import { mapState, mapActions ,mapGetters } from 'vuex'
 
 export default {
+	watch:{
+		'$store.state.inviteFriendsGruop':function(){
+
+ if(this.$store.state.inviteFriendsGruop){
+	
+		 this.openPlus();
+  }
+}
+		
+	},
 	 methods: {
 		   ...mapActions([
              'selectFriend','send',
         ])  ,
+		  ...mapState([
+            'inviteFriendsGruop'
+        ]),
+	
 		 createGroupBT(){
+			 this.dialogVisible = false
 			console.log(this.data);
 			this.value=[];
 			this.data.forEach(item=>{
@@ -55,24 +62,53 @@ export default {
 						this.value.push(item.key)
 				}
 			})
+
+		if(this.$store.state.inviteFriendsGruop){
+			joinGroup(this.$store.state.inviteFriendsGruop.id,this.value)
+			.then(data=>{
+				   getMyGroup().then(res=>{
+                   this.$store.state.groups=res
+                   })
+			})
+		}else{
 			createGroup(this.value).then(data=>{
-		
-		     
-this.selectFriend(data)
-       this.$store.state.groups.push(data)
-	   this.selectFriend(data)
-		this.send(data)
+           this.selectFriend(data)
+           this.$store.state.groups.push(data)
+	       this.selectFriend(data)
+	      	this.send(data)
 	       
 				  		//    this.$store.dispatch("send");
 		
 			  
 			})
-		 },
+		}
 
+
+		 },
+handleClose(){
+	this.dialogVisible = false;
+	this.$store.state.inviteFriendsGruop=null;
+},
 		 openPlus(){
 			this.dialogVisible = true
+			console.log("open");
 			const data = [];
-			this.searchedFriendlist.forEach((item,index)=>{
+			    let newArray=null
+			if(this.$store.state.inviteFriendsGruop){
+            newArray=this.searchedFriendlist.filter((item,index)=>{
+				let flag=true;
+                  this.$store.state.inviteFriendsGruop. users.forEach(user=>{
+					  console.log(item.id,user.id);
+					  if(item.id==user.id){
+                         flag=false;
+					  }
+				  })
+				
+               return flag;
+			})
+			}
+		newArray=newArray?newArray:this.searchedFriendlist
+           newArray.forEach((item,index)=>{
 				data.push({
 					label:item.remark||item.myFriend.name,
 					img:item.myFriend.img,
@@ -88,6 +124,8 @@ this.selectFriend(data)
 			})
 			this.value=[];
 			this.data=data;
+		
+			
 		 },
         change () {
         	// this.$store.dispatch('search', this.search)
@@ -117,7 +155,7 @@ this.selectFriend(data)
      },
      computed: {
 		   ...mapGetters([
-            'searchedFriendlist'
+            'searchedFriendlist','getXX'
         ]),
         noText () {
    	      if(this.search  === '') return true

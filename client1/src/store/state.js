@@ -5,6 +5,8 @@ const state = {
   setList: [ { id: 3, name: '设置' }],
   groups:[],
   searchList:[],
+  inviteFriendsGruop:null,
+  dialogVisible:false,
   // 输入的搜索值
   searchText: '',
   unReadCount:0,

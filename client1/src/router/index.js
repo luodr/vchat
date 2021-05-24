@@ -160,6 +160,11 @@ function initData(){
             let g = store.state.groups.find(group => group.id === obj.data.to_group_id)
             g.messages.push(obj.data)
            break;
+           case 'updateGroup'://有人加入群聊
+           getMyGroup().then(res=>{
+            store.state.groups=res
+          })
+           break;
            case 'CreateGroupChat':
             let newG = store.state.groups.find(group => group.id === obj.data.id)
             if(!newG){ store.state.groups.push(obj.data)}

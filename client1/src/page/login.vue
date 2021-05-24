@@ -8,8 +8,6 @@
      <div class="logo">
 
              <img style="width:80%;height:80%;  " src="@/assets/icon-imgs/logo_white.png" class="icon-img" />
- 
-             
      </div>
        <br>
       <br>

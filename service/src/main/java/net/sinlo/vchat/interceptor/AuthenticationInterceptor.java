@@ -3,20 +3,16 @@ package net.sinlo.vchat.interceptor;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import net.sinlo.vchat.authorization.PassToken;
 import net.sinlo.vchat.authorization.UserLoginToken;
 import net.sinlo.vchat.entity.User;
 import net.sinlo.vchat.service.IUserService;
-import net.sinlo.vchat.util.ParameterServletRequestWrapper;
-import org.apache.http.impl.client.RequestWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sinlo.vchat.util.TokenUtil;
@@ -36,7 +32,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             System.out.println("不是映射到方法直接通过");
             return true;
         }
-        // 如何是 开放的api直接放行
+        // 如果是 开放的api直接放行
         if (request.getServletPath().indexOf("open") > -1) {
             System.out.println("开放的api直接放行");
             return true;
@@ -44,7 +40,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
-        //检查是否有passtoken注释，有则跳过认证
+        //检查是否有passToken注解，有则跳过认证
         if (method.isAnnotationPresent(PassToken.class)) {
             PassToken passToken = method.getAnnotation(PassToken.class);
             if (passToken.required()) {

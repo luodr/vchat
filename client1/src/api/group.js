@@ -25,3 +25,11 @@ export const getMyGroup =  (data) => {
      })
     
  };
+ export const joinGroup =  (id,data) => {
+   return new Promise( (resolve,reject)=>{
+    post("group/join/"+id,data).then(res=>{
+         resolve(res.data)
+      })
+     })
+    
+ };
