@@ -63,10 +63,12 @@ public class UserController {
         user.setPassword(null);
         return user;
     }
+    
     @GetMapping("search")
     public User search(@ParamUser User user,@RequestParam(value = "phone") String phone) {
         return userService.search(phone);
     }
+
     @PostMapping("update/name")
     @UserLoginToken
     public boolean updateName(@ParamUser  @ApiIgnore User user, @RequestBody @Validated UserUpdateNameDto dto) {
